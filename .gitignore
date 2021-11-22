@@ -1,0 +1,5 @@
+*.exe
+
+## Ignore the vendor directories if people use those.
+vendor/*
+vendor
