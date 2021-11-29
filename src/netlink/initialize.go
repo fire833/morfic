@@ -16,20 +16,30 @@
 *	51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package wg
+package netlink
 
 import (
-	"golang.zx2c4.com/wireguard/wgctrl"
+	"syscall"
+
+	"github.com/mdlayher/netlink"
 )
 
-var WgClient *wgctrl.Client
+var NetFilterLink *netlink.Conn
+var RoutingLink *netlink.Conn
 
 func init() {
-	client, err := wgctrl.New()
+	nf, err := netlink.Dial(syscall.NETLINK_NETFILTER, &netlink.Config{})
 	if err != nil {
-		panic(err) // Solve this panic in the future, but probably results in exit of control plane.
+		panic(err) // Just panic for now, will need a proper error handling layer for startup errors.
 	}
 
-	WgClient = client
+	NetFilterLink = nf
+
+	rt, err1 := netlink.Dial(syscall.NETLINK_ROUTE, &netlink.Config{})
+	if err1 != nil {
+		panic(err1)
+	}
+
+	RoutingLink = rt
 	return
 }

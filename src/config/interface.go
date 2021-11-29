@@ -16,13 +16,8 @@
 *	51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package svc
+package config
 
-import (
-	runtimeapi "k8s.io/cri-api/pkg/apis/runtime/v1"
-)
-
-type ServiceConfig struct {
-	ConfigPath string            `json:"config_path"`
-	Image      *runtimeapi.Image `json:"image"`
+// Describe the configuration and state for an interface on the host.
+type Interface struct {
 }

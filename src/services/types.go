@@ -16,20 +16,4 @@
 *	51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package wg
-
-import (
-	"golang.zx2c4.com/wireguard/wgctrl"
-)
-
-var WgClient *wgctrl.Client
-
-func init() {
-	client, err := wgctrl.New()
-	if err != nil {
-		panic(err) // Solve this panic in the future, but probably results in exit of control plane.
-	}
-
-	WgClient = client
-	return
-}
+package services

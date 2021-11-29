@@ -16,18 +16,24 @@
 *	51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package svc
+package config
 
 import (
-	"golang.zx2c4.com/wireguard/wgctrl"
-	runtimeapi "k8s.io/cri-api/pkg/apis/runtime/v1"
+	"sync"
+
+	"github.com/fire833/router-cp/src/services/svc"
 )
 
-func doThing() {
-	_ = &runtimeapi.SELinuxOption{}
-	wgctrl.New()
-}
+type CpConfig struct {
+	// mutex for locking the updater for the configuration.
+	m sync.Mutex
 
-func thing() {
+	// Wireguard tunnels managed by the control plane.
+	WgTuns []WireguardTun `json:"wireguard_tunnels"`
 
+	// Interfaces that are controlled/managed by the control plane.
+	Ifaces []Interface `json:"interfaces"`
+
+	// Containerized services that are run on the hsot and controlled by the control plane.
+	Services []svc.ServiceDescriptor `json:"services"`
 }
