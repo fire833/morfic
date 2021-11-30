@@ -18,6 +18,7 @@
 
 package main
 
+// Primary privileged bootstrap process for control plane.
 func main() {
 
 }

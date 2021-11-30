@@ -16,24 +16,12 @@
 *	51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package config
+package api
 
 import (
-	"sync"
-
-	"github.com/fire833/router-cp/src/services/svc"
+	"github.com/fasthttp/router"
 )
 
-type CpConfig struct {
-	// mutex for locking the updater for the configuration.
-	m sync.Mutex
+func RegisterAddrRoute(r *router.Router) {
 
-	// Wireguard tunnels managed by the control plane.
-	WgTuns []WireguardTun `json:"wireguard_tunnels"`
-
-	// Interfaces that are controlled/managed by the control plane.
-	Ifaces []Interface `json:"interfaces"`
-
-	// Containerized services that are run on the host and controlled by the control plane.
-	Services []svc.ServiceDescriptor `json:"services"`
 }
