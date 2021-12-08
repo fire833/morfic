@@ -16,24 +16,8 @@
 *	51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package main
+package services
 
-import (
-	"github.com/fasthttp/router"
-
-	"github.com/fire833/vroute/src/api/v1"
+var (
+	ServiceDescriptors []
 )
-
-// Unprivileged API listener main function.
-func api_main() {
-
-	router := router.New()
-
-	api.RegisterAuthRoutes(router)
-	api.RegisterInterfaceRoutes(router)
-	api.RegisterNFRoutes(router)
-	api.RegisterRouteRoutes(router)
-	api.RegisterServiceRoutes(router)
-	api.RegisterWireguardRoutes(router)
-
-}

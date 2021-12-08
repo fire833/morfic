@@ -1,0 +1,104 @@
+/*
+*	Copyright (C) 2021  Kendall Tauser
+*
+*	This program is free software; you can redistribute it and/or modify
+*	it under the terms of the GNU General Public License as published by
+*	the Free Software Foundation; either version 2 of the License, or
+*	(at your option) any later version.
+*
+*	This program is distributed in the hope that it will be useful,
+*	but WITHOUT ANY WARRANTY; without even the implied warranty of
+*	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*	GNU General Public License for more details.
+*
+*	You should have received a copy of the GNU General Public License along
+*	with this program; if not, write to the Free Software Foundation, Inc.,
+*	51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ */
+
+service NodeControllerService {
+
+    rpc CreateInterface(CreateInterfaceRequest) returns (CreateInterfaceResponse) {}
+
+    rpc UpdateInterface(UpdateInterfaceRequest) returns (UpdateInterfaceResponse) {}
+
+    rpc DeleteInterface(DeleteInterfaceRequest) returns (DeleteInterfaceResponse) {}
+
+    rpc GetInterface(GetInterfaceRequest) returns (GetInterfaceResponse) {}
+
+    rpc GetRoute(GetRouteRequest) returns (GetRouteResponse) {}
+
+    rpc CreateStaticRoute(CreateStaticRouteRequest) returns (CreateStaticRouteResponse) {}
+
+}
+
+message CreateInterfaceRequest {
+
+}
+
+message CreateInterfaceResponse {
+
+}
+
+message UpdateInterfaceRequest {
+
+}
+
+message UpdateInterfaceResponse {
+
+}
+
+message DeleteInterfaceRequest {
+
+}
+
+message DeleteInterfaceResponse {
+
+}
+
+message GetInterfaceRequest {
+
+}
+
+message GetInterfaceResponse {
+
+}
+
+message Interface {
+    // Describes the interface address for this interface.
+    required string name = 1;
+    required string addressv4 = 2;
+    required string gatewayv4 = 3;
+    required string addressv6 = 4;
+    required string gatewayv6 = 5;
+
+}
+
+message GetRouteRequest {
+
+}
+
+message GetRouteResponse {
+
+}
+
+message CreateStaticRouteRequest {
+
+}
+
+message CreateStaticRouteResponse {
+
+}
+
+message Route {
+    // Describes the destination range for the route.
+    required string destination = 1;
+    // Gateway IP address for this route.
+    required string gateway = 2;
+    // netmask for route - need to look for destination or gateway.
+    required string mask = 3;
+    // Cost metric for this route.
+    required int32 metric = 4;
+    // Name of outbound interface for routes.
+    required string interface = 5;
+}

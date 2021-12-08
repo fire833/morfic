@@ -17,3 +17,70 @@
  */
 
 package services
+
+import (
+	"io/fs"
+	"os"
+	"path/filepath"
+
+	"github.com/fire833/vroute/src/config/persist"
+	"github.com/fire833/vroute/src/services/svc"
+)
+
+var (
+	serviceLocations []string = []string{"/etc/vroute/services/"}
+
+	// Initialized by loadSavedConfigs()
+	serviceDir string
+
+	// Unmarshalled service configuration files that are loaded from disk, they will be loaded into service descriptors that will bundle
+	// up additional runtime state information.
+	// Initialized by loadSavedConfigs()
+	ServiceConfigs []*svc.ServiceConfiguration
+)
+
+func WatchServiceDescriptorFiles() {
+
+	loadSavedConfigs()
+
+	for {
+
+	}
+}
+
+func loadSavedConfigs() {
+
+	var f []fs.DirEntry
+	// Find the first directory of possible options that
+	for _, service := range serviceLocations {
+		files, e := os.ReadDir(service)
+		if e != nil {
+			continue
+		}
+
+		// Set the current runtime directory location.
+		serviceDir = service
+		f = files
+		break
+	}
+
+	ServiceConfigs = make([]*svc.ServiceConfiguration, len(f))
+
+	for _, s := range f {
+		i, e := s.Info()
+		if e != nil {
+			continue
+		}
+
+		sd := &svc.ServiceConfiguration{}
+
+		if err := persist.Unwrap(filepath.Join(serviceDir, i.Name()), sd); err != nil {
+			continue
+		}
+
+		// Save all the configs to be loaded
+		ServiceConfigs = append(ServiceConfigs, sd)
+
+	}
+
+}

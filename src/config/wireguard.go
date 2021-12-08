@@ -20,9 +20,10 @@ package config
 
 import (
 	"errors"
+	"fmt"
 	"sync"
 
-	"github.com/fire833/router-cp/src/wg"
+	"github.com/fire833/vroute/src/wg"
 	"golang.zx2c4.com/wireguard/wgctrl/wgtypes"
 )
 
@@ -31,20 +32,29 @@ type WireguardTun struct {
 	// Mutex if the API needs to mutate the state of this link.
 	m sync.Mutex
 
-	DevName string         `json:"device_name"`
-	Config  wgtypes.Config `json:"interface_config"`
+	DevName string   `json:"device_name"`
+	Config  wgConfig `json:"interface_config"`
 }
 
+// This is a wrapper/replacement for wgtypes.Config struct, with better json serialization support.
 type wgConfig struct {
-	PrivateKey   string               `json:"private_key"`
-	ListenPort   int                  `json:"listen_port"`
-	FirewallMark int                  `json:"firewall_mark"`
-	ReplacePeers bool                 `json:"replace_peers"`
-	Peers        []wgtypes.PeerConfig `json:"peer_configs"`
+	PrivateKey   string   `json:"private_key"`
+	ListenPort   int      `json:"listen_port"`
+	FirewallMark int      `json:"firewall_mark"`
+	ReplacePeers bool     `json:"replace_peers"`
+	Peers        []wgPeer `json:"peer_configs"`
 }
 
+// This is a wrapper/replacement for wgtypes.PeerConfig struct, with better json serialization support.
 type wgPeer struct {
-	PublicKey string `json:"public_key"`
+	PublicKey                   string   `json:"public_key"`
+	Remove                      bool     `json:"remove"`
+	UpdateOnly                  bool     `json:"update_only"`
+	PreSharedKey                string   `json:"pre_shared_key"`
+	Endpoint                    string   `json:"endpoint"`
+	PersistentKeepaliveInterval int64    `json:"persistent_keepalive_interval"`
+	ReplaceAllowedIPs           bool     `json:"replace_allowed_ips"`
+	AllowedIPs                  []string `json:"allowed_ips"`
 }
 
 // Checks that the tunnel device exists in the kernel. Returns nil if the device exists,
@@ -72,4 +82,53 @@ func (tun *WireguardTun) SetStatus() error {
 	}
 
 	return nil
+}
+
+func (c *wgConfig) serialize() (*wgtypes.Config, error) {
+	wgconf := &wgtypes.Config{
+		ListenPort:   &c.ListenPort,
+		FirewallMark: &c.FirewallMark,
+		ReplacePeers: c.ReplacePeers,
+	}
+
+	if k, err := wgtypes.NewKey([]byte(c.PrivateKey)); err != nil {
+		return wgconf, err
+	} else {
+		wgconf.PrivateKey = &k
+	}
+
+	for _, peer := range c.Peers {
+		p, err := peer.serialize()
+		if err != nil {
+			fmt.Printf("Unable to load wireguard config: %s", err)
+			continue
+		}
+
+		wgconf.Peers = append(wgconf.Peers, p)
+	}
+
+	return wgconf, nil
+}
+
+func (c *wgPeer) serialize() (wgtypes.PeerConfig, error) {
+	wgpeer := &wgtypes.PeerConfig{
+		Remove:            c.Remove,
+		UpdateOnly:        c.UpdateOnly,
+		ReplaceAllowedIPs: c.ReplaceAllowedIPs,
+	}
+
+	if k, err := wgtypes.NewKey([]byte(c.PublicKey)); err != nil {
+		return *wgpeer, err
+	} else {
+		wgpeer.PublicKey = k
+	}
+
+	if k, err := wgtypes.NewKey([]byte(c.PreSharedKey)); err != nil {
+		return *wgpeer, err
+	} else {
+		wgpeer.PresharedKey = &k
+	}
+
+	// TODO finish parsing a UDP address endpoint along with the other elements of the struct.
+	return *wgpeer, nil
 }

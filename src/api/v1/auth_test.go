@@ -17,9 +17,3 @@
  */
 
 package api
-
-import "github.com/fasthttp/router"
-
-func RegisterServiceRoutes(r *router.Router) {
-
-}

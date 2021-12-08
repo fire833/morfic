@@ -21,7 +21,7 @@ package config
 import (
 	"sync"
 
-	"github.com/fire833/router-cp/src/services/svc"
+	"github.com/fire833/vroute/src/services/svc"
 )
 
 type CpConfig struct {

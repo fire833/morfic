@@ -16,24 +16,24 @@
 *	51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package main
+package api
 
 import (
 	"github.com/fasthttp/router"
-
-	"github.com/fire833/vroute/src/api/v1"
+	"github.com/valyala/fasthttp"
 )
 
-// Unprivileged API listener main function.
-func api_main() {
+func RegisterServiceRoutes(r *router.Router) {
+	// Services subgroup for the API.
+	services := r.Group("/v1/services")
+	services.Handle(fasthttp.MethodPost, "/start/{NAME}", StartService)
+	services.Handle(fasthttp.MethodPost, "/stop/{NAME}", StopService)
+}
 
-	router := router.New()
+func StartService(ctx *fasthttp.RequestCtx) {
 
-	api.RegisterAuthRoutes(router)
-	api.RegisterInterfaceRoutes(router)
-	api.RegisterNFRoutes(router)
-	api.RegisterRouteRoutes(router)
-	api.RegisterServiceRoutes(router)
-	api.RegisterWireguardRoutes(router)
+}
+
+func StopService(ctx *fasthttp.RequestCtx) {
 
 }

@@ -1,0 +1,6 @@
+[submodule "services/node_exporter/node_exporter"]
+	path = services/node_exporter/node_exporter
+	url = https://github.com/prometheus/node_exporter.git
+[submodule "services/coredns/coredns"]
+	path = services/coredns/coredns
+	url = https://github.com/coredns/coredns.git

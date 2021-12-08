@@ -13,19 +13,26 @@
 //   You should have received a copy of the GNU General Public LicenshInc.,
 //   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-module github.com/fire833/router-cp
+module github.com/fire833/vroute
 
 go 1.17
 
 require (
+	github.com/BurntSushi/toml v0.3.1
 	github.com/fasthttp/router v1.4.4
 	github.com/mdlayher/netlink v1.4.1
 	github.com/spf13/cobra v1.2.1
+	github.com/valyala/fasthttp v1.31.0
 	golang.zx2c4.com/wireguard/wgctrl v0.0.0-20211109202428-0073765f69ba
+	google.golang.org/grpc v1.38.0
+	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b
+	k8s.io/cri-api v0.22.4
 )
 
 require (
 	github.com/andybalholm/brotli v1.0.2 // indirect
+	github.com/gogo/protobuf v1.3.2 // indirect
+	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/google/go-cmp v0.5.6 // indirect
 	github.com/inconshreveable/mousetrap v1.0.0 // indirect
 	github.com/josharian/native v0.0.0-20200817173448-b6b71def0850 // indirect
@@ -35,9 +42,11 @@ require (
 	github.com/savsgio/gotils v0.0.0-20210921075833-21a6215cb0e4 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
-	github.com/valyala/fasthttp v1.31.0 // indirect
 	golang.org/x/crypto v0.0.0-20211108221036-ceb1ce70b4fa // indirect
 	golang.org/x/net v0.0.0-20211123203042-d83791d6bcd9 // indirect
 	golang.org/x/sys v0.0.0-20211124211545-fe61309f8881 // indirect
+	golang.org/x/text v0.3.6 // indirect
 	golang.zx2c4.com/wireguard v0.0.0-20211109020618-685490f568cf // indirect
+	google.golang.org/genproto v0.0.0-20210602131652-f16073e35f0c // indirect
+	google.golang.org/protobuf v1.26.0 // indirect
 )
