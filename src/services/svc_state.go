@@ -19,5 +19,5 @@
 package services
 
 var (
-	ServiceDescriptors []
+	ServiceDescriptors []*ServiceDescriptor
 )

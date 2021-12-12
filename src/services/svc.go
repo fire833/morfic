@@ -24,7 +24,6 @@ import (
 	"path/filepath"
 
 	"github.com/fire833/vroute/src/config/persist"
-	"github.com/fire833/vroute/src/services/svc"
 )
 
 var (
@@ -36,7 +35,7 @@ var (
 	// Unmarshalled service configuration files that are loaded from disk, they will be loaded into service descriptors that will bundle
 	// up additional runtime state information.
 	// Initialized by loadSavedConfigs()
-	ServiceConfigs []*svc.ServiceConfiguration
+	ServiceConfigs []*ServiceConfiguration
 )
 
 func WatchServiceDescriptorFiles() {
@@ -64,7 +63,7 @@ func loadSavedConfigs() {
 		break
 	}
 
-	ServiceConfigs = make([]*svc.ServiceConfiguration, len(f))
+	ServiceConfigs = make([]*ServiceConfiguration, len(f))
 
 	for _, s := range f {
 		i, e := s.Info()
@@ -72,7 +71,7 @@ func loadSavedConfigs() {
 			continue
 		}
 
-		sd := &svc.ServiceConfiguration{}
+		sd := &ServiceConfiguration{}
 
 		if err := persist.Unwrap(filepath.Join(serviceDir, i.Name()), sd); err != nil {
 			continue
