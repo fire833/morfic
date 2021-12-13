@@ -91,5 +91,5 @@ func startContainer(id string, ctx context.Context) error {
 }
 
 func (sd *ServiceDescriptor) Kill() error {
-
+	return nil
 }
