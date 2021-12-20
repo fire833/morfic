@@ -20,8 +20,6 @@ package config
 
 import (
 	"sync"
-
-	"github.com/fire833/vroute/src/services"
 )
 
 type CpConfig struct {
@@ -35,5 +33,5 @@ type CpConfig struct {
 	Ifaces []Interface `json:"interfaces"`
 
 	// Containerized services that are run on the host and controlled by the control plane.
-	Services []services.ServiceDescriptor `json:"services"`
+	// Services []services.ServiceDescriptor `json:"services"`
 }

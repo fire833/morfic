@@ -27,7 +27,7 @@ import (
 var NetFilterLink *netlink.Conn
 var RoutingLink *netlink.Conn
 
-func init() {
+func DialSockets() {
 	nf, err := netlink.Dial(syscall.NETLINK_NETFILTER, &netlink.Config{})
 	if err != nil {
 		panic(err) // Just panic for now, will need a proper error handling layer for startup errors.

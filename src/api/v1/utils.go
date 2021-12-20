@@ -19,13 +19,16 @@
 package api
 
 import (
+	"encoding/json"
+	"net/http"
 	"time"
 
 	"github.com/fasthttp/router"
 	"github.com/valyala/fasthttp"
+	"gopkg.in/yaml.v3"
 )
 
-var uptime time.Time = time.Now()
+var start time.Time = time.Now()
 
 const (
 	UptimeRequiredPriv int = 3
@@ -37,8 +40,62 @@ func RegisterUtilRoutes(r *router.Router) {
 	utils.Handle(fasthttp.MethodGet, "/uptime", Uptime)
 }
 
+type UptimeSchema struct {
+	Hours   float64 `json:"uptime_hours" yaml:"UptimeHours"`
+	Minutes float64 `json:"uptime_minutes" yaml:"UptimeMinutes"`
+	Seconds float64 `json:"uptime_seconds" yaml:"UptimeSeconds"`
+	String  string  `json:"string" yaml:"String"`
+}
+
+// Gives the uptime for the service following the above uptime schema.
 func Uptime(ctx *fasthttp.RequestCtx) {
 	if Authenticate(ctx, UptimeRequiredPriv) {
+		accept := string(ctx.Request.Header.Peek("Accept"))
 
+		uptime := time.Now().Sub(start)
+
+		u := &UptimeSchema{
+			Hours:   uptime.Hours(),
+			Minutes: uptime.Minutes(),
+			Seconds: uptime.Seconds(),
+			String:  uptime.String(),
+		}
+
+		switch accept {
+		case "application/json":
+			{
+				// marshal with json.
+				d, e := json.Marshal(u)
+				if e != nil {
+					ctx.SetStatusCode(http.StatusInternalServerError)
+					return
+				}
+
+				ctx.Write(d)
+				ctx.SetStatusCode(http.StatusOK)
+				return
+			}
+		case "application/yaml":
+			{
+				// Marshal with yaml.
+				d, e := yaml.Marshal(u)
+				if e != nil {
+					ctx.SetStatusCode(http.StatusInternalServerError)
+					return
+				}
+
+				ctx.Write(d)
+				ctx.SetStatusCode(http.StatusOK)
+				return
+			}
+		default:
+			{
+				// Just write the current uptime stringified by default. That can be
+				// read in with regex if needed, or they just use the JSON schema.
+				ctx.WriteString(uptime.String())
+				ctx.SetStatusCode(http.StatusOK)
+				return
+			}
+		}
 	}
 }

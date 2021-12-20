@@ -16,9 +16,20 @@
 *	51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package routes
+package main
 
-var RoutingTable map[string]*route
+import (
+	"fmt"
+	"os"
+)
 
-type route struct {
+// Primary privileged bootstrap process for control plane.
+func main() {
+
+	if os.Getuid() != rootUID {
+		fmt.Println("vRoute control plane must be run as root.")
+		os.Exit(1)
+	}
+
+	vrouteMain()
 }

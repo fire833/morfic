@@ -19,6 +19,9 @@
 package main
 
 import (
+	"os"
+	"syscall"
+
 	"github.com/fasthttp/router"
 
 	"github.com/fire833/vroute/src/api/v1"
@@ -26,6 +29,12 @@ import (
 
 // Unprivileged API listener main function.
 func api_main() {
+
+	if os.Getuid() != unprivilegedUID || os.Getgid() != unprivilegedGID {
+		if e := dropPriv(); e != nil {
+			// TODO send calls to the other processes to kill themselves, and kill the whole control plane.
+		}
+	}
 
 	router := router.New()
 
@@ -36,4 +45,15 @@ func api_main() {
 	api.RegisterServiceRoutes(router)
 	api.RegisterWireguardRoutes(router)
 
+}
+
+func dropPriv() error {
+	if e := syscall.Setuid(unprivilegedUID); e != nil {
+		return e
+	}
+
+	if e := syscall.Setgid(unprivilegedGID); e != nil {
+		return e
+	}
+	return nil
 }

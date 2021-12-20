@@ -44,6 +44,8 @@ func WatchServiceDescriptorFiles() {
 
 	for {
 
+		files := readAllConfigs()
+
 	}
 }
 
@@ -81,5 +83,31 @@ func loadSavedConfigs() {
 		ServiceConfigs = append(ServiceConfigs, sd)
 
 	}
+	return
+}
 
+// Used by the listener to constrantly compare configs to update them.
+func readAllConfigs() []string {
+
+	configs, e := os.ReadDir(serviceDir)
+	if e != nil {
+		return nil
+	}
+
+	var readConfigs []string
+
+	for _, conf := range configs {
+		if conf.IsDir() {
+			continue
+		}
+
+		file, e := os.ReadFile(filepath.Join(serviceDir, conf.Name()))
+		if e != nil {
+			continue
+		}
+
+		readConfigs = append(readConfigs, string(file))
+	}
+
+	return readConfigs
 }
