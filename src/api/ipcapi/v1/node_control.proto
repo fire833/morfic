@@ -16,6 +16,9 @@
 *	51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
+syntax = "proto3";
+package v1;
+
 service NodeControllerService {
 
     rpc CreateInterface(CreateInterfaceRequest) returns (CreateInterfaceResponse) {}
@@ -26,9 +29,15 @@ service NodeControllerService {
 
     rpc GetInterface(GetInterfaceRequest) returns (GetInterfaceResponse) {}
 
-    rpc GetRoute(GetRouteRequest) returns (GetRouteResponse) {}
+    rpc GetAllInterfaces(GetAllInterfacesRequest) returns (GetAllInterfacesResponse) {}
 
     rpc CreateStaticRoute(CreateStaticRouteRequest) returns (CreateStaticRouteResponse) {}
+
+    rpc DeleteStaticRoute(DeleteStaticRouteRequest) returns (DeleteStaticRouteResponse) {}
+
+    rpc GetRoute(GetRouteRequest) returns (GetRouteResponse) {}
+
+    rpc GetAllRoutes(GetAllRoutesRequest) returns (GetAllRoutesResponse) {}
 
 }
 
@@ -57,29 +66,67 @@ message DeleteInterfaceResponse {
 }
 
 message GetInterfaceRequest {
-
+    // Specify the elements that you want to sort by.
+    map<string, string> filter_elems = 1;
+    // Specify the maximum number of interfaces that you want back.
+    int32 max_routes = 2;
 }
 
 message GetInterfaceResponse {
+    // Return the response status for this RPC call.
+    int32 status_code = 1;
+    // Error string if there was any getting kernel interfaces.
+    string error = 2;
+    // Returns the interface objects that are on the host.
+    repeated Interface routes = 3; 
+}
 
+message GetAllInterfacesRequest {}
+
+message GetAllInterfacesResponse {
+    // Return the response status for this RPC call.
+    int32 status_code = 1;
+    // Error string if there was any getting kernel interfaces.
+    string error = 2;
+    // Returns the interface objects that are on the host.
+    Interface routes = 3; 
 }
 
 message Interface {
     // Describes the interface address for this interface.
-    required string name = 1;
-    required string addressv4 = 2;
-    required string gatewayv4 = 3;
-    required string addressv6 = 4;
-    required string gatewayv6 = 5;
+    string name = 1;
+    string addressv4 = 2;
+    string gatewayv4 = 3;
+    string addressv6 = 4;
+    string gatewayv6 = 5;
 
 }
 
 message GetRouteRequest {
-
+    // Specify the elements that you want to sort by.
+    map<string, string> filter_elems = 1;
+    // Specify the maximum number of routes that you want back.
+    int32 max_routes = 2;
 }
 
 message GetRouteResponse {
+    // Return the response status for this RPC call.
+    int32 status_code = 1;
+    // Error string if there was any getting kernel routes.
+    string error = 2;
+    // Returns the route objects that are on the host.
+    Route routes = 3; 
+}
 
+message GetAllRoutesRequest {}
+
+message GetAllRoutesResponse {
+    // Return the response status for this RPC call.
+    int32 status_code = 1;
+    // Error string if there was any getting kernel routes.
+    string error = 2;
+    // Returns the route objects that are on the host.
+    Route routes = 3; 
 }
 
 message CreateStaticRouteRequest {
@@ -90,15 +137,40 @@ message CreateStaticRouteResponse {
 
 }
 
+message DeleteStaticRouteRequest {
+
+}
+
+message DeleteStaticRouteResponse {
+    // Response code for this RPC call.
+    int32 status_code = 1;
+    // Error if there is any with updating this route schema.
+    string error = 2;
+    // Returns the route struct that was removed from the kernel.
+    Route ret_route = 3;
+}
+
+message UpdateStaticRouteRequest {
+
+}
+
+message UpdateStaticRouteResponse {
+    // Response code for this RPC call.
+    int32 status_code = 1;
+    // Error if there is any with updating this route schema.
+    string error = 2;
+}
+
+// Describes a route object to be managed with this service.
 message Route {
     // Describes the destination range for the route.
-    required string destination = 1;
+    string destination = 1;
     // Gateway IP address for this route.
-    required string gateway = 2;
+    string gateway = 2;
     // netmask for route - need to look for destination or gateway.
-    required string mask = 3;
+    string mask = 3;
     // Cost metric for this route.
-    required int32 metric = 4;
+    int32 metric = 4;
     // Name of outbound interface for routes.
-    required string interface = 5;
+    string interface = 5;
 }

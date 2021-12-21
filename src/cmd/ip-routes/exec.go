@@ -21,7 +21,47 @@ package ip_routes
 import "os/exec"
 
 // Wrapper function to find the ip command to manage routing/interface configuration on host.
-func ExecIP(args ...string) (cmd *exec.Cmd, e error) {
+func execIP(args ...string) (cmd *exec.Cmd, e error) {
 	path, e := exec.LookPath("ip")
 	return exec.Command(path, args...), e
+}
+
+func ExecRoute(args ...string) (cmd *exec.Cmd, e error) {
+	a1 := make([]string, len(args)+1)
+	a1 = append(a1, "route")
+	a1 = append(a1, args...)
+
+	return execIP(a1...)
+}
+
+func ExecLink(args ...string) (cmd *exec.Cmd, e error) {
+	a1 := make([]string, len(args)+1)
+	a1 = append(a1, "link")
+	a1 = append(a1, args...)
+
+	return execIP(a1...)
+}
+
+func ExecAddr(args ...string) (cmd *exec.Cmd, e error) {
+	a1 := make([]string, len(args)+1)
+	a1 = append(a1, "address")
+	a1 = append(a1, args...)
+
+	return execIP(a1...)
+}
+
+func ExecNeigh(args ...string) (cmd *exec.Cmd, e error) {
+	a1 := make([]string, len(args)+1)
+	a1 = append(a1, "neigh")
+	a1 = append(a1, args...)
+
+	return execIP(a1...)
+}
+
+func ExecTunnel(args ...string) (cmd *exec.Cmd, e error) {
+	a1 := make([]string, len(args)+1)
+	a1 = append(a1, "tunnel")
+	a1 = append(a1, args...)
+
+	return execIP(a1...)
 }
