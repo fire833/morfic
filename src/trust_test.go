@@ -16,12 +16,23 @@
 *	51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package main
+package src
 
-const (
-	unprivilegedUID int = 65534
-	unprivilegedGID int = 65534
+import "testing"
 
-	rootUID int = 0
-	rootGID int = 0
-)
+func TestGenerateToken(t *testing.T) {
+
+	token := NewToken()
+
+	if token.GetTokenUptime() < 0 {
+		t.Fail()
+	}
+
+	token.UpdateToken()
+	// t.Log("Successfully was able to update token.")
+
+	if token.GetTokenUptime() < 0 {
+		t.Fail()
+	}
+
+}

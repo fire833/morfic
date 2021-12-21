@@ -16,10 +16,75 @@
 *	51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package trust
+package src
+
+import (
+	"crypto/rand"
+	"sync"
+	"time"
+)
+
+var SharedToken *SharedTrustToken
+
+const (
+	tokenByteSize = 64
+)
+
+type SharedTrustToken struct {
+	// Sync for this structure on updates.
+	m *sync.Mutex
+	// bootToken string
+	// Token used for verifying requests between rpc endpoints between different runtime processes.
+	rpcToken string
+	// Describes the time that this structure was initiated.
+	restTime time.Time
+	// Describes the time that this token was last updated.
+	tokenResetTime time.Time
+}
 
 // Used to generate shared tokens in memory during runtime for authenticating subprocesses to each other
 // during RPC calls to the unix endpoints.
 func GenerateRuntimeTrustToken() {
+	token := NewToken()
+	// Set the global token
+	SharedToken = token
 
+	return
+}
+
+func NewToken() *SharedTrustToken {
+	token := make([]byte, tokenByteSize)
+	rand.Reader.Read(token)
+
+	time := time.Now()
+
+	tstruct := &SharedTrustToken{
+		m:              new(sync.Mutex),
+		rpcToken:       string(token),
+		restTime:       time, // Should not be mutated ever again.
+		tokenResetTime: time,
+	}
+
+	// tstruct.m.Unlock()
+	return tstruct
+}
+
+// Updates the token within the data structure and updates the new timestamp for
+// when the token was generated. Used by the updater thread to keep the running
+// processes synched up with good data for keeping trust with RPC calls.
+func (token *SharedTrustToken) UpdateToken() {
+	token.m.Lock()
+	defer token.m.Unlock()
+
+	t := make([]byte, tokenByteSize)
+	rand.Reader.Read(t)
+
+	token.rpcToken = string(t)
+	token.tokenResetTime = time.Now()
+
+}
+
+// Returns uptime of the process token structure.
+func (token *SharedTrustToken) GetTokenUptime() time.Duration {
+	return time.Now().Sub(token.tokenResetTime)
 }

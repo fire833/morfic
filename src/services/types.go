@@ -50,7 +50,20 @@ type ServiceDescriptor struct {
 type ServiceConfiguration struct {
 	// If the "static" configuration is to be changed by the API.
 	M sync.Mutex
+	// Name of the service for identification and other things.
+	Name          string   `json:"name" yaml:"name"`
+	Configuration *Svcconf `json:"configuration" yaml:"configuration"`
 
 	SandboxConfig    *criapi.PodSandboxConfig  `json:"pod_sandbox"`
 	ContainerConfigs []*criapi.ContainerConfig `json:"containers"`
+}
+
+type Svcconf struct {
+	Meta map[string]interface{} `json:"metadata" yaml:"metadata"`
+	Spec *ServiceSpec           `json:"spec" yaml:"spec"`
+}
+
+type ServiceSpec struct {
+	Hostname    string   `json:"hostname" yaml:"hostname"`
+	Nameservers []string `json:"nameservers" yaml:"nameservers"`
 }

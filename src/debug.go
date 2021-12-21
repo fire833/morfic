@@ -16,12 +16,7 @@
 *	51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package main
+package src
 
-const (
-	unprivilegedUID int = 65534
-	unprivilegedGID int = 65534
-
-	rootUID int = 0
-	rootGID int = 0
-)
+// Defines whether or not to set debugging as on for the processes.
+var DebugEnabled bool = false

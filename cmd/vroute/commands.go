@@ -23,6 +23,7 @@ import (
 	"os"
 	"runtime"
 
+	"github.com/fire833/vroute/src"
 	"github.com/spf13/cobra"
 )
 
@@ -35,23 +36,21 @@ var (
 	license string = "GPL V2.0"        // license for this project
 
 	rootCmd = &cobra.Command{
-		Use:   "vroute",
+		Use:   "vroute [options]",
 		Short: "Run the vroute control plane.",
 		Long: `This is the main binary for running the vRoute linux based routing, firewalling, and secured local service control plane.
 For more information about this project and for documentation, visit https://github.com/fire833/vroute or visit https://vroute.io.`,
-		Version: fmt.Sprintf("Version: %s\nGit commit: %s\nGo version: %s\nOS: %s\nArchitecture: %s\nLicense: %s\n\nCopyright (C) 2021  Kendall Tauser", version, commit, g, o, arch, license),
+		Version: fmt.Sprintf(": %s\nGit commit: %s\nGo version: %s\nOS: %s\nArchitecture: %s\nLicense: %s\n\nCopyright (C) 2021  Kendall Tauser", version, commit, g, o, arch, license),
 		Example: "vroute",
 	}
 )
 
 // The main function for the vroute control plane.
 func vrouteMain() {
+	rootCmd.Flags().BoolVar(&src.DebugEnabled, "debug", false, "Use this subcommand to enable debugging mode for the process.")
+
 	if e := rootCmd.Execute(); e != nil {
 		fmt.Println("Unable to start vroute: " + e.Error())
 		os.Exit(1)
 	}
-}
-
-func init() {
-	rootCmd.PersistentFlags()
 }

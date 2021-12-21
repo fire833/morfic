@@ -32,13 +32,23 @@ var (
 	// Initialized by loadSavedConfigs()
 	serviceDir string
 
-	// Unmarshalled service configuration files that are loaded from disk, they will be loaded into service descriptors that will bundle
-	// up additional runtime state information.
+	// Unmarshalled service configuration files that are loaded from disk,
+	// they will be loaded into service descriptors that will bundle up
+	// additional runtime state information.
+	//
 	// Initialized by loadSavedConfigs()
 	ServiceConfigs []*ServiceConfiguration
 )
 
-func WatchServiceDescriptorFiles() {
+const (
+	configRefreshRate int = 10
+)
+
+// Thread that will initially load all available configs from disk and start up
+// running services by attaching each config to a descriptor.
+// Afterwards, the thread will watch all configuration files and check for updates
+// to configs based on hash
+func WatchServiceConfigurationFiles() {
 
 	loadSavedConfigs()
 
@@ -46,10 +56,19 @@ func WatchServiceDescriptorFiles() {
 
 		files := readAllConfigs()
 
+		for _, file := range files {
+			c := &ServiceConfiguration{}
+
+			if e := persist.Unwrap(file, c); e != nil {
+				continue
+				// Will need to log this.
+			}
+		}
+
 	}
 }
 
-func loadSavedConfigs() {
+func loadSavedConfigs() []*ServiceConfiguration {
 
 	var f []fs.DirEntry
 	// Find the first directory of possible options that
@@ -65,7 +84,7 @@ func loadSavedConfigs() {
 		break
 	}
 
-	ServiceConfigs = make([]*ServiceConfiguration, len(f))
+	configs := make([]*ServiceConfiguration, len(f))
 
 	for _, s := range f {
 		i, e := s.Info()
@@ -80,21 +99,21 @@ func loadSavedConfigs() {
 		}
 
 		// Save all the configs to be loaded
-		ServiceConfigs = append(ServiceConfigs, sd)
+		configs = append(configs, sd)
 
 	}
-	return
+	return configs
 }
 
 // Used by the listener to constrantly compare configs to update them.
-func readAllConfigs() []string {
+func readAllConfigs() map[string]string {
 
 	configs, e := os.ReadDir(serviceDir)
 	if e != nil {
 		return nil
 	}
 
-	var readConfigs []string
+	var readConfigs map[string]string
 
 	for _, conf := range configs {
 		if conf.IsDir() {
@@ -106,7 +125,7 @@ func readAllConfigs() []string {
 			continue
 		}
 
-		readConfigs = append(readConfigs, string(file))
+		readConfigs[conf.Name()] = string(file)
 	}
 
 	return readConfigs
