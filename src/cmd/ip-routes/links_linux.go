@@ -16,12 +16,16 @@
 *	51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package nft
+package ip_routes
 
-import "os/exec"
+func addLink() {
+	execLink("add")
+}
 
-// Wrapper function to call/find the nft command to manage nftables.
-func ExecNFT(args ...string) (cmd *exec.Cmd, e error) {
-	path, e := exec.LookPath("nft")
-	return exec.Command(path, args...), e
+func setLink() {
+	execLink("set")
+}
+
+func delLink() {
+	execLink("del")
 }

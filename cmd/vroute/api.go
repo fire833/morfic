@@ -24,7 +24,7 @@ import (
 
 	"github.com/fasthttp/router"
 
-	"github.com/fire833/vroute/src/api/v1"
+	api "github.com/fire833/vroute/src/api/v1alpha1"
 )
 
 // Unprivileged API listener main function.

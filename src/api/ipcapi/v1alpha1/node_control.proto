@@ -1,0 +1,433 @@
+/*
+*	Copyright (C) 2021  Kendall Tauser
+*
+*	This program is free software; you can redistribute it and/or modify
+*	it under the terms of the GNU General Public License as published by
+*	the Free Software Foundation; either version 2 of the License, or
+*	(at your option) any later version.
+*
+*	This program is distributed in the hope that it will be useful,
+*	but WITHOUT ANY WARRANTY; without even the implied warranty of
+*	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*	GNU General Public License for more details.
+*
+*	You should have received a copy of the GNU General Public License along
+*	with this program; if not, write to the Free Software Foundation, Inc.,
+*	51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ */
+
+syntax = "proto3";
+package v1alpha1;
+
+service NodeControllerService {
+
+    // Create a new link inside of the kernel by specifying its type and other attributes.
+    rpc CreateLink(CreateLinkRequest) returns (CreateLinkResponse) {}
+    // Update a link status/attributes.
+    rpc UpdateLink(UpdateLinkRequest) returns (UpdateLinkResponse) {}
+    // Remove a linnk inside of the kernel.
+    rpc DeleteLink(DeleteLinkRequest) returns (DeleteLinkResponse) {}
+    // Get a link object returned from the kernel based on filters.
+    rpc GetLink(GetLinkRequest) returns (GetLinkResponse) {}
+    // Returns all the links in the kernel.
+    rpc GetAllLinks(GetAllLinksRequest) returns (GetAllLinksResponse) {}
+    // Add a static route inside of the kernel.
+    rpc CreateStaticRoute(CreateStaticRouteRequest) returns (CreateStaticRouteResponse) {}
+    // Deletes a static route inside the kernel and returns the route object.
+    rpc DeleteStaticRoute(DeleteStaticRouteRequest) returns (DeleteStaticRouteResponse) {}
+
+    rpc UpdateStaticRoute(UpdateStaticRouteRequest) returns (UpdateStaticRouteResponse) {}
+    // Gets a route and returns an object based on the provided filter.
+    rpc GetRoute(GetRouteRequest) returns (GetRouteResponse) {}
+
+    rpc GetAllRoutes(GetAllRoutesRequest) returns (GetAllRoutesResponse) {}
+
+    rpc GetNeighbor(GetNeighborRequest) returns (GetNeighborResponse) {}
+
+    rpc GetAllNeighbors(GetAllNeighborsRequest) returns (GetAllNeighborsResponse) {}
+
+    rpc CreateNeighbor(CreateNeighborRequest) returns (CreateNeighborResponse) {}
+
+    rpc DeleteNeighbor(DeleteNeighborRequest) returns (DeleteNeighborRequest) {}
+
+    rpc UpdateNeighbor(UpdateNeighborRequest) returns (UpdateNeighborResponse) {}
+}
+
+service NodeFirewallControllerService {
+
+}
+
+enum ReturnStatusCodes {
+    // Default, action was successful and returned correct objects.
+    OK = 0;
+    // Request was accepted, but no response data yet/ever.
+    ACCEPTED = 1;
+    // Not allowed to create this element/perform operation.
+    PERMISSION_DENIED = 2;
+    // Element you are trying to interface with does not exist.
+    NOT_EXISTENT_ELEMENT = 3;
+    // Internal error with the server serving this request.
+    INTERNAL_ERROR = 4;
+    // Error in the request message syntax/format.
+    SYNTAX_ERROR = 5;
+    // No change in an update object, it was the same as original object.
+    NO_CHANGE_ERROR = 6;
+    // Returns if there is no object to return based on the given filter.
+    NO_FILTER_RESPONSE_ERROR = 7;
+}
+
+message CreateLinkRequest {
+    // Describes multiple or one link that should be created with this request.
+    repeated Link link = 1;
+}
+
+message CreateLinkResponse {
+    // Return the response status for this RPC call.
+    ReturnStatusCodes status_code = 1;
+    // Links that were created successfully.
+    repeated Link success_links = 2;
+    // Links that were created unsuccessfully.
+    repeated Link unsuccessful_links = 3;
+}
+
+message UpdateLinkRequest {
+    string name = 1;
+    Link link = 2;
+}
+
+message UpdateLinkResponse {
+    // Return the response status for this RPC call.
+    ReturnStatusCodes status_code = 1;
+    // Error if there is any with updating this link schema.
+    string error = 2;
+}
+
+message DeleteLinkRequest {
+    // Delete one or more links.
+    repeated string name = 1;
+}
+
+message DeleteLinkResponse {
+    // Return the response status for this RPC call.
+    ReturnStatusCodes status_code = 1;
+    // Returns the deleted links that were removed 
+    // from the kernel with this request.
+    repeated Link deleted_links = 2;
+}
+
+message GetLinkRequest {
+    // Specify the elements that you want to sort by.
+    map<string, string> filter_elems = 1;
+    // Specify the maximum number of links/interfaces that you want back.
+    int32 max_links = 2;
+}
+
+message GetLinkResponse {
+    // Return the response status for this RPC call.
+    ReturnStatusCodes status_code = 1;
+    // Error string if there was any getting kernel links.
+    string error = 2;
+    // Returns the link objects that are on the host.
+    repeated Link links = 3; 
+}
+
+message GetAllLinksRequest {}
+
+message GetAllLinksResponse {
+    // Return the response status for this RPC call.
+    ReturnStatusCodes status_code = 1;
+    // Error string if there was any getting kernel interfaces.
+    string error = 2;
+    // Returns the interface objects that are on the host.
+    repeated Link links = 3;
+}
+
+enum LinkTypes {
+    // This type is specified for those links that are defined by hardware device drivers,
+    // not by users.
+    HARDWARE = 0;
+    // Other link types that are available (a lot)
+
+    VLAN = 1;
+    VETH = 2;
+    VCAN = 3;
+    VXCAN = 4;
+    DUMMY = 5;
+    IFB = 6;
+    MACVLAN = 7;
+    MACVTAP = 8;
+    BRIDGE = 9;
+    BOND = 10;
+    TEAM = 11;
+    IPOIB = 12;
+    IP6TNL = 13;
+    IPIP = 14;
+    SIT = 15;
+    VXLAN = 16;
+    GRE = 17;
+    GRETAP = 18;
+    ERSPAN = 19;
+    IP6GRE = 20;
+    IP6GRETAP = 21;
+    IP6ERSPAN = 22;
+    VTI = 23;
+    NLMON = 24;
+    TEAM_SLAVE = 25;
+    BOND_SLAVE = 26;
+    BRIDGE_SLAVE = 27;
+    IPVLAN = 28;
+    IPVTAP = 29;
+    GENEVE = 30;
+    VRF = 31;
+    MACSEC = 32;
+    NETDEVSIM = 33;
+    RMNET = 34;
+}
+
+message Link {
+    // Describes the interface address for this link.
+    string name = 1;
+    // Addressing for this link
+    repeated LinkAddress address = 2;
+    // MAC hardware addressing for this link
+    LinkMACAddress mac = 3;
+    // The type of this link.
+    LinkTypes type = 4;
+    // MTU of link.
+    int32 mtu = 5;
+    LinkAttributes attributes = 6;
+}
+
+// Attributes for a link.
+message LinkAttributes {
+    // Is the link up.
+    bool up = 1;
+    // Is arp handling enabled on the link.
+    bool arp_enabled = 2;
+    bool dynamic = 3;
+    bool multicast = 4;
+}
+
+message GetRouteRequest {
+    // Specify the elements that you want to sort by.
+    map<string, string> filter_elems = 1;
+    // Specify the maximum number of routes that you want back.
+    int32 max_routes = 2;
+}
+
+message GetRouteResponse {
+    // Return the response status for this RPC call.
+    ReturnStatusCodes status_code = 1;
+    // Error string if there was any getting kernel routes.
+    string error = 2;
+    // Returns the route objects that are on the host.
+    Route route = 3; 
+}
+
+message GetAllRoutesRequest {}
+
+message GetAllRoutesResponse {
+    // Return the response status for this RPC call.
+    ReturnStatusCodes status_code = 1;
+    // Error string if there was any getting kernel routes.
+    string error = 2;
+    // Returns the route objects that are on the host.
+    Route routes = 3; 
+}
+
+message CreateStaticRouteRequest {
+    // Can create one or multiple routes with a single request.
+    repeated Route route = 1;
+}
+
+message CreateStaticRouteResponse {
+    // Return the response status for this RPC call.
+    ReturnStatusCodes status_code = 1;
+}
+
+message DeleteStaticRouteRequest {
+    repeated Route route = 1;
+}
+
+message DeleteStaticRouteResponse {
+    // Response code for this RPC call.
+    ReturnStatusCodes status_code = 1;
+    // Error if there is any with updating this route schema.
+    string error = 2;
+    // Returns the route struct that was removed from the kernel.
+    repeated Route route = 3;
+}
+
+message UpdateStaticRouteRequest {
+    // string name = 1;
+    // Specify the new object that will be compared and override the old.
+    Route route = 2;
+}
+
+message UpdateStaticRouteResponse {
+    // Response code for this RPC call.
+    ReturnStatusCodes status_code = 1;
+    // Error if there is any with updating this route schema.
+    string error = 2;
+}
+
+// Describes a route object to be managed with this service.
+message Route {
+    // Describes the destination range for the route.
+    string destination = 1;
+    // Gateway IP address for this route.
+    string gateway = 2;
+    // netmask for route - need to look for destination or gateway.
+    string mask = 3;
+    // Cost metric for this route.
+    int32 metric = 4;
+    // Name of outbound interface for routes.
+    string interface = 5;
+}
+
+enum IPType {
+    IPV4 = 0;
+    IPV6 = 1;
+}
+
+enum LinkAddressAssignment {
+    STATIC = 0;
+    DHCP = 1;
+    L2TP = 2;
+}
+
+message LinkAddress {
+    // Specify the type of this address object, ipv4 or ipv6.
+    IPType type = 1;
+    // How is this address assigned.
+    LinkAddressAssignment assignment = 2;
+    
+    // Created links that have a DHCP or external configuration method 
+    // should not have the below fields filled in, as they will be ignored 
+    // by the server. The link information will be populated internally 
+    // and can be seen with get requests to the server.
+    
+    // The actual address of this object. Should be formatted 
+    // so that the "net" package can parse the string into an address.
+    string address = 3;
+    // mask of this address.
+    string subnet_mask = 4;
+    // Broadcast address of this address. Should be formatted 
+    // so that the "net" package can parse the string into an address.
+    string broadcast = 5;
+    // Gateway address of this address. Should be formatted 
+    // so that the "net" package can parse the string into an address.
+    string gateway = 6;
+    // DNS server address of theis address. Should be formatted 
+    // so that the "net" package can parse the string into an address.
+    string dns_server = 7;
+}
+
+enum LinkMACAddressAssignment {
+    // Use the defined hardware mac address that may come with whatever link
+    // you are attaching this address object to.
+    HW = 0;
+    // Use a randomly generated mac address for this link.
+    RANDOM = 1;
+    // Link stays static, but was randomly generated.
+    STATIC_RANDOM = 2;
+    // User defines the address of this link's hardware address.
+    PREDEFINED = 3;
+}
+
+message LinkMACAddress {
+    // Assignment type for the MAC address with this.
+    LinkMACAddressAssignment assignment = 1;
+    
+    // This string should usually be empty and will be filled by the server, as only the PREDEFINED
+    // method for this mac address will actually read the below mac address and set the hardware address
+    // appropriately.
+    
+    // Should be a string formatted as xx:xx:xx:xx:xx:xx, so that
+    // "net" can parse it correctly, otherwise will throw an error.
+    string address = 2;
+    // Broadcast mac address.
+    string broadcast_address = 3;
+}
+
+message Neighbor {
+    // Whether this neighbor is IPV4 or 6.
+    IPType neighbor_addr_type = 1;
+    // The address of this neighbor (ip)
+    string ip_address = 2;
+    // Link-layer address of this neighbor.
+    string mac_address = 3;
+    // The state of this neighbor.
+    NeighborState state = 4;
+}
+
+enum NeighborState {
+    PERMANENT = 0;
+    NOARP = 1;
+    STALE = 2;
+    REACHABLE = 3;
+    NONE = 5;
+    INCOMPLETE = 6;
+    DELAY = 7;
+    PROBE = 8;
+    FAILED = 9;
+}
+
+message GetNeighborRequest {
+    // Specify the elements that you want to sort by.
+    map<string, string> filter_elems = 1;
+    // Specify the maximum number of neighbors that you want back.
+    int32 max_neighbors = 2;
+}
+
+message GetNeighborResponse {
+    // Response code for this RPC call.
+    ReturnStatusCodes status_code = 1;
+    // Error if there is any with updating getting neighbor.
+    string error = 2;
+    // The neighbor that is returned.
+    Neighbor neighbor = 3;
+}
+
+message GetAllNeighborsRequest {
+
+}
+
+message GetAllNeighborsResponse {
+    // Response code for this RPC call.
+    ReturnStatusCodes status_code = 1;
+    // Error if there is any with updating this neighbor schema.
+    string error = 2;
+}
+
+message CreateNeighborRequest {
+
+}
+
+message CreateNeighborResponse {
+    // Response code for this RPC call.
+    ReturnStatusCodes status_code = 1;
+    // Error if there is any with updating this neighbor schema.
+    string error = 2;
+}
+
+message DeleteNeighborRequest {
+
+}
+
+message DeleteNeighborResponse {
+    // Response code for this RPC call.
+    ReturnStatusCodes status_code = 1;
+    // Error if there is any with updating this neighbor schema.
+    string error = 2;
+    // The returned deleted neighbor object.
+    Neighbor neighbor = 3;
+}
+
+message UpdateNeighborRequest {
+
+}
+
+message UpdateNeighborResponse {
+
+}

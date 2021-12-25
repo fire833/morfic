@@ -26,7 +26,7 @@ func execIP(args ...string) (cmd *exec.Cmd, e error) {
 	return exec.Command(path, args...), e
 }
 
-func ExecRoute(args ...string) (cmd *exec.Cmd, e error) {
+func execRoute(args ...string) (cmd *exec.Cmd, e error) {
 	a1 := make([]string, len(args)+1)
 	a1 = append(a1, "route")
 	a1 = append(a1, args...)
@@ -34,7 +34,7 @@ func ExecRoute(args ...string) (cmd *exec.Cmd, e error) {
 	return execIP(a1...)
 }
 
-func ExecLink(args ...string) (cmd *exec.Cmd, e error) {
+func execLink(args ...string) (cmd *exec.Cmd, e error) {
 	a1 := make([]string, len(args)+1)
 	a1 = append(a1, "link")
 	a1 = append(a1, args...)
@@ -42,7 +42,7 @@ func ExecLink(args ...string) (cmd *exec.Cmd, e error) {
 	return execIP(a1...)
 }
 
-func ExecAddr(args ...string) (cmd *exec.Cmd, e error) {
+func execAddr(args ...string) (cmd *exec.Cmd, e error) {
 	a1 := make([]string, len(args)+1)
 	a1 = append(a1, "address")
 	a1 = append(a1, args...)
@@ -50,7 +50,7 @@ func ExecAddr(args ...string) (cmd *exec.Cmd, e error) {
 	return execIP(a1...)
 }
 
-func ExecNeigh(args ...string) (cmd *exec.Cmd, e error) {
+func execNeigh(args ...string) (cmd *exec.Cmd, e error) {
 	a1 := make([]string, len(args)+1)
 	a1 = append(a1, "neigh")
 	a1 = append(a1, args...)
@@ -58,7 +58,7 @@ func ExecNeigh(args ...string) (cmd *exec.Cmd, e error) {
 	return execIP(a1...)
 }
 
-func ExecTunnel(args ...string) (cmd *exec.Cmd, e error) {
+func execTunnel(args ...string) (cmd *exec.Cmd, e error) {
 	a1 := make([]string, len(args)+1)
 	a1 = append(a1, "tunnel")
 	a1 = append(a1, args...)

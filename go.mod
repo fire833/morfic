@@ -20,6 +20,7 @@ go 1.17
 require (
 	github.com/BurntSushi/toml v0.3.1
 	github.com/fasthttp/router v1.4.4
+	github.com/golang/protobuf v1.5.2
 	github.com/mdlayher/netlink v1.4.1
 	github.com/spf13/cobra v1.2.1
 	github.com/valyala/fasthttp v1.31.0
@@ -32,7 +33,6 @@ require (
 require (
 	github.com/andybalholm/brotli v1.0.2 // indirect
 	github.com/gogo/protobuf v1.3.2 // indirect
-	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/google/go-cmp v0.5.6 // indirect
 	github.com/inconshreveable/mousetrap v1.0.0 // indirect
 	github.com/josharian/native v0.0.0-20200817173448-b6b71def0850 // indirect

@@ -17,3 +17,11 @@
  */
 
 package ip_routes
+
+func listRoutes() {
+	execRoute("get")
+}
+
+func addRoute() {
+	execRoute("add")
+}

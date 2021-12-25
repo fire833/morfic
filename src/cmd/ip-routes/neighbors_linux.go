@@ -17,3 +17,19 @@
  */
 
 package ip_routes
+
+func addNeigh() {
+	execNeigh("add")
+}
+
+func delNeigh() {
+	execNeigh("del")
+}
+
+func changeNeigh() {
+	execNeigh("change")
+}
+
+func replaceNeigh() {
+	execNeigh("replace")
+}
