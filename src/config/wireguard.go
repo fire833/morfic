@@ -79,47 +79,12 @@ func (tun *WireguardTun) SetStatus() error {
 		return err
 	}
 
-	var peerconfigs []wgtypes.PeerConfig
-
-	for _, c := range tun.Config.Peers {
-		key, e := wgtypes.NewKey([]byte(c.PublicKey))
-		if e != nil {
-			continue
-		}
-
-		pskey, e1 := wgtypes.NewKey([]byte(c.PreSharedKey))
-		if e1 != nil {
-			continue
-		}
-
-		pc := wgtypes.PeerConfig{
-			PublicKey:                   key,
-			Remove:                      c.Remove,
-			UpdateOnly:                  c.UpdateOnly,
-			PresharedKey:                &pskey,
-			Endpoint:                    &net.UDPAddr{},
-			PersistentKeepaliveInterval: (*time.Duration)(&c.PersistentKeepaliveInterval),
-			ReplaceAllowedIPs:           c.ReplaceAllowedIPs,
-			// Need to fill in a few more forms here
-		}
-
-		peerconfigs = append(peerconfigs, pc)
-	}
-
-	key, e := wgtypes.NewKey([]byte(tun.Config.PrivateKey))
+	conf, e := tun.Config.serialize()
 	if e != nil {
 		return e
 	}
 
-	conf := wgtypes.Config{
-		PrivateKey:   &key,
-		ListenPort:   &tun.Config.ListenPort,
-		FirewallMark: &tun.Config.FirewallMark,
-		ReplacePeers: tun.Config.ReplacePeers,
-		Peers:        peerconfigs,
-	}
-
-	if err := wg.WgClient.ConfigureDevice(tun.DevName, conf); err != nil {
+	if err := wg.WgClient.ConfigureDevice(tun.DevName, *conf); err != nil {
 		return err
 	}
 
@@ -145,32 +110,44 @@ func (c *wgConfig) serialize() (*wgtypes.Config, error) {
 			fmt.Printf("Unable to load wireguard config: %s", err)
 			continue
 		}
-
 		wgconf.Peers = append(wgconf.Peers, p)
 	}
-
 	return wgconf, nil
 }
 
 func (c *wgPeer) serialize() (wgtypes.PeerConfig, error) {
-	wgpeer := &wgtypes.PeerConfig{
-		Remove:            c.Remove,
-		UpdateOnly:        c.UpdateOnly,
-		ReplaceAllowedIPs: c.ReplaceAllowedIPs,
+
+	// Parse the peer public key.
+	key, e := wgtypes.NewKey([]byte(c.PublicKey))
+	if e != nil {
+		return wgtypes.PeerConfig{}, e
 	}
 
-	if k, err := wgtypes.NewKey([]byte(c.PublicKey)); err != nil {
-		return *wgpeer, err
-	} else {
-		wgpeer.PublicKey = k
+	// Parse the peer pre-shared key.
+	pskey, e1 := wgtypes.NewKey([]byte(c.PreSharedKey))
+	if e1 != nil {
+		return wgtypes.PeerConfig{}, e1
 	}
 
-	if k, err := wgtypes.NewKey([]byte(c.PreSharedKey)); err != nil {
-		return *wgpeer, err
-	} else {
-		wgpeer.PresharedKey = &k
+	var allowedips []net.IPNet
+
+	for _, ip := range c.AllowedIPs {
+		_, net, e := net.ParseCIDR(ip)
+		if e != nil {
+			continue
+		}
+		allowedips = append(allowedips, *net)
 	}
 
-	// TODO finish parsing a UDP address endpoint along with the other elements of the struct.
-	return *wgpeer, nil
+	pc := wgtypes.PeerConfig{
+		PublicKey:                   key,
+		Remove:                      c.Remove,
+		UpdateOnly:                  c.UpdateOnly,
+		PresharedKey:                &pskey,
+		Endpoint:                    &net.UDPAddr{},
+		PersistentKeepaliveInterval: (*time.Duration)(&c.PersistentKeepaliveInterval),
+		ReplaceAllowedIPs:           c.ReplaceAllowedIPs,
+		AllowedIPs:                  allowedips,
+	}
+	return pc, nil
 }

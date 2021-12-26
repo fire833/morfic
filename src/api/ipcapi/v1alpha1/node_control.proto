@@ -19,6 +19,8 @@
 syntax = "proto3";
 package v1alpha1;
 
+option go_package = ".";
+
 service NodeControllerService {
 
     // Create a new link inside of the kernel by specifying its type and other attributes.

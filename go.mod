@@ -48,5 +48,5 @@ require (
 	golang.org/x/text v0.3.6 // indirect
 	golang.zx2c4.com/wireguard v0.0.0-20211109020618-685490f568cf // indirect
 	google.golang.org/genproto v0.0.0-20210602131652-f16073e35f0c // indirect
-	google.golang.org/protobuf v1.26.0 // indirect
+	google.golang.org/protobuf v1.27.1 // indirect
 )

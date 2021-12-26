@@ -18,18 +18,16 @@
 
 package ip_routes
 
-func addNeigh() {
-	execNeigh("add")
+import (
+	"github.com/fire833/vroute/src/api/ipcapi/v1alpha1"
+	"google.golang.org/grpc"
+)
+
+type IPNodeServer struct {
+	v1alpha1.UnimplementedNodeControllerServiceServer
 }
 
-func delNeigh() {
-	execNeigh("del")
-}
-
-func changeNeigh() {
-	execNeigh("change")
-}
-
-func replaceNeigh() {
-	execNeigh("replace")
+func BeginNodeServer() error {
+	grpc.NewServer()
+	return nil
 }
