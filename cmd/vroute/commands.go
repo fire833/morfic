@@ -22,6 +22,7 @@ import (
 	"fmt"
 	"os"
 	"runtime"
+	"syscall"
 
 	"github.com/fire833/vroute/src"
 	"github.com/spf13/cobra"
@@ -42,15 +43,66 @@ var (
 For more information about this project and for documentation, visit https://github.com/fire833/vroute or visit https://vroute.io.`,
 		Version: fmt.Sprintf(": %s\nGit commit: %s\nGo version: %s\nOS: %s\nArchitecture: %s\nLicense: %s\n\nCopyright (C) 2021  Kendall Tauser", version, commit, g, o, arch, license),
 		Example: "vroute",
+		Run:     rootMain,
+	}
+
+	forkNodeCmd = &cobra.Command{
+		Use:   "vroute nodefork <runtime_token>",
+		Short: "Used for trusted forking of node subprocess.",
+		Run:   forkAPI,
+	}
+
+	forkAPICmd = &cobra.Command{
+		Use:   "vroute apifork <runtime_token>",
+		Short: "Used for trusted forking of api subprocess.",
+		Run:   forkNode,
 	}
 )
 
 // The main function for the vroute control plane.
 func vrouteMain() {
 	rootCmd.Flags().BoolVar(&src.DebugEnabled, "debug", false, "Use this subcommand to enable debugging mode for the process.")
+	rootCmd.AddCommand(forkNodeCmd)
+	rootCmd.AddCommand(forkAPICmd)
 
 	if e := rootCmd.Execute(); e != nil {
 		fmt.Println("Unable to start vroute: " + e.Error())
 		os.Exit(1)
 	}
+}
+
+func forkAPI(cmd *cobra.Command, args []string) {
+	if args[0] == "-t" && args[1] == src.SharedToken.GetToken() {
+		api_main()
+	}
+
+}
+
+func forkNode(cmd *cobra.Command, args []string) {
+	if args[0] == "-t" && args[1] == src.SharedToken.GetToken() {
+		node_main()
+	}
+}
+
+func rootMain(cmd *cobra.Command, args []string) {
+
+	src.GenerateRuntimeTrustToken()
+
+	// Spawn the node process first to start
+	syscall.ForkExec("vroute", []string{"forkapi", "-t", src.SharedToken.GetToken()}, &syscall.ProcAttr{
+		Sys: &syscall.SysProcAttr{
+			Ptrace:     false,
+			Cloneflags: syscall.CLONE_NEWIPC,
+			Credential: &syscall.Credential{},
+		},
+	})
+
+	syscall.ForkExec("vroute", []string{"forknode", "-t", src.SharedToken.GetToken()}, &syscall.ProcAttr{
+		Sys: &syscall.SysProcAttr{
+			Ptrace:     false,
+			Cloneflags: syscall.CLONE_NEWIPC,
+			Credential: &syscall.Credential{},
+		},
+	})
+
 }

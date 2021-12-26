@@ -18,13 +18,18 @@
 
 package main
 
+import (
+	"fmt"
+	"os"
+)
+
 // Primary privileged bootstrap process for control plane.
 func main() {
 
-	// if os.Getuid() != rootUID {
-	// 	fmt.Println("vRoute control plane must be run as root.")
-	// 	os.Exit(1)
-	// }
+	if os.Getuid() != rootUID {
+		fmt.Println("vRoute control plane must be run as root.")
+		os.Exit(1)
+	}
 
 	vrouteMain()
 }

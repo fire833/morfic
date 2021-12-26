@@ -20,11 +20,19 @@ package src
 
 import (
 	"crypto/rand"
+	"crypto/x509"
 	"sync"
 	"time"
 )
 
 var SharedToken *SharedTrustToken
+
+// Certificate that validates requests between
+// subprocesses during runtime. Is valid for 5 years.
+var RuntimeCA x509.Certificate
+
+// The local certificate loaded
+var LocalCert *x509.Certificate
 
 const (
 	tokenByteSize = 64
@@ -44,10 +52,15 @@ type SharedTrustToken struct {
 
 // Used to generate shared tokens in memory during runtime for authenticating subprocesses to each other
 // during RPC calls to the unix endpoints.
+//
+// This method should be called only once by the main vroute command function, as it is used for all of
+// setup with runtime CA as well as well as the runtime trust token.
 func GenerateRuntimeTrustToken() {
 	token := NewToken()
 	// Set the global token
 	SharedToken = token
+
+	// TODO generate runtime CA.
 
 	return
 }
@@ -87,4 +100,8 @@ func (token *SharedTrustToken) UpdateToken() {
 // Returns uptime of the process token structure.
 func (token *SharedTrustToken) GetTokenUptime() time.Duration {
 	return time.Now().Sub(token.tokenResetTime)
+}
+
+func (token *SharedTrustToken) GetToken() string {
+	return token.rpcToken
 }

@@ -21,7 +21,9 @@ package config
 import (
 	"errors"
 	"fmt"
+	"net"
 	"sync"
+	"time"
 
 	"github.com/fire833/vroute/src/wg"
 	"golang.zx2c4.com/wireguard/wgctrl/wgtypes"
@@ -77,7 +79,47 @@ func (tun *WireguardTun) SetStatus() error {
 		return err
 	}
 
-	if err := wg.WgClient.ConfigureDevice(tun.DevName, tun.Config); err != nil {
+	var peerconfigs []wgtypes.PeerConfig
+
+	for _, c := range tun.Config.Peers {
+		key, e := wgtypes.NewKey([]byte(c.PublicKey))
+		if e != nil {
+			continue
+		}
+
+		pskey, e1 := wgtypes.NewKey([]byte(c.PreSharedKey))
+		if e1 != nil {
+			continue
+		}
+
+		pc := wgtypes.PeerConfig{
+			PublicKey:                   key,
+			Remove:                      c.Remove,
+			UpdateOnly:                  c.UpdateOnly,
+			PresharedKey:                &pskey,
+			Endpoint:                    &net.UDPAddr{},
+			PersistentKeepaliveInterval: (*time.Duration)(&c.PersistentKeepaliveInterval),
+			ReplaceAllowedIPs:           c.ReplaceAllowedIPs,
+			// Need to fill in a few more forms here
+		}
+
+		peerconfigs = append(peerconfigs, pc)
+	}
+
+	key, e := wgtypes.NewKey([]byte(tun.Config.PrivateKey))
+	if e != nil {
+		return e
+	}
+
+	conf := wgtypes.Config{
+		PrivateKey:   &key,
+		ListenPort:   &tun.Config.ListenPort,
+		FirewallMark: &tun.Config.FirewallMark,
+		ReplacePeers: tun.Config.ReplacePeers,
+		Peers:        peerconfigs,
+	}
+
+	if err := wg.WgClient.ConfigureDevice(tun.DevName, conf); err != nil {
 		return err
 	}
 
