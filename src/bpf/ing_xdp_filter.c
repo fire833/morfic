@@ -41,9 +41,8 @@ int ing_filter_xdp(struct xdp_md *xdp) {
             goto L3;
         case FORWARD_OUT:
             goto FORWARD;
-    } 
-
-
+    }
+    
 L3:
     int passl3 = filterl3(xdp, packet_end, packet_begin);
     

@@ -24,22 +24,22 @@ import (
 	"github.com/fire833/vroute/src/api/ipcapi/v1alpha1"
 )
 
-func (s *IPNodeServer) GetNeighbor(ctx context.Context, req *v1alpha1.GetNeighborRequest) (resp *v1alpha1.GetNeighborResponse, e error) {
+func (s *CMDNodeServer) GetNeighbor(ctx context.Context, req *v1alpha1.GetNeighborRequest) (resp *v1alpha1.GetNeighborResponse, e error) {
 	return nil, nil
 }
 
-func (s *IPNodeServer) GetAllNeighbors(ctx context.Context, req *v1alpha1.GetAllNeighborsRequest) (resp *v1alpha1.GetAllNeighborsResponse, e error) {
+func (s *CMDNodeServer) GetAllNeighbors(ctx context.Context, req *v1alpha1.GetAllNeighborsRequest) (resp *v1alpha1.GetAllNeighborsResponse, e error) {
 	return nil, nil
 }
 
-func (s *IPNodeServer) CreateNeighbor(ctx context.Context, req *v1alpha1.CreateNeighborRequest) (resp *v1alpha1.CreateNeighborResponse, e error) {
+func (s *CMDNodeServer) CreateNeighbor(ctx context.Context, req *v1alpha1.CreateNeighborRequest) (resp *v1alpha1.CreateNeighborResponse, e error) {
 	return nil, nil
 }
 
-func (s *IPNodeServer) DeleteNeighbor(ctx context.Context, req *v1alpha1.DeleteNeighborRequest) (resp *v1alpha1.DeleteNeighborRequest, e error) {
+func (s *CMDNodeServer) DeleteNeighbor(ctx context.Context, req *v1alpha1.DeleteNeighborRequest) (resp *v1alpha1.DeleteNeighborRequest, e error) {
 	return nil, nil
 }
 
-func (s *IPNodeServer) UpdateNeighbor(ctx context.Context, req *v1alpha1.UpdateNeighborRequest) (resp *v1alpha1.UpdateNeighborResponse, e error) {
+func (s *CMDNodeServer) UpdateNeighbor(ctx context.Context, req *v1alpha1.UpdateNeighborRequest) (resp *v1alpha1.UpdateNeighborResponse, e error) {
 	return nil, nil
 }

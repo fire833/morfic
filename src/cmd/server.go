@@ -16,30 +16,35 @@
 *	51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package ip_routes
+package cmd
 
 import (
-	"context"
+	"fmt"
+	"net"
+	"os"
 
 	"github.com/fire833/vroute/src/api/ipcapi/v1alpha1"
+	"github.com/fire833/vroute/src/config"
+	"google.golang.org/grpc"
 )
 
-func (s *CMDNodeServer) CreateLink(ctx context.Context, req *v1alpha1.CreateLinkRequest) (resp *v1alpha1.CreateLinkResponse, e error) {
-	return nil, nil
-}
+var NodeControllerServer *grpc.Server
 
-func (s *CMDNodeServer) UpdateLink(ctx context.Context, req *v1alpha1.UpdateLinkRequest) (resp *v1alpha1.UpdateLinkResponse, e error) {
-	return nil, nil
-}
+func BeginNodeServer() error {
+	// create the unix bind listener.
+	l, e := net.Listen("unix", config.CPRF.NodeControllerSocket)
+	if e != nil {
+		fmt.Printf("Unable to start node server: %s", e.Error())
+		os.Exit(1)
+	}
 
-func (s *CMDNodeServer) DeleteLink(ctx context.Context, req *v1alpha1.DeleteLinkRequest) (resp *v1alpha1.DeleteLinkResponse, e error) {
-	return nil, nil
-}
+	s := grpc.NewServer(grpc.EmptyServerOption{})
 
-func (s *CMDNodeServer) GetLink(ctx context.Context, req *v1alpha1.GetLinkRequest) (resp *v1alpha1.GetLinkResponse, e error) {
-	return nil, nil
-}
+	// Register the services
+	s.RegisterService(&v1alpha1.NodeControllerService_ServiceDesc, nil)
+	s.RegisterService(&v1alpha1.NodeFirewallControllerService_ServiceDesc, nil)
 
-func (s *CMDNodeServer) GetAllLinks(ctx context.Context, req *v1alpha1.GetAllLinksRequest) (resp *v1alpha1.GetAllLinksResponse, e error) {
-	return nil, nil
+	NodeControllerServer = s
+	// This will basically be the last main function for the process.
+	return s.Serve(l)
 }

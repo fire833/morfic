@@ -245,6 +245,8 @@ message CreateStaticRouteRequest {
 message CreateStaticRouteResponse {
     // Return the response status for this RPC call.
     ReturnStatusCodes status_code = 1;
+    // Returns the routes that failed to be created.
+    repeated Route failed_routes = 2;
 }
 
 message DeleteStaticRouteRequest {

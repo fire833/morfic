@@ -18,8 +18,22 @@
 
 package api
 
-import "github.com/fasthttp/router"
+import (
+	"github.com/fasthttp/router"
+	"github.com/valyala/fasthttp"
+)
 
 func RegisterRouteRoutes(r *router.Router) {
+	routes := r.Group("/v1/routes")
+
+	routes.Handle(fasthttp.MethodPost, "/add", AddRoute)
+	routes.Handle(fasthttp.MethodDelete, "/delete", RemoveRoute)
+}
+
+func AddRoute(ctx *fasthttp.RequestCtx) {
+
+}
+
+func RemoveRoute(ctx *fasthttp.RequestCtx) {
 
 }

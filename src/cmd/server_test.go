@@ -16,18 +16,22 @@
 *	51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package ip_routes
+package cmd
 
 import (
-	"github.com/fire833/vroute/src/api/ipcapi/v1alpha1"
-	"google.golang.org/grpc"
+	"testing"
+
+	"github.com/fire833/vroute/src/config"
 )
 
-type IPNodeServer struct {
-	v1alpha1.UnimplementedNodeControllerServiceServer
+func init() {
+
+	config.CPRF = &config.ControlPlaneRuntimeConfig{}
+
 }
 
-func BeginNodeServer() error {
-	grpc.NewServer()
-	return nil
+func TestStartGRPCServer(t *testing.T) {
+	if e := BeginNodeServer(); e != nil {
+		t.Fail()
+	}
 }

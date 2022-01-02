@@ -41,10 +41,13 @@ type ControlPlaneRuntimeConfig struct {
 	// Define a custom CRI gRPC socket, other than the ones that are defined by default already.
 	// This socket location will take precendence over the default cri-o/containerd/dockershim socket paths
 	// baked into the binary.
-	CRISocket string `json:"cri_socket" yaml:"criSocket"`
+	CRISocket string `json:"cri_socket" yaml:"criSocket" toml:"criSocket"`
 	// Another location for the keystore to be loaded in by the control plane. Will take precedence over any of the other
 	// config locations that are baked into the binary.
-	KeyStorePath string `json:"key_store" yaml:"keyStorePath"`
+	KeyStorePath string `json:"key_store" yaml:"keyStorePath" toml:"keyStorePath"`
+	// Location for the priviledged node controller process to create a unix socket for IPC communication.
+	// Defaults at runtime to /var/run/vroute/vroute_node.sock
+	NodeControllerSocket string `json:"node_controller_socket" yaml:"nodeControllerSocket" toml:"nodeControllerSocket"`
 }
 
 func LoadRuntimeConfig() {
@@ -54,6 +57,9 @@ func LoadRuntimeConfig() {
 			continue
 		} else {
 			c := &ControlPlaneRuntimeConfig{}
+
+			setDefaultValues(c) // Sets defaults in the data structure.
+
 			// Default right now to having the main configuration file be TOML, to follow suit with CRI-O and other container
 			// applications/frameworks.
 			if _, err := toml.Decode(string(file), c); err != nil {
@@ -69,4 +75,8 @@ func LoadRuntimeConfig() {
 	fmt.Printf("No configuration file found in any of the default locations, exiting.")
 	os.Exit(1)
 
+}
+
+func setDefaultValues(c *ControlPlaneRuntimeConfig) {
+	c.NodeControllerSocket = "/var/run/vroute/vroute_node.sock"
 }

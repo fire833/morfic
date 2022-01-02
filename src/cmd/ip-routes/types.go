@@ -18,5 +18,8 @@
 
 package ip_routes
 
-type CmdRouteManager struct {
+import "github.com/fire833/vroute/src/api/ipcapi/v1alpha1"
+
+type CMDNodeServer struct {
+	v1alpha1.UnimplementedNodeControllerServiceServer
 }
