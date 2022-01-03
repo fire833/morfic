@@ -35,8 +35,8 @@ func (s *CMDNodeServer) CreateStaticRoute(ctx context.Context, req *v1alpha1.Cre
 			continue
 		}
 
-		cmd, e := execRoute("add")
-		out, e1 := cmd.CombinedOutput()
+		// cmd, e := execRoute("add")
+		// out, e1 := cmd.CombinedOutput()
 
 	}
 
@@ -73,12 +73,13 @@ func (s *CMDNodeServer) GetAllRoutes(ctx context.Context, req *v1alpha1.GetAllRo
 
 func validateRoute(route *v1alpha1.Route) error {
 	if _, _, e := net.ParseCIDR(route.Destination); e != nil {
-		return errors.New("Invalid destination CIDR addresses.")
+		return errors.New("invalid destination CIDR addresses")
 	}
 
 	if ip := net.ParseIP(route.Gateway); ip == nil {
-		return errors.New("Invalid gateway address.")
+		return errors.New("invalid gateway address")
 	}
 
+	return nil
 	// TODO need to get a better validator function done here.
 }

@@ -59,11 +59,10 @@ func DialCRIEndpoint() error {
 			}
 		}
 	}
-	return errors.New("Error with creating runtime connection.")
+	return errors.New("error with creating runtime connection")
 }
 
 func createClients(conn *grpc.ClientConn) {
 	RuntimeClient = criapi.NewRuntimeServiceClient(conn)
 	ImageClient = criapi.NewImageServiceClient(conn)
-	return
 }
