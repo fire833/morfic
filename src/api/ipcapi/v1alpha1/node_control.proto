@@ -117,9 +117,11 @@ message DeleteLinkRequest {
 message DeleteLinkResponse {
     // Return the response status for this RPC call.
     ReturnStatusCodes status_code = 1;
+    // Error string if there was any deleting kernel links.
+    string error = 2;
     // Returns the deleted links that were removed 
     // from the kernel with this request.
-    repeated Link deleted_links = 2;
+    repeated Link deleted_links = 3;
 }
 
 message GetLinkRequest {
@@ -345,12 +347,12 @@ message IPAddress {
     // Specify the type of this address.
     IPType type = 1;
     // The array of bytes that make up the ip address.
-    repeated bytes address = 2;
+    bytes address = 2;
 }
 
 message MACAddress {
     // The bytes that make up the hardware address. Should be 6 bytes.
-    repeated bytes address = 1;
+    bytes address = 1;
 }
 
 enum LinkAddressAssignment {

@@ -28,6 +28,8 @@ import (
 
 var (
 	netlinkPool *NetLinkConnectionPool
+
+	unableToAcquireLinkError error = errors.New("unable to acquire socket file descriptor for connection")
 )
 
 func init() {
@@ -111,6 +113,7 @@ func (conn *NetLinkConnectionPool) createConn() {
 
 	}
 
+	c.Close()
 }
 
 func (conn *NetLinkConnectionPool) createConnImmediate() (*rtnetlink.Conn, error) {
@@ -132,6 +135,8 @@ func (conn *NetLinkConnectionPool) GetConn() (*rtnetlink.Conn, error) {
 		// If no connections left, block and synchronously create a new connection and return.
 		return conn.createConnImmediate()
 	}
+
+	return nil, nil
 
 }
 

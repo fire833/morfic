@@ -22,18 +22,6 @@ import (
 	api "github.com/fire833/vroute/src/api/ipcapi/v1alpha1"
 )
 
-func ValidateNeighbor(in *api.Neighbor) error {
-
-	// Validate the actual link address.
-	e := ValidateIPAddressAndExternalType(in.GetIpAddress(), in.NeighborAddrType)
-	if e != nil {
-		return e
-	}
-
-	e1 := ValidateMACAddress(in.GetMacAddress())
-	if e1 != nil {
-		return e1
-	}
-
+func ValidateRoute(in *api.Route) error {
 	return nil
 }

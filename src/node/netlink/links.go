@@ -44,6 +44,7 @@ func (s *NetlinkNodeServer) CreateLink(ctx context.Context, req *api.CreateLinkR
 			StatusCode:        api.ReturnStatusCodes_INTERNAL_ERROR,
 			UnsuccessfulLinks: req.Link, // All the links failed
 			SuccessLinks:      nil,
+			Error:             unableToAcquireLinkError.Error(),
 		}
 
 		return resp, nil // Return the response.
@@ -73,9 +74,38 @@ func (s *NetlinkNodeServer) UpdateLink(ctx context.Context, req *api.UpdateLinkR
 }
 
 func (s *NetlinkNodeServer) DeleteLink(ctx context.Context, req *api.DeleteLinkRequest) (resp *api.DeleteLinkResponse, e error) {
-	for _, iface := range req.Name {
-		if i, e := net.InterfaceByName(iface); e != nil {
+	links := []*api.Link{}
 
+	conn, e := netlinkPool.GetConn()
+	if e != nil { // bail out since we can't successfully call a socket for some reason.
+		resp := &api.DeleteLinkResponse{
+			StatusCode:   api.ReturnStatusCodes_INTERNAL_ERROR,
+			DeletedLinks: links,
+			Error:        unableToAcquireLinkError.Error(),
+		}
+
+		return resp, nil // Bail out on this failure
+	}
+
+	for _, iface := range req.Name {
+		if i, e := net.InterfaceByName(iface); e == nil {
+			// Get link before trying to delete.
+			link, e1 := conn.Link.Get(uint32(i.Index))
+			if e1 != nil {
+				continue // Just continue on right now because we can't get the link to return
+			}
+
+			if e2 := conn.Link.Delete(uint32(i.Index)); e2 == nil {
+				links = append(links, &api.Link{
+					Name:  link.Attributes.Name,
+					Mtu:   link.Attributes.MTU,
+					Index: link.Index,
+				})
+			} else {
+				continue
+			}
+		} else {
+			continue // Just fail the link here, it doesn't exist.
 		}
 	}
 

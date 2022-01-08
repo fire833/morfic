@@ -28,6 +28,11 @@ var (
 	badLinkIPError           ValidatorStatus = NewError("invalid formatted link ip address", api.ReturnStatusCodes_INVALID_FIELD_ERROR)
 	typeAndActualIPTypeError ValidatorStatus = NewError("provided ip address did not match the specified type", api.ReturnStatusCodes_INVALID_FIELD_ERROR)
 	badSubnetMaskError       ValidatorStatus = NewError("incorrect subnet mask value for specified IP type", api.ReturnStatusCodes_INVALID_FIELD_ERROR)
+	invalidMacError                          = NewError("invalid mac address format", api.ReturnStatusCodes_INVALID_FIELD_ERROR)
+)
+
+const (
+	MACAddressLength = 6
 )
 
 // Validtes the link address object, returns nil if the
@@ -42,34 +47,96 @@ func ValidateLinkAddress(in *api.LinkAddress) error {
 	}
 
 	// Validate the actual link address.
-	if ip := net.ParseIP(in.Address); ip == nil {
-		return badLinkIPError
-	} else {
-		if len(ip) != l {
-			return typeAndActualIPTypeError
-		}
+	if len(in.Address.Address.Address) != l {
+		return typeAndActualIPTypeError
+	}
+
+	if in.Address.Mask.Mask > uint32(l*8) { // If the mask is bigger than the address itself, fail it.
+		return badSubnetMaskError
 	}
 
 	// Validate the link DNS server address.
-	ip := net.ParseIP(in.DnsServer)
-	if ip == nil {
-		return badLinkIPError
-	} else {
-		if len(ip) != l {
-			return typeAndActualIPTypeError
-		}
+	if len(in.DnsServer.Address) != l {
+		return typeAndActualIPTypeError
 	}
 
 	// Validate the gateway address.
-	if ip := net.ParseIP(in.DnsServer); ip == nil {
-		return badLinkIPError
-	} else {
-		if len(ip) != l {
-			return typeAndActualIPTypeError
-		}
+	if len(in.Gateway.Address) != l {
+		return typeAndActualIPTypeError
 	}
 
-	if in.SubnetMask > uint32(l*8) { // If the mask is bigger than the address itself, fail it.
+	return nil
+}
+
+func ValidateIPCIDR(in *api.IPCIDR) error {
+	e := ValidateIPAddress(in.GetAddress())
+	if e != nil {
+		return e
+	}
+
+	e1 := ValidateSubnetMask(in.GetMask())
+	if e1 != nil {
+		return e1
+	}
+
+	return nil
+}
+
+func ValidateIPAddress(in *api.IPAddress) error {
+	var l int
+
+	if in.Type == api.IPType_IPV4 {
+		l = net.IPv4len
+	} else {
+		l = net.IPv6len
+	}
+
+	if len(in.Address) != l {
+		return typeAndActualIPTypeError
+	}
+
+	return nil
+}
+
+// Validates both the IP address and makes sure it matches with the defined type.
+func ValidateIPAddressAndExternalType(in *api.IPAddress, t api.IPType) error {
+	if e := ValidateIPAddress(in); e != nil {
+		return e
+	}
+
+	var l int
+
+	if t == api.IPType_IPV4 {
+		l = net.IPv4len
+	} else {
+		l = net.IPv6len
+	}
+
+	if len(in.Address) != l {
+		return typeAndActualIPTypeError
+	}
+
+	return nil
+}
+
+func ValidateMACAddress(in *api.MACAddress) error {
+	if len(in.Address) != MACAddressLength {
+		return invalidMacError
+	} else {
+		return nil
+	}
+}
+
+func ValidateSubnetMask(in *api.IPMask) error {
+	var l int
+
+	if in.Type == api.IPType_IPV4 {
+		l = net.IPv4len
+	} else {
+		l = net.IPv6len
+	}
+
+	if in.Mask > uint32(l*8) {
 		return badSubnetMaskError
 	}
 

@@ -20,25 +20,12 @@ package ip_routes
 
 import (
 	"context"
-	"errors"
-	"net"
 
 	"github.com/fire833/vroute/src/api/ipcapi/v1alpha1"
 )
 
 func (s *CMDNodeServer) CreateStaticRoute(ctx context.Context, req *v1alpha1.CreateStaticRouteRequest) (resp *v1alpha1.CreateStaticRouteResponse, e error) {
 	defer ctx.Done()
-
-	for _, route := range req.Route {
-		if e := validateRoute(route); e != nil {
-			// TODO need to log the failure.
-			continue
-		}
-
-		// cmd, e := execRoute("add")
-		// out, e1 := cmd.CombinedOutput()
-
-	}
 
 	return nil, nil
 }
@@ -69,17 +56,4 @@ func (s *CMDNodeServer) GetAllRoutes(ctx context.Context, req *v1alpha1.GetAllRo
 	defer ctx.Done()
 
 	return nil, nil
-}
-
-func validateRoute(route *v1alpha1.Route) error {
-	if _, _, e := net.ParseCIDR(route.Destination); e != nil {
-		return errors.New("invalid destination CIDR addresses")
-	}
-
-	if ip := net.ParseIP(route.Gateway); ip == nil {
-		return errors.New("invalid gateway address")
-	}
-
-	return nil
-	// TODO need to get a better validator function done here.
 }
