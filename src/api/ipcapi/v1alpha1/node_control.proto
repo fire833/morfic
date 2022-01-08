@@ -76,6 +76,8 @@ enum ReturnStatusCodes {
     NO_CHANGE_ERROR = 6;
     // Returns if there is no object to return based on the given filter.
     NO_FILTER_RESPONSE_ERROR = 7;
+    // Returns if there is an invalid field in the object
+    INVALID_FIELD_ERROR = 8;
 }
 
 message CreateLinkRequest {
@@ -86,13 +88,16 @@ message CreateLinkRequest {
 message CreateLinkResponse {
     // Return the response status for this RPC call.
     ReturnStatusCodes status_code = 1;
+    // Error if there is any with updating this link schema.
+    string error = 2;
     // Links that were created successfully.
-    repeated Link success_links = 2;
+    repeated Link success_links = 3;
     // Links that were created unsuccessfully.
-    repeated Link unsuccessful_links = 3;
+    repeated Link unsuccessful_links = 4;
 }
 
 message UpdateLinkRequest {
+    // The name of the link
     string name = 1;
     Link link = 2;
 }
@@ -196,8 +201,20 @@ message Link {
     // The type of this link.
     LinkTypes type = 4;
     // MTU of link.
-    int32 mtu = 5;
-    LinkAttributes attributes = 6;
+    uint32 mtu = 5;
+    // Specify the index of the link
+    uint32 index = 6;
+    LinkAttributes attributes = 7;
+}
+
+enum LinkElements {
+    NAME = 0;
+    ADDRESS = 1;
+    MACADDRESS = 2;
+    TYPE = 3;
+    MTU = 4;
+    INDEX = 5;
+
 }
 
 // Attributes for a link.
@@ -245,8 +262,10 @@ message CreateStaticRouteRequest {
 message CreateStaticRouteResponse {
     // Return the response status for this RPC call.
     ReturnStatusCodes status_code = 1;
+    // Error string if there was adding the routes.
+    string error = 2;
     // Returns the routes that failed to be created.
-    repeated Route failed_routes = 2;
+    repeated Route failed_routes = 3;
 }
 
 message DeleteStaticRouteRequest {
@@ -278,20 +297,60 @@ message UpdateStaticRouteResponse {
 // Describes a route object to be managed with this service.
 message Route {
     // Describes the destination range for the route.
-    string destination = 1;
+    IPCIDR destination = 1;
     // Gateway IP address for this route.
-    string gateway = 2;
+    IPAddress gateway = 2;
+    
     // netmask for route - need to look for destination or gateway.
-    string mask = 3;
+    // uint32 mask = 3;
+    
     // Cost metric for this route.
     int32 metric = 4;
     // Name of outbound interface for routes.
     string interface = 5;
 }
 
+// Used for GET operations, and allows specification 
+// of the elements that the user wants to filter by.
+enum RouteElements {
+    DESTINATION = 0;
+    GATEWAY = 1;
+    METRIC = 2;
+    INTERFACE = 3;
+}
+
 enum IPType {
     IPV4 = 0;
     IPV6 = 1;
+}
+
+message IPCIDR {
+    IPAddress address = 1;
+    IPMask mask = 2;
+}
+
+message IPMask {
+    // Specify the type of this mask.
+    IPType type = 1;
+    // Specification of the number of 1s in the subnet mask for this address.
+    // 
+    // An example is a /24 network or 255.255.255.0 subnet mask would be valued as 24.
+    // Same with 255.0.0.0 or /8 network would be 8.
+    //
+    // The same thing applies for IPv6 addresses.
+    uint32 mask = 2;
+}
+
+message IPAddress {
+    // Specify the type of this address.
+    IPType type = 1;
+    // The array of bytes that make up the ip address.
+    repeated bytes address = 2;
+}
+
+message MACAddress {
+    // The bytes that make up the hardware address. Should be 6 bytes.
+    repeated bytes address = 1;
 }
 
 enum LinkAddressAssignment {
@@ -313,18 +372,19 @@ message LinkAddress {
     
     // The actual address of this object. Should be formatted 
     // so that the "net" package can parse the string into an address.
-    string address = 3;
-    // mask of this address.
-    string subnet_mask = 4;
+    IPCIDR address = 3;
+
     // Broadcast address of this address. Should be formatted 
     // so that the "net" package can parse the string into an address.
-    string broadcast = 5;
+    // string broadcast = 5;
+
+
     // Gateway address of this address. Should be formatted 
     // so that the "net" package can parse the string into an address.
-    string gateway = 6;
-    // DNS server address of theis address. Should be formatted 
+    IPAddress gateway = 6;
+    // DNS server address of this link. Should be formatted 
     // so that the "net" package can parse the string into an address.
-    string dns_server = 7;
+    IPAddress dns_server = 7;
 }
 
 enum LinkMACAddressAssignment {
@@ -349,20 +409,27 @@ message LinkMACAddress {
     
     // Should be a string formatted as xx:xx:xx:xx:xx:xx, so that
     // "net" can parse it correctly, otherwise will throw an error.
-    string address = 2;
+    MACAddress address = 2;
     // Broadcast mac address.
-    string broadcast_address = 3;
+    MACAddress broadcast_address = 3;
 }
 
 message Neighbor {
     // Whether this neighbor is IPV4 or 6.
     IPType neighbor_addr_type = 1;
     // The address of this neighbor (ip)
-    string ip_address = 2;
+    IPAddress ip_address = 2;
     // Link-layer address of this neighbor.
-    string mac_address = 3;
+    MACAddress mac_address = 3;
     // The state of this neighbor.
     NeighborState state = 4;
+}
+
+enum NeighborElements {
+    IPTYPE = 0;
+    IPADDRESS = 1;
+    MACADDR = 2;
+    STATE = 3;
 }
 
 enum NeighborState {
@@ -393,19 +460,19 @@ message GetNeighborResponse {
     Neighbor neighbor = 3;
 }
 
-message GetAllNeighborsRequest {
-
-}
+message GetAllNeighborsRequest {}
 
 message GetAllNeighborsResponse {
     // Response code for this RPC call.
     ReturnStatusCodes status_code = 1;
     // Error if there is any with updating this neighbor schema.
     string error = 2;
+    // The neighbors that are returned.
+    repeated Neighbor neighbors = 3;
 }
 
 message CreateNeighborRequest {
-
+    repeated Neighbor neighbor = 1;
 }
 
 message CreateNeighborResponse {

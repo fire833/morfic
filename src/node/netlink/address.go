@@ -16,20 +16,4 @@
 *	51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package node
-
-import (
-	"testing"
-
-	"github.com/fire833/vroute/src/config"
-)
-
-func init() {
-	config.CPRF = &config.ControlPlaneRuntimeConfig{}
-}
-
-func TestStartGRPCServer(t *testing.T) {
-	if e := BeginNodeServer(); e != nil {
-		t.Fail()
-	}
-}
+package netlink

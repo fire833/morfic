@@ -21,11 +21,12 @@ require (
 	github.com/BurntSushi/toml v0.3.1
 	github.com/fasthttp/router v1.4.4
 	github.com/golang/protobuf v1.5.2
+	github.com/jsimonetti/rtnetlink v0.0.0-20210525051524-4cc836578190
 	github.com/mdlayher/netlink v1.4.1
 	github.com/spf13/cobra v1.2.1
 	github.com/valyala/fasthttp v1.31.0
 	golang.zx2c4.com/wireguard/wgctrl v0.0.0-20211109202428-0073765f69ba
-	google.golang.org/grpc v1.38.0
+	google.golang.org/grpc v1.43.0
 	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b
 	k8s.io/cri-api v0.22.4
 )

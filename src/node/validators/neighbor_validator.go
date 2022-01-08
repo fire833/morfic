@@ -16,37 +16,39 @@
 *	51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package node
+package validators
 
 import (
-	"fmt"
 	"net"
-	"os"
 
-	"github.com/fire833/vroute/src/api/ipcapi/v1alpha1"
-	"github.com/fire833/vroute/src/config"
-	"google.golang.org/grpc"
+	api "github.com/fire833/vroute/src/api/ipcapi/v1alpha1"
 )
 
 var (
-	NodeControllerServer *grpc.Server
+	invalidMacError = NewError("invalid mac address format", api.ReturnStatusCodes_INVALID_FIELD_ERROR)
 )
 
-func BeginNodeServer() error {
-	// create the unix bind listener.
-	l, e := net.Listen("unix", config.CPRF.NodeControllerSocket)
-	if e != nil {
-		fmt.Printf("Unable to start node server: %s", e.Error())
-		os.Exit(1)
+func ValidateNeighbor(in *api.Neighbor) error {
+	var l int
+
+	if in.NeighborAddrType == api.IPType_IPV4 {
+		l = net.IPv4len
+	} else {
+		l = net.IPv6len
 	}
 
-	s := grpc.NewServer(grpc.EmptyServerOption{})
+	// Validate the actual link address.
+	if ip := net.ParseIP(in.IpAddress); ip == nil {
+		return badLinkIPError
+	} else {
+		if len(ip) != l {
+			return typeAndActualIPTypeError
+		}
+	}
 
-	// Register the services
-	s.RegisterService(&v1alpha1.NodeControllerService_ServiceDesc, nil)
-	s.RegisterService(&v1alpha1.NodeFirewallControllerService_ServiceDesc, nil)
+	if _, e := net.ParseMAC(in.MacAddress); e != nil {
+		return invalidMacError
+	}
 
-	NodeControllerServer = s
-	// This will basically be the last main function for the process.
-	return s.Serve(l)
+	return nil
 }

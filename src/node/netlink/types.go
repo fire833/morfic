@@ -16,20 +16,10 @@
 *	51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package node
+package netlink
 
-import (
-	"testing"
+import "github.com/fire833/vroute/src/api/ipcapi/v1alpha1"
 
-	"github.com/fire833/vroute/src/config"
-)
-
-func init() {
-	config.CPRF = &config.ControlPlaneRuntimeConfig{}
-}
-
-func TestStartGRPCServer(t *testing.T) {
-	if e := BeginNodeServer(); e != nil {
-		t.Fail()
-	}
+type NetlinkNodeServer struct {
+	v1alpha1.UnimplementedNodeControllerServiceServer
 }
