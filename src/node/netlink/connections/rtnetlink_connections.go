@@ -16,7 +16,7 @@
 *	51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package netlink
+package connections
 
 import (
 	"errors"
@@ -27,13 +27,14 @@ import (
 )
 
 var (
-	netlinkPool *NetLinkConnectionPool
-
-	unableToAcquireLinkError error = errors.New("unable to acquire socket file descriptor for connection")
+	NetlinkPool *NetLinkConnectionPool
 )
 
 func init() {
-	netlinkPool = NewConnPool(5) // Set to 5 for now, should be configurable upstream eventually.
+	NetlinkPool = NewConnPool(5) // Set to 5 for now, should be configurable upstream eventually.
+}
+
+type ConnInterface interface {
 }
 
 // Internal management interface to cache/queue netlink connections to the kernel asynchronously,
@@ -45,17 +46,18 @@ type NetLinkConnectionPool struct {
 	connmu              *sync.Mutex // Mutex for writers of the connection array.
 	// List of queued connection objects that can be passed to callers.
 	// Uses pointers for theoretically quicker queueing/dequeueing.
-	activeConns []*rtnetlink.Conn
+	activeConns *List
 	configmu    *sync.Mutex     // Mutex for writers of the config parameter.
 	config      *netlink.Config // Condfiguration to be used for queues.
 }
 
 func NewConnPool(n int) *NetLinkConnectionPool {
 	pool := &NetLinkConnectionPool{
-		connmu:   &sync.Mutex{},
-		nummu:    &sync.Mutex{},
-		configmu: &sync.Mutex{},
-		config:   &netlink.Config{}, //Start default with an empty configuration, have editor callers for it.
+		connmu:      &sync.Mutex{},
+		nummu:       &sync.Mutex{},
+		configmu:    &sync.Mutex{},
+		config:      &netlink.Config{}, //Start default with an empty configuration, have editor callers for it.
+		activeConns: NewList(),
 	}
 
 	e := pool.setDefaultConnections(n)
@@ -66,37 +68,34 @@ func NewConnPool(n int) *NetLinkConnectionPool {
 	return pool
 }
 
-// Top of queue: highest index (where dequeing is done)
-// Bottom of queue: index 0 / lowest index (where enqueing is done)
+// Manager thread will spin up connections asynchronously.
+func (conn *NetLinkConnectionPool) StartManager() {
 
-// Called after it is known there is an empty queue spot available at bottom of queue.
+}
+
+// Top/front of queue: highest index (where dequeing is done)
+// Bottom/back of queue: index 0 / lowest index (where enqueing is done)
+
 func (conn *NetLinkConnectionPool) enqueue(in *rtnetlink.Conn) {
 	conn.connmu.Lock()
-	for n, _ := range conn.activeConns {
-		conn.activeConns[n+1] = conn.activeConns[n] // pull each connection up one.
-	}
-
-	conn.activeConns[0] = in
+	conn.activeConns.PushBack(in)
 	conn.connmu.Unlock()
 }
 
 // Called after it is known that there is at least one available connection at top of queue.
 func (conn *NetLinkConnectionPool) dequeue() (out *rtnetlink.Conn) {
 	conn.connmu.Lock()
-
-	last := len(conn.activeConns) - 1
-
-	outptr := conn.activeConns[last] // Pull the last from queue.
-	conn.activeConns[last] = nil     // Nil the last in the queue
+	elem := conn.activeConns.Remove(conn.activeConns.Front()) //remove the front element from queue.
 	conn.connmu.Unlock()
 
-	return outptr
+	return elem
 }
 
 func (conn *NetLinkConnectionPool) setDefaultConnections(n int) error {
 	conn.nummu.Lock()
 
 	if n <= 0 {
+		conn.nummu.Unlock()
 		return errors.New("incorrect value for default connection queue size")
 	}
 
@@ -107,22 +106,19 @@ func (conn *NetLinkConnectionPool) setDefaultConnections(n int) error {
 
 // Create a new connection asynchronously.
 func (conn *NetLinkConnectionPool) createConn() {
-
-	c, err := rtnetlink.Dial(conn.config)
-	if err != nil {
-
+	if conn.activeConns.Len() < conn.maintainConnections {
+		c, _ := rtnetlink.Dial(conn.config)
+		conn.enqueue(c)
 	}
-
-	c.Close()
 }
 
 func (conn *NetLinkConnectionPool) createConnImmediate() (*rtnetlink.Conn, error) {
-	return rtnetlink.Dial(conn.config)
-}
+	c, e := rtnetlink.Dial(conn.config)
+	if e != nil {
+		return c, e
+	}
 
-// Internally tries to recycle the connection to the back of the queue.
-func (conn *NetLinkConnectionPool) recycleConn(in *rtnetlink.Conn) {
-
+	return c, nil
 }
 
 func (conn *NetLinkConnectionPool) UpdateQueueSize(n int) error {
@@ -131,18 +127,23 @@ func (conn *NetLinkConnectionPool) UpdateQueueSize(n int) error {
 
 // Callers should use method to acquire a new connection fd to use for their operations.
 func (conn *NetLinkConnectionPool) GetConn() (*rtnetlink.Conn, error) {
-	if len(conn.activeConns) < 1 {
+	if conn.activeConns.Len() < 1 {
 		// If no connections left, block and synchronously create a new connection and return.
 		return conn.createConnImmediate()
+	} else {
+		c := conn.dequeue()
+		conn.createConn() // Replace the pulled connection.
+		return c, nil     // Return the top of the queue.
 	}
-
-	return nil, nil
-
 }
 
 // Callers should "return" file descriptor to pool after being completing tasks with connection.
 // Connections can be recycled internally or thrown out if the number of connections is bigger
 // than the number of static connections that are requested for this pool.
 func (conn *NetLinkConnectionPool) ReturnConn(in *rtnetlink.Conn) {
-
+	if conn.activeConns.Len() < conn.maintainConnections {
+		conn.enqueue(in)
+	} else {
+		in.Close() // Close the connection after return.
+	}
 }

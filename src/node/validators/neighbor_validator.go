@@ -25,7 +25,7 @@ import (
 func ValidateNeighbor(in *api.Neighbor) error {
 
 	// Validate the actual link address.
-	e := ValidateIPAddressAndExternalType(in.GetIpAddress(), in.NeighborAddrType)
+	e := ValidateIPAddress(in.GetIpAddress())
 	if e != nil {
 		return e
 	}

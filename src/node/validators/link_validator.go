@@ -25,8 +25,9 @@ import (
 // wrapper for validating the integrity of a link object.
 // returns the status code for the link at this stage.
 func ValidateLink(in *api.Link) error {
-	if len([]byte(in.Name)) >= 16 {
-		return NewError("invalid link name length (must be less than or equal to 16 bytes)", api.ReturnStatusCodes_INVALID_FIELD_ERROR)
+
+	if e := ValidateInterfaceName(in.GetName()); e != nil {
+		return e
 	}
 
 	for _, addr := range in.Address {
@@ -37,5 +38,12 @@ func ValidateLink(in *api.Link) error {
 		}
 	}
 
+	return nil
+}
+
+func ValidateInterfaceName(in string) error {
+	if len([]byte(in)) >= 16 {
+		return NewError("invalid link name length (must be less than or equal to 16 bytes)", api.ReturnStatusCodes_INVALID_FIELD_ERROR)
+	}
 	return nil
 }

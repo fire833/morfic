@@ -25,7 +25,7 @@ import (
 )
 
 var (
-	badLinkIPError           ValidatorStatus = NewError("invalid formatted link ip address", api.ReturnStatusCodes_INVALID_FIELD_ERROR)
+	// badLinkIPError           ValidatorStatus = NewError("invalid formatted link ip address", api.ReturnStatusCodes_INVALID_FIELD_ERROR)
 	typeAndActualIPTypeError ValidatorStatus = NewError("provided ip address did not match the specified type", api.ReturnStatusCodes_INVALID_FIELD_ERROR)
 	badSubnetMaskError       ValidatorStatus = NewError("incorrect subnet mask value for specified IP type", api.ReturnStatusCodes_INVALID_FIELD_ERROR)
 	invalidMacError                          = NewError("invalid mac address format", api.ReturnStatusCodes_INVALID_FIELD_ERROR)
@@ -38,31 +38,20 @@ const (
 // Validtes the link address object, returns nil if the
 // link is fine and ready for sending to kernel.
 func ValidateLinkAddress(in *api.LinkAddress) error {
-	var l int
-
-	if in.Type == api.IPType_IPV4 {
-		l = net.IPv4len
-	} else {
-		l = net.IPv6len
-	}
 
 	// Validate the actual link address.
-	if len(in.Address.Address.Address) != l {
-		return typeAndActualIPTypeError
-	}
-
-	if in.Address.Mask.Mask > uint32(l*8) { // If the mask is bigger than the address itself, fail it.
-		return badSubnetMaskError
-	}
-
-	// Validate the link DNS server address.
-	if len(in.DnsServer.Address) != l {
-		return typeAndActualIPTypeError
+	if e := ValidateIPCIDR(in.GetAddress()); e != nil {
+		return e
 	}
 
 	// Validate the gateway address.
-	if len(in.Gateway.Address) != l {
-		return typeAndActualIPTypeError
+	if e := ValidateIPAddress(in.GetGateway()); e != nil {
+		return e
+	}
+
+	// Validate the link DNS server address.
+	if e := ValidateIPAddress(in.GetDnsServer()); e != nil {
+		return e
 	}
 
 	return nil
@@ -91,7 +80,7 @@ func ValidateIPAddress(in *api.IPAddress) error {
 		l = net.IPv6len
 	}
 
-	if len(in.Address) != l {
+	if len(in.GetAddress()) != l {
 		return typeAndActualIPTypeError
 	}
 
@@ -112,7 +101,7 @@ func ValidateIPAddressAndExternalType(in *api.IPAddress, t api.IPType) error {
 		l = net.IPv6len
 	}
 
-	if len(in.Address) != l {
+	if len(in.GetAddress()) != l {
 		return typeAndActualIPTypeError
 	}
 
@@ -120,7 +109,7 @@ func ValidateIPAddressAndExternalType(in *api.IPAddress, t api.IPType) error {
 }
 
 func ValidateMACAddress(in *api.MACAddress) error {
-	if len(in.Address) != MACAddressLength {
+	if len(in.GetAddress()) != MACAddressLength {
 		return invalidMacError
 	} else {
 		return nil

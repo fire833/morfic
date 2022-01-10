@@ -20,11 +20,18 @@ package netlink
 
 import (
 	"context"
+	"errors"
 	"net"
 
 	api "github.com/fire833/vroute/src/api/ipcapi/v1alpha1"
 	"github.com/fire833/vroute/src/node/validators"
 	"github.com/jsimonetti/rtnetlink"
+
+	c "github.com/fire833/vroute/src/node/netlink/connections"
+)
+
+var (
+	unableToAcquireLinkError error = errors.New("unable to acquire socket file descriptor for connection")
 )
 
 func (s *NetlinkNodeServer) CreateLink(ctx context.Context, req *api.CreateLinkRequest) (resp *api.CreateLinkResponse, e error) {
@@ -35,9 +42,9 @@ func (s *NetlinkNodeServer) CreateLink(ctx context.Context, req *api.CreateLinkR
 		linkcodes[n] = validators.ValidateLink(link) // Validate each link before trying to update.
 	}
 
-	conn, e1 := netlinkPool.GetConn()
-	defer netlinkPool.ReturnConn(conn) // Try and return the fd after returning.
-	if e1 != nil {                     // If there's an error, then there is something seriously wrong at this point with
+	conn, e1 := c.NetlinkPool.GetConn()
+	defer c.NetlinkPool.ReturnConn(conn) // Try and return the fd after returning.
+	if e1 != nil {                       // If there's an error, then there is something seriously wrong at this point with
 		// getting connections, so just return the response.
 
 		resp := &api.CreateLinkResponse{
@@ -76,7 +83,7 @@ func (s *NetlinkNodeServer) UpdateLink(ctx context.Context, req *api.UpdateLinkR
 func (s *NetlinkNodeServer) DeleteLink(ctx context.Context, req *api.DeleteLinkRequest) (resp *api.DeleteLinkResponse, e error) {
 	links := []*api.Link{}
 
-	conn, e := netlinkPool.GetConn()
+	conn, e := c.NetlinkPool.GetConn()
 	if e != nil { // bail out since we can't successfully call a socket for some reason.
 		resp := &api.DeleteLinkResponse{
 			StatusCode:   api.ReturnStatusCodes_INTERNAL_ERROR,

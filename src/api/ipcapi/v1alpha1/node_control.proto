@@ -37,7 +37,7 @@ service NodeControllerService {
     rpc CreateStaticRoute(CreateStaticRouteRequest) returns (CreateStaticRouteResponse) {}
     // Deletes a static route inside the kernel and returns the route object.
     rpc DeleteStaticRoute(DeleteStaticRouteRequest) returns (DeleteStaticRouteResponse) {}
-
+    // Updates a static route with new parameters.
     rpc UpdateStaticRoute(UpdateStaticRouteRequest) returns (UpdateStaticRouteResponse) {}
     // Gets a route and returns an object based on the provided filter.
     rpc GetRoute(GetRouteRequest) returns (GetRouteResponse) {}
@@ -53,6 +53,10 @@ service NodeControllerService {
     rpc DeleteNeighbor(DeleteNeighborRequest) returns (DeleteNeighborRequest) {}
 
     rpc UpdateNeighbor(UpdateNeighborRequest) returns (UpdateNeighborResponse) {}
+
+    rpc DeleteAddress(DeleteAddressRequest) returns (DeleteAddressResponse) {}
+
+    rpc UpdateAddress(UpdateAddressRequest) returns (UpdateAddressResponse) {}
 }
 
 service NodeFirewallControllerService {
@@ -216,7 +220,10 @@ enum LinkElements {
     TYPE = 3;
     MTU = 4;
     INDEX = 5;
-
+    UP = 6;
+    ARPENABLED = 7;
+    DYANMIC = 8;
+    MULTICAST = 9;
 }
 
 // Attributes for a link.
@@ -307,7 +314,7 @@ message Route {
     // uint32 mask = 3;
     
     // Cost metric for this route.
-    int32 metric = 4;
+    uint32 metric = 4;
     // Name of outbound interface for routes.
     string interface = 5;
 }
@@ -363,7 +370,8 @@ enum LinkAddressAssignment {
 
 message LinkAddress {
     // Specify the type of this address object, ipv4 or ipv6.
-    IPType type = 1;
+    // IPType type = 1; // Don't need this anymore since IPaddresses contain their types 
+
     // How is this address assigned.
     LinkAddressAssignment assignment = 2;
     
@@ -418,7 +426,8 @@ message LinkMACAddress {
 
 message Neighbor {
     // Whether this neighbor is IPV4 or 6.
-    IPType neighbor_addr_type = 1;
+    // IPType neighbor_addr_type = 1; // Redundant, not needed
+
     // The address of this neighbor (ip)
     IPAddress ip_address = 2;
     // Link-layer address of this neighbor.
@@ -428,10 +437,9 @@ message Neighbor {
 }
 
 enum NeighborElements {
-    IPTYPE = 0;
-    IPADDRESS = 1;
-    MACADDR = 2;
-    STATE = 3;
+    IPADDRESS = 0;
+    MACADDR = 1;
+    STATE = 2;
 }
 
 enum NeighborState {
@@ -481,7 +489,7 @@ message CreateNeighborResponse {
     // Response code for this RPC call.
     ReturnStatusCodes status_code = 1;
     // Error if there is any with updating this neighbor schema.
-    string error = 2;
+    string error = 2; 
 }
 
 message DeleteNeighborRequest {
@@ -502,5 +510,21 @@ message UpdateNeighborRequest {
 }
 
 message UpdateNeighborResponse {
+
+}
+
+message DeleteAddressRequest {
+
+}
+
+message DeleteAddressResponse {
+    
+}
+
+message UpdateAddressRequest {
+
+}
+
+message UpdateAddressResponse {
 
 }

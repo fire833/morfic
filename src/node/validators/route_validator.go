@@ -23,5 +23,19 @@ import (
 )
 
 func ValidateRoute(in *api.Route) error {
+
+	// Validate the route destination CIDR.
+	if e := ValidateIPCIDR(in.GetDestination()); e != nil {
+		return e
+	}
+
+	if e := ValidateIPAddress(in.GetGateway()); e != nil {
+		return e
+	}
+
+	if e := ValidateInterfaceName(in.GetInterface()); e != nil {
+		return e
+	}
+
 	return nil
 }

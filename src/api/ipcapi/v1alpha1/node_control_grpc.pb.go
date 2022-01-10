@@ -36,6 +36,7 @@ type NodeControllerServiceClient interface {
 	CreateStaticRoute(ctx context.Context, in *CreateStaticRouteRequest, opts ...grpc.CallOption) (*CreateStaticRouteResponse, error)
 	// Deletes a static route inside the kernel and returns the route object.
 	DeleteStaticRoute(ctx context.Context, in *DeleteStaticRouteRequest, opts ...grpc.CallOption) (*DeleteStaticRouteResponse, error)
+	// Updates a static route with new parameters.
 	UpdateStaticRoute(ctx context.Context, in *UpdateStaticRouteRequest, opts ...grpc.CallOption) (*UpdateStaticRouteResponse, error)
 	// Gets a route and returns an object based on the provided filter.
 	GetRoute(ctx context.Context, in *GetRouteRequest, opts ...grpc.CallOption) (*GetRouteResponse, error)
@@ -45,6 +46,8 @@ type NodeControllerServiceClient interface {
 	CreateNeighbor(ctx context.Context, in *CreateNeighborRequest, opts ...grpc.CallOption) (*CreateNeighborResponse, error)
 	DeleteNeighbor(ctx context.Context, in *DeleteNeighborRequest, opts ...grpc.CallOption) (*DeleteNeighborRequest, error)
 	UpdateNeighbor(ctx context.Context, in *UpdateNeighborRequest, opts ...grpc.CallOption) (*UpdateNeighborResponse, error)
+	DeleteAddress(ctx context.Context, in *DeleteAddressRequest, opts ...grpc.CallOption) (*DeleteAddressResponse, error)
+	UpdateAddress(ctx context.Context, in *UpdateAddressRequest, opts ...grpc.CallOption) (*UpdateAddressResponse, error)
 }
 
 type nodeControllerServiceClient struct {
@@ -190,6 +193,24 @@ func (c *nodeControllerServiceClient) UpdateNeighbor(ctx context.Context, in *Up
 	return out, nil
 }
 
+func (c *nodeControllerServiceClient) DeleteAddress(ctx context.Context, in *DeleteAddressRequest, opts ...grpc.CallOption) (*DeleteAddressResponse, error) {
+	out := new(DeleteAddressResponse)
+	err := c.cc.Invoke(ctx, "/v1alpha1.NodeControllerService/DeleteAddress", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *nodeControllerServiceClient) UpdateAddress(ctx context.Context, in *UpdateAddressRequest, opts ...grpc.CallOption) (*UpdateAddressResponse, error) {
+	out := new(UpdateAddressResponse)
+	err := c.cc.Invoke(ctx, "/v1alpha1.NodeControllerService/UpdateAddress", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // NodeControllerServiceServer is the server API for NodeControllerService service.
 // All implementations must embed UnimplementedNodeControllerServiceServer
 // for forward compatibility
@@ -208,6 +229,7 @@ type NodeControllerServiceServer interface {
 	CreateStaticRoute(context.Context, *CreateStaticRouteRequest) (*CreateStaticRouteResponse, error)
 	// Deletes a static route inside the kernel and returns the route object.
 	DeleteStaticRoute(context.Context, *DeleteStaticRouteRequest) (*DeleteStaticRouteResponse, error)
+	// Updates a static route with new parameters.
 	UpdateStaticRoute(context.Context, *UpdateStaticRouteRequest) (*UpdateStaticRouteResponse, error)
 	// Gets a route and returns an object based on the provided filter.
 	GetRoute(context.Context, *GetRouteRequest) (*GetRouteResponse, error)
@@ -217,6 +239,8 @@ type NodeControllerServiceServer interface {
 	CreateNeighbor(context.Context, *CreateNeighborRequest) (*CreateNeighborResponse, error)
 	DeleteNeighbor(context.Context, *DeleteNeighborRequest) (*DeleteNeighborRequest, error)
 	UpdateNeighbor(context.Context, *UpdateNeighborRequest) (*UpdateNeighborResponse, error)
+	DeleteAddress(context.Context, *DeleteAddressRequest) (*DeleteAddressResponse, error)
+	UpdateAddress(context.Context, *UpdateAddressRequest) (*UpdateAddressResponse, error)
 	mustEmbedUnimplementedNodeControllerServiceServer()
 }
 
@@ -268,6 +292,12 @@ func (UnimplementedNodeControllerServiceServer) DeleteNeighbor(context.Context, 
 }
 func (UnimplementedNodeControllerServiceServer) UpdateNeighbor(context.Context, *UpdateNeighborRequest) (*UpdateNeighborResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateNeighbor not implemented")
+}
+func (UnimplementedNodeControllerServiceServer) DeleteAddress(context.Context, *DeleteAddressRequest) (*DeleteAddressResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteAddress not implemented")
+}
+func (UnimplementedNodeControllerServiceServer) UpdateAddress(context.Context, *UpdateAddressRequest) (*UpdateAddressResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateAddress not implemented")
 }
 func (UnimplementedNodeControllerServiceServer) mustEmbedUnimplementedNodeControllerServiceServer() {}
 
@@ -552,6 +582,42 @@ func _NodeControllerService_UpdateNeighbor_Handler(srv interface{}, ctx context.
 	return interceptor(ctx, in, info, handler)
 }
 
+func _NodeControllerService_DeleteAddress_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteAddressRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(NodeControllerServiceServer).DeleteAddress(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/v1alpha1.NodeControllerService/DeleteAddress",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(NodeControllerServiceServer).DeleteAddress(ctx, req.(*DeleteAddressRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _NodeControllerService_UpdateAddress_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateAddressRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(NodeControllerServiceServer).UpdateAddress(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/v1alpha1.NodeControllerService/UpdateAddress",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(NodeControllerServiceServer).UpdateAddress(ctx, req.(*UpdateAddressRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // NodeControllerService_ServiceDesc is the grpc.ServiceDesc for NodeControllerService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -618,6 +684,14 @@ var NodeControllerService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateNeighbor",
 			Handler:    _NodeControllerService_UpdateNeighbor_Handler,
+		},
+		{
+			MethodName: "DeleteAddress",
+			Handler:    _NodeControllerService_DeleteAddress_Handler,
+		},
+		{
+			MethodName: "UpdateAddress",
+			Handler:    _NodeControllerService_UpdateAddress_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
