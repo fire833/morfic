@@ -16,28 +16,29 @@
 *	51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package api
+package v1alpha1
 
 import (
 	"github.com/fasthttp/router"
 	"github.com/valyala/fasthttp"
 )
 
-func RegisterAuthRoutes(r *router.Router) {
-	auth := r.Group("/v1/auth")
-	auth.Handle("/key/roll", fasthttp.MethodPost, RollAPIKey)
+func RegisterAddrRoute(r *router.Router) {
+	addr := r.Group("/v1alpha1/address")
+
+	addr.Handle(fasthttp.MethodPost, "/{interface}", AddAddressLink)
+	addr.Handle(fasthttp.MethodDelete, "/{interface}", DeleteAddressLink)
+	addr.Handle(fasthttp.MethodPut, "/{interface}", UpdateAddressLink)
 }
 
-func RollAPIKey(ctx *fasthttp.RequestCtx) {
+func AddAddressLink(ctx *fasthttp.RequestCtx) {
 
 }
 
-func CreateJWT(ctx *fasthttp.RequestCtx) {
+func DeleteAddressLink(ctx *fasthttp.RequestCtx) {
 
 }
 
-// Main authentication function run to authenticate all requests
-// incoming to the API.
-func Authenticate(ctx *fasthttp.RequestCtx, MinLevel int) bool {
-	return false
+func UpdateAddressLink(ctx *fasthttp.RequestCtx) {
+
 }

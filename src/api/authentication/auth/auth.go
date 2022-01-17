@@ -20,8 +20,24 @@ package api
 
 import (
 	"github.com/fasthttp/router"
+	"github.com/valyala/fasthttp"
 )
 
-func RegisterAddrRoute(r *router.Router) {
+func RegisterAuthRoutes(r *router.Router) {
+	auth := r.Group("/v1alpha1/auth")
+	auth.Handle("/key/roll", fasthttp.MethodPost, RollAPIKey)
+}
 
+func RollAPIKey(ctx *fasthttp.RequestCtx) {
+
+}
+
+func CreateJWT(ctx *fasthttp.RequestCtx) {
+
+}
+
+// Main authentication function run to authenticate all requests
+// incoming to the API.
+func Authenticate(ctx *fasthttp.RequestCtx, MinLevel int) bool {
+	return false
 }

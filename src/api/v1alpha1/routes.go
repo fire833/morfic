@@ -24,7 +24,7 @@ import (
 )
 
 func RegisterRouteRoutes(r *router.Router) {
-	routes := r.Group("/v1/routes")
+	routes := r.Group("/v1alpha1/routes")
 
 	routes.Handle(fasthttp.MethodPost, "/add", AddRoute)
 	routes.Handle(fasthttp.MethodDelete, "/delete", RemoveRoute)

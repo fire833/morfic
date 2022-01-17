@@ -25,7 +25,7 @@ import (
 
 func RegisterServiceRoutes(r *router.Router) {
 	// Services subgroup for the API.
-	services := r.Group("/v1/services")
+	services := r.Group("/v1alpha1/services")
 	services.Handle(fasthttp.MethodPost, "/start/{NAME}", StartService)
 	services.Handle(fasthttp.MethodPost, "/stop/{NAME}", StopService)
 }

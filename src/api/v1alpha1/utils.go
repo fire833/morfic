@@ -35,7 +35,7 @@ const (
 )
 
 func RegisterUtilRoutes(r *router.Router) {
-	utils := r.Group("/v1/utils")
+	utils := r.Group("/v1alpha1/utils")
 
 	utils.Handle(fasthttp.MethodGet, "/uptime", Uptime)
 }
