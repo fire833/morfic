@@ -22,4 +22,5 @@ import "github.com/fire833/vroute/src/api/ipcapi/v1alpha1"
 
 type NetlinkNodeServer struct {
 	v1alpha1.UnimplementedNodeControllerServiceServer
+	v1alpha1.UnimplementedNodeFirewallControllerServiceServer
 }

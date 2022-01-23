@@ -16,37 +16,9 @@
 *	51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package node
+package v1
 
-import (
-	"fmt"
-	"net"
-	"os"
-
-	"github.com/fire833/vroute/src/api/ipcapi/v1alpha1"
-	"github.com/fire833/vroute/src/config"
-	"github.com/fire833/vroute/src/node/netlink"
-	"google.golang.org/grpc"
+const (
+	registration string = "sys.vroute.io"
+	version      string = "v1alpha1"
 )
-
-var (
-	NodeControllerServer *grpc.Server
-)
-
-func BeginNodeServer() error {
-	// create the unix bind listener.
-	l, e := net.Listen("unix", config.CPRF.NodeControllerSocket)
-	if e != nil {
-		fmt.Printf("Unable to start node server: %s", e.Error())
-		os.Exit(1)
-	}
-
-	s := grpc.NewServer(grpc.EmptyServerOption{})
-
-	// Register the services
-	s.RegisterService(&v1alpha1.NodeControllerService_ServiceDesc, netlink.NetlinkNodeServer{})
-
-	NodeControllerServer = s
-	// This will basically be the last main function for the process.
-	return s.Serve(l)
-}

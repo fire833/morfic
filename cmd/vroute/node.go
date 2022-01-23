@@ -18,7 +18,56 @@
 
 package main
 
+import (
+	"os"
+	"os/signal"
+	"syscall"
+
+	"github.com/fire833/vroute/src/node"
+)
+
 // Priviledged node operator process main function.
 func node_main() {
 
+	sig := make(chan os.Signal)
+	signal.Notify(sig)
+
+	// Begin handler on thread to free up main for gRPC listener.
+	go signalHandler(sig)
+
+	// Start the node gRPC listener.
+	if e := node.BeginNodeServer(); e != nil {
+		node.NodeControllerServer.GracefulStop() // Kill the server gracefully and exit.
+	}
+
+	os.Exit(1) // Kill subprocess after shutdown of server.
+
+}
+
+func signalHandler(sig chan os.Signal) error {
+	for {
+		signal := <-sig
+
+		switch signal {
+		case syscall.SIGHUP: // Reload configuration, gracefully stop and restart the server.
+			{
+
+			}
+		case syscall.SIGKILL | syscall.SIGINT: // Hard stop process.
+			{
+				node.NodeControllerServer.Stop()
+				break
+			}
+		case syscall.SIGTERM:
+			{
+				node.NodeControllerServer.GracefulStop()
+				break
+			}
+		default:
+			{
+				continue // Basically just ignore any other signal.
+			}
+		}
+	}
+	return nil
 }
