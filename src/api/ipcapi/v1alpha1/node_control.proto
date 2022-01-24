@@ -41,26 +41,37 @@ service NodeControllerService {
     rpc UpdateStaticRoute(UpdateStaticRouteRequest) returns (UpdateStaticRouteResponse) {}
     // Gets a route and returns an object based on the provided filter.
     rpc GetRoute(GetRouteRequest) returns (GetRouteResponse) {}
-
+    // Gets all route objects within the kernel.
     rpc GetAllRoutes(GetAllRoutesRequest) returns (GetAllRoutesResponse) {}
-
+    // Gets a neighbor based on the specified 
     rpc GetNeighbor(GetNeighborRequest) returns (GetNeighborResponse) {}
-
+    // Gets all the neighbors on this host.
     rpc GetAllNeighbors(GetAllNeighborsRequest) returns (GetAllNeighborsResponse) {}
-
+    // Creates a new neighbor with a certain MAC address and IP address.
     rpc CreateNeighbor(CreateNeighborRequest) returns (CreateNeighborResponse) {}
-
+    // Removes a neighbor from the ARP table on the host.
     rpc DeleteNeighbor(DeleteNeighborRequest) returns (DeleteNeighborRequest) {}
-
+    // Updates the state of a neighbor on the host.
     rpc UpdateNeighbor(UpdateNeighborRequest) returns (UpdateNeighborResponse) {}
-
+    // Deletes 
     rpc DeleteAddress(DeleteAddressRequest) returns (DeleteAddressResponse) {}
 
     rpc UpdateAddress(UpdateAddressRequest) returns (UpdateAddressResponse) {}
+
+    rpc AddAddress(AddAddressRequest) returns (AddAddressResponse) {}
 }
 
 service NodeFirewallControllerService {
 
+    rpc GetTable(GetTableRequest) returns (GetTableResponse) {}
+
+    rpc GetAllTables(GetAllTablesRequest) returns (GetAllTablesResponse) {}
+
+    rpc DeleteTable(DeleteTableRequest) returns (DeleteTableResponse) {}
+
+    rpc CreateTable(CreateTableRequest) returns (CreateTableResponse) {}
+
+    rpc UpdateTable(UpdateTableRequest) returns (UpdateTableResponse) {}
 }
 
 enum ReturnStatusCodes {
@@ -528,3 +539,54 @@ message UpdateAddressRequest {
 message UpdateAddressResponse {
 
 }
+
+message AddAddressRequest {
+
+}
+
+message AddAddressResponse {
+
+}
+
+// Firewall/nftables API calls.
+
+message GetTableRequest {
+
+}
+
+message GetTableResponse {
+
+}
+
+message GetAllTablesRequest {
+
+}
+
+message GetAllTablesResponse {
+
+}
+
+message DeleteTableRequest {
+
+}
+
+message DeleteTableResponse {
+
+}
+
+message CreateTableRequest {
+
+}
+
+message CreateTableResponse {
+
+}
+
+message UpdateTableRequest {
+
+}
+
+message UpdateTableResponse {
+
+}
+

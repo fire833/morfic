@@ -40,14 +40,22 @@ type NodeControllerServiceClient interface {
 	UpdateStaticRoute(ctx context.Context, in *UpdateStaticRouteRequest, opts ...grpc.CallOption) (*UpdateStaticRouteResponse, error)
 	// Gets a route and returns an object based on the provided filter.
 	GetRoute(ctx context.Context, in *GetRouteRequest, opts ...grpc.CallOption) (*GetRouteResponse, error)
+	// Gets all route objects within the kernel.
 	GetAllRoutes(ctx context.Context, in *GetAllRoutesRequest, opts ...grpc.CallOption) (*GetAllRoutesResponse, error)
+	// Gets a neighbor based on the specified
 	GetNeighbor(ctx context.Context, in *GetNeighborRequest, opts ...grpc.CallOption) (*GetNeighborResponse, error)
+	// Gets all the neighbors on this host.
 	GetAllNeighbors(ctx context.Context, in *GetAllNeighborsRequest, opts ...grpc.CallOption) (*GetAllNeighborsResponse, error)
+	// Creates a new neighbor with a certain MAC address and IP address.
 	CreateNeighbor(ctx context.Context, in *CreateNeighborRequest, opts ...grpc.CallOption) (*CreateNeighborResponse, error)
+	// Removes a neighbor from the ARP table on the host.
 	DeleteNeighbor(ctx context.Context, in *DeleteNeighborRequest, opts ...grpc.CallOption) (*DeleteNeighborRequest, error)
+	// Updates the state of a neighbor on the host.
 	UpdateNeighbor(ctx context.Context, in *UpdateNeighborRequest, opts ...grpc.CallOption) (*UpdateNeighborResponse, error)
+	// Deletes
 	DeleteAddress(ctx context.Context, in *DeleteAddressRequest, opts ...grpc.CallOption) (*DeleteAddressResponse, error)
 	UpdateAddress(ctx context.Context, in *UpdateAddressRequest, opts ...grpc.CallOption) (*UpdateAddressResponse, error)
+	AddAddress(ctx context.Context, in *AddAddressRequest, opts ...grpc.CallOption) (*AddAddressResponse, error)
 }
 
 type nodeControllerServiceClient struct {
@@ -211,6 +219,15 @@ func (c *nodeControllerServiceClient) UpdateAddress(ctx context.Context, in *Upd
 	return out, nil
 }
 
+func (c *nodeControllerServiceClient) AddAddress(ctx context.Context, in *AddAddressRequest, opts ...grpc.CallOption) (*AddAddressResponse, error) {
+	out := new(AddAddressResponse)
+	err := c.cc.Invoke(ctx, "/v1alpha1.NodeControllerService/AddAddress", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // NodeControllerServiceServer is the server API for NodeControllerService service.
 // All implementations must embed UnimplementedNodeControllerServiceServer
 // for forward compatibility
@@ -233,14 +250,22 @@ type NodeControllerServiceServer interface {
 	UpdateStaticRoute(context.Context, *UpdateStaticRouteRequest) (*UpdateStaticRouteResponse, error)
 	// Gets a route and returns an object based on the provided filter.
 	GetRoute(context.Context, *GetRouteRequest) (*GetRouteResponse, error)
+	// Gets all route objects within the kernel.
 	GetAllRoutes(context.Context, *GetAllRoutesRequest) (*GetAllRoutesResponse, error)
+	// Gets a neighbor based on the specified
 	GetNeighbor(context.Context, *GetNeighborRequest) (*GetNeighborResponse, error)
+	// Gets all the neighbors on this host.
 	GetAllNeighbors(context.Context, *GetAllNeighborsRequest) (*GetAllNeighborsResponse, error)
+	// Creates a new neighbor with a certain MAC address and IP address.
 	CreateNeighbor(context.Context, *CreateNeighborRequest) (*CreateNeighborResponse, error)
+	// Removes a neighbor from the ARP table on the host.
 	DeleteNeighbor(context.Context, *DeleteNeighborRequest) (*DeleteNeighborRequest, error)
+	// Updates the state of a neighbor on the host.
 	UpdateNeighbor(context.Context, *UpdateNeighborRequest) (*UpdateNeighborResponse, error)
+	// Deletes
 	DeleteAddress(context.Context, *DeleteAddressRequest) (*DeleteAddressResponse, error)
 	UpdateAddress(context.Context, *UpdateAddressRequest) (*UpdateAddressResponse, error)
+	AddAddress(context.Context, *AddAddressRequest) (*AddAddressResponse, error)
 	mustEmbedUnimplementedNodeControllerServiceServer()
 }
 
@@ -298,6 +323,9 @@ func (UnimplementedNodeControllerServiceServer) DeleteAddress(context.Context, *
 }
 func (UnimplementedNodeControllerServiceServer) UpdateAddress(context.Context, *UpdateAddressRequest) (*UpdateAddressResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateAddress not implemented")
+}
+func (UnimplementedNodeControllerServiceServer) AddAddress(context.Context, *AddAddressRequest) (*AddAddressResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddAddress not implemented")
 }
 func (UnimplementedNodeControllerServiceServer) mustEmbedUnimplementedNodeControllerServiceServer() {}
 
@@ -618,6 +646,24 @@ func _NodeControllerService_UpdateAddress_Handler(srv interface{}, ctx context.C
 	return interceptor(ctx, in, info, handler)
 }
 
+func _NodeControllerService_AddAddress_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddAddressRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(NodeControllerServiceServer).AddAddress(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/v1alpha1.NodeControllerService/AddAddress",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(NodeControllerServiceServer).AddAddress(ctx, req.(*AddAddressRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // NodeControllerService_ServiceDesc is the grpc.ServiceDesc for NodeControllerService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -693,6 +739,10 @@ var NodeControllerService_ServiceDesc = grpc.ServiceDesc{
 			MethodName: "UpdateAddress",
 			Handler:    _NodeControllerService_UpdateAddress_Handler,
 		},
+		{
+			MethodName: "AddAddress",
+			Handler:    _NodeControllerService_AddAddress_Handler,
+		},
 	},
 	Streams:  []grpc.StreamDesc{},
 	Metadata: "node_control.proto",
@@ -702,6 +752,11 @@ var NodeControllerService_ServiceDesc = grpc.ServiceDesc{
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type NodeFirewallControllerServiceClient interface {
+	GetTable(ctx context.Context, in *GetTableRequest, opts ...grpc.CallOption) (*GetTableResponse, error)
+	GetAllTables(ctx context.Context, in *GetAllTablesRequest, opts ...grpc.CallOption) (*GetAllTablesResponse, error)
+	DeleteTable(ctx context.Context, in *DeleteTableRequest, opts ...grpc.CallOption) (*DeleteTableResponse, error)
+	CreateTable(ctx context.Context, in *CreateTableRequest, opts ...grpc.CallOption) (*CreateTableResponse, error)
+	UpdateTable(ctx context.Context, in *UpdateTableRequest, opts ...grpc.CallOption) (*UpdateTableResponse, error)
 }
 
 type nodeFirewallControllerServiceClient struct {
@@ -712,10 +767,60 @@ func NewNodeFirewallControllerServiceClient(cc grpc.ClientConnInterface) NodeFir
 	return &nodeFirewallControllerServiceClient{cc}
 }
 
+func (c *nodeFirewallControllerServiceClient) GetTable(ctx context.Context, in *GetTableRequest, opts ...grpc.CallOption) (*GetTableResponse, error) {
+	out := new(GetTableResponse)
+	err := c.cc.Invoke(ctx, "/v1alpha1.NodeFirewallControllerService/GetTable", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *nodeFirewallControllerServiceClient) GetAllTables(ctx context.Context, in *GetAllTablesRequest, opts ...grpc.CallOption) (*GetAllTablesResponse, error) {
+	out := new(GetAllTablesResponse)
+	err := c.cc.Invoke(ctx, "/v1alpha1.NodeFirewallControllerService/GetAllTables", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *nodeFirewallControllerServiceClient) DeleteTable(ctx context.Context, in *DeleteTableRequest, opts ...grpc.CallOption) (*DeleteTableResponse, error) {
+	out := new(DeleteTableResponse)
+	err := c.cc.Invoke(ctx, "/v1alpha1.NodeFirewallControllerService/DeleteTable", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *nodeFirewallControllerServiceClient) CreateTable(ctx context.Context, in *CreateTableRequest, opts ...grpc.CallOption) (*CreateTableResponse, error) {
+	out := new(CreateTableResponse)
+	err := c.cc.Invoke(ctx, "/v1alpha1.NodeFirewallControllerService/CreateTable", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *nodeFirewallControllerServiceClient) UpdateTable(ctx context.Context, in *UpdateTableRequest, opts ...grpc.CallOption) (*UpdateTableResponse, error) {
+	out := new(UpdateTableResponse)
+	err := c.cc.Invoke(ctx, "/v1alpha1.NodeFirewallControllerService/UpdateTable", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // NodeFirewallControllerServiceServer is the server API for NodeFirewallControllerService service.
 // All implementations must embed UnimplementedNodeFirewallControllerServiceServer
 // for forward compatibility
 type NodeFirewallControllerServiceServer interface {
+	GetTable(context.Context, *GetTableRequest) (*GetTableResponse, error)
+	GetAllTables(context.Context, *GetAllTablesRequest) (*GetAllTablesResponse, error)
+	DeleteTable(context.Context, *DeleteTableRequest) (*DeleteTableResponse, error)
+	CreateTable(context.Context, *CreateTableRequest) (*CreateTableResponse, error)
+	UpdateTable(context.Context, *UpdateTableRequest) (*UpdateTableResponse, error)
 	mustEmbedUnimplementedNodeFirewallControllerServiceServer()
 }
 
@@ -723,6 +828,21 @@ type NodeFirewallControllerServiceServer interface {
 type UnimplementedNodeFirewallControllerServiceServer struct {
 }
 
+func (UnimplementedNodeFirewallControllerServiceServer) GetTable(context.Context, *GetTableRequest) (*GetTableResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTable not implemented")
+}
+func (UnimplementedNodeFirewallControllerServiceServer) GetAllTables(context.Context, *GetAllTablesRequest) (*GetAllTablesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAllTables not implemented")
+}
+func (UnimplementedNodeFirewallControllerServiceServer) DeleteTable(context.Context, *DeleteTableRequest) (*DeleteTableResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteTable not implemented")
+}
+func (UnimplementedNodeFirewallControllerServiceServer) CreateTable(context.Context, *CreateTableRequest) (*CreateTableResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateTable not implemented")
+}
+func (UnimplementedNodeFirewallControllerServiceServer) UpdateTable(context.Context, *UpdateTableRequest) (*UpdateTableResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateTable not implemented")
+}
 func (UnimplementedNodeFirewallControllerServiceServer) mustEmbedUnimplementedNodeFirewallControllerServiceServer() {
 }
 
@@ -737,13 +857,124 @@ func RegisterNodeFirewallControllerServiceServer(s grpc.ServiceRegistrar, srv No
 	s.RegisterService(&NodeFirewallControllerService_ServiceDesc, srv)
 }
 
+func _NodeFirewallControllerService_GetTable_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetTableRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(NodeFirewallControllerServiceServer).GetTable(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/v1alpha1.NodeFirewallControllerService/GetTable",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(NodeFirewallControllerServiceServer).GetTable(ctx, req.(*GetTableRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _NodeFirewallControllerService_GetAllTables_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetAllTablesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(NodeFirewallControllerServiceServer).GetAllTables(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/v1alpha1.NodeFirewallControllerService/GetAllTables",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(NodeFirewallControllerServiceServer).GetAllTables(ctx, req.(*GetAllTablesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _NodeFirewallControllerService_DeleteTable_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteTableRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(NodeFirewallControllerServiceServer).DeleteTable(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/v1alpha1.NodeFirewallControllerService/DeleteTable",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(NodeFirewallControllerServiceServer).DeleteTable(ctx, req.(*DeleteTableRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _NodeFirewallControllerService_CreateTable_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateTableRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(NodeFirewallControllerServiceServer).CreateTable(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/v1alpha1.NodeFirewallControllerService/CreateTable",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(NodeFirewallControllerServiceServer).CreateTable(ctx, req.(*CreateTableRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _NodeFirewallControllerService_UpdateTable_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateTableRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(NodeFirewallControllerServiceServer).UpdateTable(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/v1alpha1.NodeFirewallControllerService/UpdateTable",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(NodeFirewallControllerServiceServer).UpdateTable(ctx, req.(*UpdateTableRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // NodeFirewallControllerService_ServiceDesc is the grpc.ServiceDesc for NodeFirewallControllerService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var NodeFirewallControllerService_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "v1alpha1.NodeFirewallControllerService",
 	HandlerType: (*NodeFirewallControllerServiceServer)(nil),
-	Methods:     []grpc.MethodDesc{},
-	Streams:     []grpc.StreamDesc{},
-	Metadata:    "node_control.proto",
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "GetTable",
+			Handler:    _NodeFirewallControllerService_GetTable_Handler,
+		},
+		{
+			MethodName: "GetAllTables",
+			Handler:    _NodeFirewallControllerService_GetAllTables_Handler,
+		},
+		{
+			MethodName: "DeleteTable",
+			Handler:    _NodeFirewallControllerService_DeleteTable_Handler,
+		},
+		{
+			MethodName: "CreateTable",
+			Handler:    _NodeFirewallControllerService_CreateTable_Handler,
+		},
+		{
+			MethodName: "UpdateTable",
+			Handler:    _NodeFirewallControllerService_UpdateTable_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "node_control.proto",
 }
