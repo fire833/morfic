@@ -1,5 +1,5 @@
 /*
-*	Copyright (C) 2021  Kendall Tauser
+*	Copyright (C) 2022  Kendall Tauser
 *
 *	This program is free software; you can redistribute it and/or modify
 *	it under the terms of the GNU General Public License as published by
@@ -41,7 +41,7 @@ var (
 		Short: "Run the vroute control plane.",
 		Long: `This is the main binary for running the vRoute linux based routing, firewalling, and secured local service control plane.
 For more information about this project and for documentation, visit https://github.com/fire833/vroute or visit https://vroute.io.`,
-		Version: fmt.Sprintf(": %s\nGit commit: %s\nGo version: %s\nOS: %s\nArchitecture: %s\nLicense: %s\n\nCopyright (C) 2021  Kendall Tauser", version, commit, g, o, arch, license),
+		Version: fmt.Sprintf(": %s\nGit commit: %s\nGo version: %s\nOS: %s\nArchitecture: %s\nLicense: %s\n\nCopyright (C) 2022  Kendall Tauser", version, commit, g, o, arch, license),
 		Example: "vroute",
 		Run:     rootMain,
 	}
