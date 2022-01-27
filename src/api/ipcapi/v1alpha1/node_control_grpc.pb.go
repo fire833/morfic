@@ -52,9 +52,11 @@ type NodeControllerServiceClient interface {
 	DeleteNeighbor(ctx context.Context, in *DeleteNeighborRequest, opts ...grpc.CallOption) (*DeleteNeighborRequest, error)
 	// Updates the state of a neighbor on the host.
 	UpdateNeighbor(ctx context.Context, in *UpdateNeighborRequest, opts ...grpc.CallOption) (*UpdateNeighborResponse, error)
-	// Deletes
+	// Deletes an address assigned to a link on the host.
 	DeleteAddress(ctx context.Context, in *DeleteAddressRequest, opts ...grpc.CallOption) (*DeleteAddressResponse, error)
+	// Updates addresses attached to a link on host.
 	UpdateAddress(ctx context.Context, in *UpdateAddressRequest, opts ...grpc.CallOption) (*UpdateAddressResponse, error)
+	// Adds an address to a link on the host.
 	AddAddress(ctx context.Context, in *AddAddressRequest, opts ...grpc.CallOption) (*AddAddressResponse, error)
 }
 
@@ -262,9 +264,11 @@ type NodeControllerServiceServer interface {
 	DeleteNeighbor(context.Context, *DeleteNeighborRequest) (*DeleteNeighborRequest, error)
 	// Updates the state of a neighbor on the host.
 	UpdateNeighbor(context.Context, *UpdateNeighborRequest) (*UpdateNeighborResponse, error)
-	// Deletes
+	// Deletes an address assigned to a link on the host.
 	DeleteAddress(context.Context, *DeleteAddressRequest) (*DeleteAddressResponse, error)
+	// Updates addresses attached to a link on host.
 	UpdateAddress(context.Context, *UpdateAddressRequest) (*UpdateAddressResponse, error)
+	// Adds an address to a link on the host.
 	AddAddress(context.Context, *AddAddressRequest) (*AddAddressResponse, error)
 	mustEmbedUnimplementedNodeControllerServiceServer()
 }
@@ -757,6 +761,16 @@ type NodeFirewallControllerServiceClient interface {
 	DeleteTable(ctx context.Context, in *DeleteTableRequest, opts ...grpc.CallOption) (*DeleteTableResponse, error)
 	CreateTable(ctx context.Context, in *CreateTableRequest, opts ...grpc.CallOption) (*CreateTableResponse, error)
 	UpdateTable(ctx context.Context, in *UpdateTableRequest, opts ...grpc.CallOption) (*UpdateTableResponse, error)
+	GetChain(ctx context.Context, in *GetChainRequest, opts ...grpc.CallOption) (*GetChainResponse, error)
+	GetAllChains(ctx context.Context, in *GetAllChainsRequest, opts ...grpc.CallOption) (*GetAllChainsResponse, error)
+	DeleteChain(ctx context.Context, in *DeleteChainRequest, opts ...grpc.CallOption) (*DeleteChainResponse, error)
+	CreateChain(ctx context.Context, in *CreateChainRequest, opts ...grpc.CallOption) (*CreateChainResponse, error)
+	UpdateChain(ctx context.Context, in *UpdateChainRequest, opts ...grpc.CallOption) (*UpdateChainRequest, error)
+	GetRule(ctx context.Context, in *GetRuleRequest, opts ...grpc.CallOption) (*GetRuleResponse, error)
+	GetAllRules(ctx context.Context, in *GetAllRulesRequest, opts ...grpc.CallOption) (*GetAllRulesResponse, error)
+	DeleteRule(ctx context.Context, in *DeleteRuleRequest, opts ...grpc.CallOption) (*DeleteRuleResponse, error)
+	CreateRule(ctx context.Context, in *CreateRuleRequest, opts ...grpc.CallOption) (*CreateRuleResponse, error)
+	UpdateRule(ctx context.Context, in *UpdateRuleRequest, opts ...grpc.CallOption) (*UpdateRuleResponse, error)
 }
 
 type nodeFirewallControllerServiceClient struct {
@@ -812,6 +826,96 @@ func (c *nodeFirewallControllerServiceClient) UpdateTable(ctx context.Context, i
 	return out, nil
 }
 
+func (c *nodeFirewallControllerServiceClient) GetChain(ctx context.Context, in *GetChainRequest, opts ...grpc.CallOption) (*GetChainResponse, error) {
+	out := new(GetChainResponse)
+	err := c.cc.Invoke(ctx, "/v1alpha1.NodeFirewallControllerService/GetChain", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *nodeFirewallControllerServiceClient) GetAllChains(ctx context.Context, in *GetAllChainsRequest, opts ...grpc.CallOption) (*GetAllChainsResponse, error) {
+	out := new(GetAllChainsResponse)
+	err := c.cc.Invoke(ctx, "/v1alpha1.NodeFirewallControllerService/GetAllChains", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *nodeFirewallControllerServiceClient) DeleteChain(ctx context.Context, in *DeleteChainRequest, opts ...grpc.CallOption) (*DeleteChainResponse, error) {
+	out := new(DeleteChainResponse)
+	err := c.cc.Invoke(ctx, "/v1alpha1.NodeFirewallControllerService/DeleteChain", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *nodeFirewallControllerServiceClient) CreateChain(ctx context.Context, in *CreateChainRequest, opts ...grpc.CallOption) (*CreateChainResponse, error) {
+	out := new(CreateChainResponse)
+	err := c.cc.Invoke(ctx, "/v1alpha1.NodeFirewallControllerService/CreateChain", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *nodeFirewallControllerServiceClient) UpdateChain(ctx context.Context, in *UpdateChainRequest, opts ...grpc.CallOption) (*UpdateChainRequest, error) {
+	out := new(UpdateChainRequest)
+	err := c.cc.Invoke(ctx, "/v1alpha1.NodeFirewallControllerService/UpdateChain", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *nodeFirewallControllerServiceClient) GetRule(ctx context.Context, in *GetRuleRequest, opts ...grpc.CallOption) (*GetRuleResponse, error) {
+	out := new(GetRuleResponse)
+	err := c.cc.Invoke(ctx, "/v1alpha1.NodeFirewallControllerService/GetRule", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *nodeFirewallControllerServiceClient) GetAllRules(ctx context.Context, in *GetAllRulesRequest, opts ...grpc.CallOption) (*GetAllRulesResponse, error) {
+	out := new(GetAllRulesResponse)
+	err := c.cc.Invoke(ctx, "/v1alpha1.NodeFirewallControllerService/GetAllRules", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *nodeFirewallControllerServiceClient) DeleteRule(ctx context.Context, in *DeleteRuleRequest, opts ...grpc.CallOption) (*DeleteRuleResponse, error) {
+	out := new(DeleteRuleResponse)
+	err := c.cc.Invoke(ctx, "/v1alpha1.NodeFirewallControllerService/DeleteRule", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *nodeFirewallControllerServiceClient) CreateRule(ctx context.Context, in *CreateRuleRequest, opts ...grpc.CallOption) (*CreateRuleResponse, error) {
+	out := new(CreateRuleResponse)
+	err := c.cc.Invoke(ctx, "/v1alpha1.NodeFirewallControllerService/CreateRule", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *nodeFirewallControllerServiceClient) UpdateRule(ctx context.Context, in *UpdateRuleRequest, opts ...grpc.CallOption) (*UpdateRuleResponse, error) {
+	out := new(UpdateRuleResponse)
+	err := c.cc.Invoke(ctx, "/v1alpha1.NodeFirewallControllerService/UpdateRule", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // NodeFirewallControllerServiceServer is the server API for NodeFirewallControllerService service.
 // All implementations must embed UnimplementedNodeFirewallControllerServiceServer
 // for forward compatibility
@@ -821,6 +925,16 @@ type NodeFirewallControllerServiceServer interface {
 	DeleteTable(context.Context, *DeleteTableRequest) (*DeleteTableResponse, error)
 	CreateTable(context.Context, *CreateTableRequest) (*CreateTableResponse, error)
 	UpdateTable(context.Context, *UpdateTableRequest) (*UpdateTableResponse, error)
+	GetChain(context.Context, *GetChainRequest) (*GetChainResponse, error)
+	GetAllChains(context.Context, *GetAllChainsRequest) (*GetAllChainsResponse, error)
+	DeleteChain(context.Context, *DeleteChainRequest) (*DeleteChainResponse, error)
+	CreateChain(context.Context, *CreateChainRequest) (*CreateChainResponse, error)
+	UpdateChain(context.Context, *UpdateChainRequest) (*UpdateChainRequest, error)
+	GetRule(context.Context, *GetRuleRequest) (*GetRuleResponse, error)
+	GetAllRules(context.Context, *GetAllRulesRequest) (*GetAllRulesResponse, error)
+	DeleteRule(context.Context, *DeleteRuleRequest) (*DeleteRuleResponse, error)
+	CreateRule(context.Context, *CreateRuleRequest) (*CreateRuleResponse, error)
+	UpdateRule(context.Context, *UpdateRuleRequest) (*UpdateRuleResponse, error)
 	mustEmbedUnimplementedNodeFirewallControllerServiceServer()
 }
 
@@ -842,6 +956,36 @@ func (UnimplementedNodeFirewallControllerServiceServer) CreateTable(context.Cont
 }
 func (UnimplementedNodeFirewallControllerServiceServer) UpdateTable(context.Context, *UpdateTableRequest) (*UpdateTableResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateTable not implemented")
+}
+func (UnimplementedNodeFirewallControllerServiceServer) GetChain(context.Context, *GetChainRequest) (*GetChainResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetChain not implemented")
+}
+func (UnimplementedNodeFirewallControllerServiceServer) GetAllChains(context.Context, *GetAllChainsRequest) (*GetAllChainsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAllChains not implemented")
+}
+func (UnimplementedNodeFirewallControllerServiceServer) DeleteChain(context.Context, *DeleteChainRequest) (*DeleteChainResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteChain not implemented")
+}
+func (UnimplementedNodeFirewallControllerServiceServer) CreateChain(context.Context, *CreateChainRequest) (*CreateChainResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateChain not implemented")
+}
+func (UnimplementedNodeFirewallControllerServiceServer) UpdateChain(context.Context, *UpdateChainRequest) (*UpdateChainRequest, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateChain not implemented")
+}
+func (UnimplementedNodeFirewallControllerServiceServer) GetRule(context.Context, *GetRuleRequest) (*GetRuleResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetRule not implemented")
+}
+func (UnimplementedNodeFirewallControllerServiceServer) GetAllRules(context.Context, *GetAllRulesRequest) (*GetAllRulesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAllRules not implemented")
+}
+func (UnimplementedNodeFirewallControllerServiceServer) DeleteRule(context.Context, *DeleteRuleRequest) (*DeleteRuleResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteRule not implemented")
+}
+func (UnimplementedNodeFirewallControllerServiceServer) CreateRule(context.Context, *CreateRuleRequest) (*CreateRuleResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateRule not implemented")
+}
+func (UnimplementedNodeFirewallControllerServiceServer) UpdateRule(context.Context, *UpdateRuleRequest) (*UpdateRuleResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateRule not implemented")
 }
 func (UnimplementedNodeFirewallControllerServiceServer) mustEmbedUnimplementedNodeFirewallControllerServiceServer() {
 }
@@ -947,6 +1091,186 @@ func _NodeFirewallControllerService_UpdateTable_Handler(srv interface{}, ctx con
 	return interceptor(ctx, in, info, handler)
 }
 
+func _NodeFirewallControllerService_GetChain_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetChainRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(NodeFirewallControllerServiceServer).GetChain(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/v1alpha1.NodeFirewallControllerService/GetChain",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(NodeFirewallControllerServiceServer).GetChain(ctx, req.(*GetChainRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _NodeFirewallControllerService_GetAllChains_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetAllChainsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(NodeFirewallControllerServiceServer).GetAllChains(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/v1alpha1.NodeFirewallControllerService/GetAllChains",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(NodeFirewallControllerServiceServer).GetAllChains(ctx, req.(*GetAllChainsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _NodeFirewallControllerService_DeleteChain_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteChainRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(NodeFirewallControllerServiceServer).DeleteChain(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/v1alpha1.NodeFirewallControllerService/DeleteChain",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(NodeFirewallControllerServiceServer).DeleteChain(ctx, req.(*DeleteChainRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _NodeFirewallControllerService_CreateChain_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateChainRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(NodeFirewallControllerServiceServer).CreateChain(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/v1alpha1.NodeFirewallControllerService/CreateChain",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(NodeFirewallControllerServiceServer).CreateChain(ctx, req.(*CreateChainRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _NodeFirewallControllerService_UpdateChain_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateChainRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(NodeFirewallControllerServiceServer).UpdateChain(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/v1alpha1.NodeFirewallControllerService/UpdateChain",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(NodeFirewallControllerServiceServer).UpdateChain(ctx, req.(*UpdateChainRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _NodeFirewallControllerService_GetRule_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetRuleRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(NodeFirewallControllerServiceServer).GetRule(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/v1alpha1.NodeFirewallControllerService/GetRule",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(NodeFirewallControllerServiceServer).GetRule(ctx, req.(*GetRuleRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _NodeFirewallControllerService_GetAllRules_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetAllRulesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(NodeFirewallControllerServiceServer).GetAllRules(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/v1alpha1.NodeFirewallControllerService/GetAllRules",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(NodeFirewallControllerServiceServer).GetAllRules(ctx, req.(*GetAllRulesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _NodeFirewallControllerService_DeleteRule_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteRuleRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(NodeFirewallControllerServiceServer).DeleteRule(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/v1alpha1.NodeFirewallControllerService/DeleteRule",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(NodeFirewallControllerServiceServer).DeleteRule(ctx, req.(*DeleteRuleRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _NodeFirewallControllerService_CreateRule_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateRuleRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(NodeFirewallControllerServiceServer).CreateRule(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/v1alpha1.NodeFirewallControllerService/CreateRule",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(NodeFirewallControllerServiceServer).CreateRule(ctx, req.(*CreateRuleRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _NodeFirewallControllerService_UpdateRule_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateRuleRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(NodeFirewallControllerServiceServer).UpdateRule(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/v1alpha1.NodeFirewallControllerService/UpdateRule",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(NodeFirewallControllerServiceServer).UpdateRule(ctx, req.(*UpdateRuleRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // NodeFirewallControllerService_ServiceDesc is the grpc.ServiceDesc for NodeFirewallControllerService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -973,6 +1297,46 @@ var NodeFirewallControllerService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateTable",
 			Handler:    _NodeFirewallControllerService_UpdateTable_Handler,
+		},
+		{
+			MethodName: "GetChain",
+			Handler:    _NodeFirewallControllerService_GetChain_Handler,
+		},
+		{
+			MethodName: "GetAllChains",
+			Handler:    _NodeFirewallControllerService_GetAllChains_Handler,
+		},
+		{
+			MethodName: "DeleteChain",
+			Handler:    _NodeFirewallControllerService_DeleteChain_Handler,
+		},
+		{
+			MethodName: "CreateChain",
+			Handler:    _NodeFirewallControllerService_CreateChain_Handler,
+		},
+		{
+			MethodName: "UpdateChain",
+			Handler:    _NodeFirewallControllerService_UpdateChain_Handler,
+		},
+		{
+			MethodName: "GetRule",
+			Handler:    _NodeFirewallControllerService_GetRule_Handler,
+		},
+		{
+			MethodName: "GetAllRules",
+			Handler:    _NodeFirewallControllerService_GetAllRules_Handler,
+		},
+		{
+			MethodName: "DeleteRule",
+			Handler:    _NodeFirewallControllerService_DeleteRule_Handler,
+		},
+		{
+			MethodName: "CreateRule",
+			Handler:    _NodeFirewallControllerService_CreateRule_Handler,
+		},
+		{
+			MethodName: "UpdateRule",
+			Handler:    _NodeFirewallControllerService_UpdateRule_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

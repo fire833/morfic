@@ -53,14 +53,17 @@ service NodeControllerService {
     rpc DeleteNeighbor(DeleteNeighborRequest) returns (DeleteNeighborRequest) {}
     // Updates the state of a neighbor on the host.
     rpc UpdateNeighbor(UpdateNeighborRequest) returns (UpdateNeighborResponse) {}
-    // Deletes 
+    // Deletes an address assigned to a link on the host.
     rpc DeleteAddress(DeleteAddressRequest) returns (DeleteAddressResponse) {}
-
+    // Updates addresses attached to a link on host.
     rpc UpdateAddress(UpdateAddressRequest) returns (UpdateAddressResponse) {}
-
+    // Adds an address to a link on the host.
     rpc AddAddress(AddAddressRequest) returns (AddAddressResponse) {}
 }
 
+// Description of a service that controls the node's netfilter configuration.
+// Provides CRUD endpoints to edits aspects such as chains, rules, and tables
+// that are found within the 
 service NodeFirewallControllerService {
 
     rpc GetTable(GetTableRequest) returns (GetTableResponse) {}
@@ -72,6 +75,27 @@ service NodeFirewallControllerService {
     rpc CreateTable(CreateTableRequest) returns (CreateTableResponse) {}
 
     rpc UpdateTable(UpdateTableRequest) returns (UpdateTableResponse) {}
+
+    rpc GetChain(GetChainRequest) returns (GetChainResponse) {}
+
+    rpc GetAllChains(GetAllChainsRequest) returns (GetAllChainsResponse) {}
+
+    rpc DeleteChain(DeleteChainRequest) returns (DeleteChainResponse) {}
+
+    rpc CreateChain(CreateChainRequest) returns (CreateChainResponse) {}
+
+    rpc UpdateChain(UpdateChainRequest) returns (UpdateChainRequest) {}
+
+    rpc GetRule(GetRuleRequest) returns (GetRuleResponse) {}
+
+    rpc GetAllRules(GetAllRulesRequest) returns (GetAllRulesResponse) {}
+
+    rpc DeleteRule(DeleteRuleRequest) returns (DeleteRuleResponse) {}
+
+    rpc CreateRule(CreateRuleRequest) returns (CreateRuleResponse) {}
+
+    rpc UpdateRule(UpdateRuleRequest) returns (UpdateRuleResponse) {}
+
 }
 
 enum ReturnStatusCodes {
@@ -225,16 +249,16 @@ message Link {
 }
 
 enum LinkElements {
-    NAME = 0;
-    ADDRESS = 1;
-    MACADDRESS = 2;
-    TYPE = 3;
-    MTU = 4;
-    INDEX = 5;
-    UP = 6;
-    ARPENABLED = 7;
-    DYANMIC = 8;
-    MULTICAST = 9;
+    LINK_NAME = 0;
+    LINK_ADDRESS = 1;
+    LINK_MACADDRESS = 2;
+    LINK_TYPE = 3;
+    LINK_MTU = 4;
+    LINK_INDEX = 5;
+    LINK_UP = 6;
+    LINK_ARPENABLED = 7;
+    LINK_DYNAMIC = 8;
+    LINK_MULTICAST = 9;
 }
 
 // Attributes for a link.
@@ -333,10 +357,10 @@ message Route {
 // Used for GET operations, and allows specification 
 // of the elements that the user wants to filter by.
 enum RouteElements {
-    DESTINATION = 0;
-    GATEWAY = 1;
-    METRIC = 2;
-    INTERFACE = 3;
+    ROUTE_DESTINATION_ADDRESS = 0;
+    ROUTE_GATEWAY_CIDR = 1;
+    ROUTE_METRIC = 2;
+    ROUTE_INTERFACE = 3;
 }
 
 enum IPType {
@@ -448,8 +472,8 @@ message Neighbor {
 }
 
 enum NeighborElements {
-    IPADDRESS = 0;
-    MACADDR = 1;
+    NEIGHBOR_ADDRESS = 0;
+    NEIGHBOR_MACADDRESS = 1;
     STATE = 2;
 }
 
@@ -550,20 +574,74 @@ message AddAddressResponse {
 
 // Firewall/nftables API calls.
 
+enum AddressFamily {
+    ADDR_IP = 0;
+    ADDR_IP6 = 1;
+    ADDR_INET = 2;
+    ADDR_ARP = 3;
+    ADDR_BRIDGE = 4;
+    ADDR_NETDEV = 5;
+}
+
+message Table {
+    AddressFamily family = 1;
+    string name = 2;
+}
+
+enum TableElements {
+    TABLE_FAMILY = 0;
+    TABLE_NAME = 1;
+}
+
+enum ChainTypes {
+    FILTER = 0;
+    NAT = 1;
+    ROUTE = 2;
+}
+
+message Chain {
+    ChainTypes type = 1;
+    string name = 2;
+}
+
+enum ChainElements {
+    CHAIN_TYPE = 0;
+    CHAIN_NAME = 1;
+}
+
+message Rule {
+    
+}
+
+enum RuleElements {
+    RULE_DEFAULT_ACTION = 0;
+    RULE_NAME = 1;
+}
+
 message GetTableRequest {
 
 }
 
 message GetTableResponse {
-
+    // Response code for this RPC call.
+    ReturnStatusCodes status_code = 1;
+    // Error if there is any with getting this table schema.
+    string error = 2;
+    // The return table from this operation.
+    Table table = 3;
 }
 
 message GetAllTablesRequest {
-
+    
 }
 
 message GetAllTablesResponse {
-
+    // Response code for this RPC call.
+    ReturnStatusCodes status_code = 1;
+    // Error if there is any with getting this table schema.
+    string error = 2;
+    // The return tables from this operation.
+    repeated Table table = 3;
 }
 
 message DeleteTableRequest {
@@ -571,7 +649,12 @@ message DeleteTableRequest {
 }
 
 message DeleteTableResponse {
-
+    // Response code for this RPC call.
+    ReturnStatusCodes status_code = 1;
+    // Error if there is any with updating this table schema.
+    string error = 2;
+    // The returned deleted table object.
+    Table table = 3;
 }
 
 message CreateTableRequest {
@@ -590,3 +673,97 @@ message UpdateTableResponse {
 
 }
 
+message GetChainRequest {
+
+}
+
+message GetChainResponse {
+    // Response code for this RPC call.
+    ReturnStatusCodes status_code = 1;
+    // Error if there is any with getting this chain schema.
+    string error = 2;
+    // The return chain from this operation.
+    Chain chain = 3;
+}
+
+message GetAllChainsRequest {
+
+}
+
+message GetAllChainsResponse {
+    // Response code for this RPC call.
+    ReturnStatusCodes status_code = 1;
+    // Error if there is any with getting this chain schema.
+    string error = 2;
+    // The return chains from this operation.
+    repeated Chain chain = 3;
+}
+
+message DeleteChainRequest {
+
+}
+
+message DeleteChainResponse {
+    // Response code for this RPC call.
+    ReturnStatusCodes status_code = 1;
+    // Error if there is any with updating this chain schema.
+    string error = 2;
+    // The returned deleted chain object.
+    Chain chain = 3;
+}
+
+message CreateChainRequest {
+
+}
+
+message CreateChainResponse {
+
+}
+
+message UpdateChainRequest {
+
+}
+
+message UpdateChainResponse {
+
+}
+
+message GetRuleRequest {
+
+}
+
+message GetRuleResponse {
+
+}
+
+message GetAllRulesRequest {
+
+}
+
+message GetAllRulesResponse {
+
+}
+
+message DeleteRuleRequest {
+
+}
+
+message DeleteRuleResponse {
+
+}
+
+message CreateRuleRequest {
+
+}
+
+message CreateRuleResponse {
+
+}
+
+message UpdateRuleRequest {
+
+}
+
+message UpdateRuleResponse {
+
+}
