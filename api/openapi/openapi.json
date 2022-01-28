@@ -1,0 +1,86 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "vRoute",
+    "version": "0.1.0",
+    "description": "A user/kernel space network control plane.",
+    "contact": {
+      "email": "kttpsy@gmail.com",
+      "name": "Kendall Tauser",
+      "url": "https://github.com/fire833/vroute"
+    },
+    "license": {
+      "name": "GPL V2.0",
+      "url": "https://opensource.org/licenses/gpl-2.0.php"
+    }
+  },
+  "paths": {
+    "/apis/services.vroute.io/": {
+      "summary": "API Group for handling node service management.",
+      "description": "services.vroute.io is utilized for managing services that are run on the control plane node in conjunction with the vroute control plane itself."
+    },
+    "/apis/dyndns.vroute.io/": {
+      "summary": "API Group for handling dynamic DNS management.",
+      "description": "dyndns.vroute.io is utilized for managing dynamic DNS hostname/IP combinations that are managed by the control plane and updated via various Dynamic DNS providers."
+    },
+    "/apis/addresses.vroute.io/": {
+      "summary": "API Group for handling host addresses.",
+      "description": "addresses.vroute.io is utilized for managing addresses for links that are under the management domain of the vroute control plane. Includes both IPv4, and IPv6 link addresses."
+    },
+    "/apis/interfaces.vroute.io/": {
+      "summary": "API Group for handling host links.",
+      "description": "interfaces.vroute.io is utilized for managing links that are under the management domain of the vroute control plane. This includes links that map to both physical and virtual devices in the kernel."
+    },
+    "/apis/routes.vroute.io/": {
+      "summary": "API Group for handling host routes.",
+      "description": "routes.vroute.io is utilized for managing routes that that are under the management domain of the vroute control plane. This includes routes from multiple kernel routing tables."
+    },
+    "/apis/firewall.vroute.io/": {
+      "summary": "API Group for handling host firewall rules",
+      "description": "firewall.vroute.io is utilized for managing firewall rules that are under the management domain of the vroute control plane. The API group works with the netfilter and nftables subsystem for managing packet mangling, filtering, and dropping."
+    },
+    "/apis/sys.vroute.io/": {
+      "summary": "API Group for miscellaneous node control operations.",
+      "description": "sys.vroute.io is utilized for managing miscellaneous aspects of the hardware that the vroute control plane sits on, including sysctls, diagnostics, and other privileged/system operations."
+    },
+    "/apis/authentication.vroute.io/": {
+      "summary": "API Group for managing vroute authentication",
+      "description": "authentication.vroute.io is utilized for managing authentication, authorization, and accounting for management/access operations upon the vroute API."
+    },
+    "/apis/vpn.vroute.io/": {
+      "summary": "API Group for managing VPN configurations",
+      "description": "vpn.vroute.io is utilized for managing vpn tunnels and configuration that are applied to the host on the vroute control plane. The current supported VPN protocols are Wireguard, L2TP, and OpenVPN (with addon service installed)."
+    },
+    "/apis/nat.vroute.io/": {
+      "summary": "API Group to manage NAT configurations.",
+      "description": "nat.vroute.io is utilized for managing NAT configurations for packet flows within the management domain of the vroute control plane. This includes 1:1, DNAT, and PAT."
+    },
+    "/apis/sys.vroute.io/sysctls/{id}": {
+      "summary": "Manage sysctls on the host hardware.",
+      "get": {
+        "summary": "Gets the status of a sysctl on the host. Returns the raw value as a string.",
+        "description": "",
+        "operationId": "getSysctl",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Default error sample response"
+          }
+        }
+      }
+    },
+    "/apis/services.vroute.io/v1": {
+      "summary": "v1 of the services API"
+    }
+  },
+  "components": {}
+}

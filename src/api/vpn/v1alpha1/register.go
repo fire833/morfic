@@ -16,9 +16,9 @@
 *	51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package v1alpha1
+package v1
 
 const (
-	registration string = "addresses.vroute.io"
+	registration string = "vpn.vroute.io"
 	version      string = "v1alpha1"
 )
