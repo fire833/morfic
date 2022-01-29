@@ -80,7 +80,48 @@
     },
     "/apis/services.vroute.io/v1": {
       "summary": "v1 of the services API"
+    },
+    "/apis/vpn.vroute.io/wireguard/": {
+      "summary": "Endpoints to manage Wireguard VPN configurations/state.",
+      "get": {
+        "summary": "Gets the status of all L2TP tunnels that are currently configured on the host.",
+        "description": "",
+        "operationId": "getWireguardstate",
+        "responses": {
+          "200": {
+            "description": "Returns array of WireguardConfig objects, with appended state."
+          },
+          "default": {
+            "description": "Default error sample response"
+          }
+        }
+      }
+    },
+    "/apis/vpn.vroute.io/l2tp/": {
+      "summary": "Endpoints to manage L2TP VPN configurations/state.",
+      "get": {
+        "summary": "Gets the status of all L2TP tunnels that are currently configured on the host.",
+        "operationId": "getL2TPstate",
+        "responses": {
+          "200": {
+            "description": "Returns array of L2TPConfig objects, with appended state."
+          },
+          "default": {
+            "description": "Default authentication failure object."
+          }
+        }
+      }
+    },
+    "/apis/vpn.vroute.io/openvpn/": {
+      "summary": "Endpoints to manage OpenVPN configurations/state (only if OpenVPN service add-on is loaded into control plane)."
     }
   },
-  "components": {}
+  "components": {
+    "schemas": {
+      "WireguardConfig": {},
+      "L2TPConfig": {},
+      "NATConfig": {},
+      "OpenVPNConfig": {}
+    }
+  }
 }
