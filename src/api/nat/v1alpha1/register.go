@@ -16,7 +16,7 @@
 *	51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package v1
+package v1alpha1
 
 const (
 	registration string = "nat.vroute.io"
