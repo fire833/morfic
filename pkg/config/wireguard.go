@@ -25,7 +25,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/fire833/vroute/src/wg"
+	"github.com/fire833/vroute/pkg/wg"
 	"golang.zx2c4.com/wireguard/wgctrl/wgtypes"
 )
 

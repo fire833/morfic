@@ -21,25 +21,26 @@ package netlink
 import (
 	"context"
 
-	api "github.com/fire833/vroute/src/api/ipcapi/v1alpha1"
+	api "github.com/fire833/vroute/pkg/apis/ipcapi/v1alpha1"
 )
 
-func (nl *NetlinkNodeServer) CreateStaticRoute(ctx context.Context, req *api.CreateStaticRouteRequest) (resp *api.CreateStaticRouteResponse, e error) {
+func (s *NetlinkNodeServer) GetNeighbor(ctx context.Context, req *api.GetNeighborRequest) (resp *api.GetNeighborResponse, e error) {
 	return nil, nil
 }
 
-func (nl *NetlinkNodeServer) DeleteStaticRoute(ctx context.Context, req *api.DeleteStaticRouteRequest) (resp *api.DeleteStaticRouteResponse, e error) {
+func (s *NetlinkNodeServer) GetAllNeighbors(ctx context.Context, req *api.GetAllNeighborsRequest) (resp *api.GetAllNeighborsResponse, e error) {
 	return nil, nil
 }
 
-func (nl *NetlinkNodeServer) UpdateStaticRoute(ctx context.Context, req *api.UpdateStaticRouteRequest) (resp *api.UpdateStaticRouteResponse, e error) {
+func (s *NetlinkNodeServer) CreateNeighbor(ctx context.Context, req *api.CreateNeighborRequest) (resp *api.CreateNeighborResponse, e error) {
+
 	return nil, nil
 }
 
-func (nl *NetlinkNodeServer) GetRoute(ctx context.Context, req *api.GetRouteRequest) (resp *api.GetRouteResponse, e error) {
+func (s *NetlinkNodeServer) DeleteNeighbor(ctx context.Context, req *api.DeleteNeighborRequest) (resp *api.DeleteNeighborRequest, e error) {
 	return nil, nil
 }
 
-func (nl *NetlinkNodeServer) GetAllRoutes(ctx context.Context, req *api.GetAllRoutesRequest) (resp *api.GetAllRoutesResponse, e error) {
+func (s *NetlinkNodeServer) UpdateNeighbor(ctx context.Context, req *api.UpdateNeighborRequest) (resp *api.UpdateNeighborResponse, e error) {
 	return nil, nil
 }

@@ -16,20 +16,27 @@
 *	51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package node
+package validators
 
-import (
-	"testing"
+import api "github.com/fire833/vroute/pkg/apis/ipcapi/v1alpha1"
 
-	"github.com/fire833/vroute/src/config"
-)
-
-func init() {
-	config.CPRF = &config.ControlPlaneRuntimeConfig{}
+// A custom error for validators to use that still conforms to the error interface.
+type ValidatorStatus struct {
+	code    api.ReturnStatusCodes // Return the general status of the validator
+	message string                // A detailed message specifying the error in the validation process
 }
 
-func TestStartGRPCServer(t *testing.T) {
-	if e := BeginNodeServer(); e != nil {
-		t.Fail()
+func ParseValidatorStatus(status ValidatorStatus) (code api.ReturnStatusCodes, message string) {
+	return status.code, status.message
+}
+
+func NewError(msg string, status_code api.ReturnStatusCodes) ValidatorStatus {
+	return ValidatorStatus{
+		code:    status_code,
+		message: msg,
 	}
+}
+
+func (err ValidatorStatus) Error() string {
+	return err.code.String() + ": " + err.message
 }

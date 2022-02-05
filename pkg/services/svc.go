@@ -23,7 +23,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/fire833/vroute/src/config/persist"
+	"github.com/fire833/vroute/pkg/config/persist"
 )
 
 var (

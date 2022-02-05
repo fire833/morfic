@@ -21,7 +21,7 @@ package ip_routes
 import (
 	"context"
 
-	"github.com/fire833/vroute/src/api/ipcapi/v1alpha1"
+	"github.com/fire833/vroute/pkg/apis/ipcapi/v1alpha1"
 )
 
 func (s *CMDNodeServer) GetNeighbor(ctx context.Context, req *v1alpha1.GetNeighborRequest) (resp *v1alpha1.GetNeighborResponse, e error) {

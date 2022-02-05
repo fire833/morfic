@@ -16,27 +16,11 @@
 *	51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package validators
+package netlink
 
-import api "github.com/fire833/vroute/src/api/ipcapi/v1alpha1"
+import "github.com/fire833/vroute/pkg/apis/ipcapi/v1alpha1"
 
-// A custom error for validators to use that still conforms to the error interface.
-type ValidatorStatus struct {
-	code    api.ReturnStatusCodes // Return the general status of the validator
-	message string                // A detailed message specifying the error in the validation process
-}
-
-func ParseValidatorStatus(status ValidatorStatus) (code api.ReturnStatusCodes, message string) {
-	return status.code, status.message
-}
-
-func NewError(msg string, status_code api.ReturnStatusCodes) ValidatorStatus {
-	return ValidatorStatus{
-		code:    status_code,
-		message: msg,
-	}
-}
-
-func (err ValidatorStatus) Error() string {
-	return err.code.String() + ": " + err.message
+type NetlinkNodeServer struct {
+	v1alpha1.UnimplementedNodeControllerServiceServer
+	v1alpha1.UnimplementedNodeFirewallControllerServiceServer
 }

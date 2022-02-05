@@ -16,11 +16,10 @@
 *	51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package netlink
+package ip_routes
 
-import "github.com/fire833/vroute/src/api/ipcapi/v1alpha1"
+import "github.com/fire833/vroute/pkg/apis/ipcapi/v1alpha1"
 
-type NetlinkNodeServer struct {
+type CMDNodeServer struct {
 	v1alpha1.UnimplementedNodeControllerServiceServer
-	v1alpha1.UnimplementedNodeFirewallControllerServiceServer
 }

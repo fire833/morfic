@@ -16,34 +16,37 @@
 *	51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package validators
+package node
 
 import (
-	api "github.com/fire833/vroute/src/api/ipcapi/v1alpha1"
+	"fmt"
+	"net"
+	"os"
+
+	"github.com/fire833/vroute/pkg/apis/ipcapi/v1alpha1"
+	"github.com/fire833/vroute/pkg/config"
+	"github.com/fire833/vroute/pkg/node/netlink"
+	"google.golang.org/grpc"
 )
 
-// wrapper for validating the integrity of a link object.
-// returns the status code for the link at this stage.
-func ValidateLink(in *api.Link) error {
+var (
+	NodeControllerServer *grpc.Server
+)
 
-	if e := ValidateInterfaceName(in.GetName()); e != nil {
-		return e
+func BeginNodeServer() error {
+	// create the unix bind listener.
+	l, e := net.Listen("unix", config.CPRF.NodeControllerSocket)
+	if e != nil {
+		fmt.Printf("Unable to start node server: %s", e.Error())
+		os.Exit(1)
 	}
 
-	for _, addr := range in.Address {
-		if e := ValidateLinkAddress(addr); e != nil {
-			return e
-		} else {
-			continue
-		}
-	}
+	s := grpc.NewServer(grpc.EmptyServerOption{})
 
-	return nil
-}
+	// Register the services
+	s.RegisterService(&v1alpha1.NodeControllerService_ServiceDesc, netlink.NetlinkNodeServer{})
 
-func ValidateInterfaceName(in string) error {
-	if len([]byte(in)) >= 16 {
-		return NewError("invalid link name length (must be less than or equal to 16 bytes)", api.ReturnStatusCodes_INVALID_FIELD_ERROR)
-	}
-	return nil
+	NodeControllerServer = s
+	// This will basically be the last main function for the process.
+	return s.Serve(l)
 }

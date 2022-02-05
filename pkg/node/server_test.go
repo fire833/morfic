@@ -16,10 +16,20 @@
 *	51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package ip_routes
+package node
 
-import "github.com/fire833/vroute/src/api/ipcapi/v1alpha1"
+import (
+	"testing"
 
-type CMDNodeServer struct {
-	v1alpha1.UnimplementedNodeControllerServiceServer
+	"github.com/fire833/vroute/pkg/config"
+)
+
+func init() {
+	config.CPRF = &config.ControlPlaneRuntimeConfig{}
+}
+
+func TestStartGRPCServer(t *testing.T) {
+	if e := BeginNodeServer(); e != nil {
+		t.Fail()
+	}
 }

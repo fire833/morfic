@@ -22,7 +22,7 @@ import (
 	"context"
 	"time"
 
-	"github.com/fire833/vroute/src/cri"
+	cri "github.com/fire833/vroute/pkg/localapis"
 	criapi "k8s.io/cri-api/pkg/apis/runtime/v1"
 )
 

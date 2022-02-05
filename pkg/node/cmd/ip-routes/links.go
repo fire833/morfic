@@ -16,31 +16,30 @@
 *	51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package netlink
+package ip_routes
 
 import (
 	"context"
 
-	api "github.com/fire833/vroute/src/api/ipcapi/v1alpha1"
+	"github.com/fire833/vroute/pkg/apis/ipcapi/v1alpha1"
 )
 
-func (s *NetlinkNodeServer) GetNeighbor(ctx context.Context, req *api.GetNeighborRequest) (resp *api.GetNeighborResponse, e error) {
+func (s *CMDNodeServer) CreateLink(ctx context.Context, req *v1alpha1.CreateLinkRequest) (resp *v1alpha1.CreateLinkResponse, e error) {
 	return nil, nil
 }
 
-func (s *NetlinkNodeServer) GetAllNeighbors(ctx context.Context, req *api.GetAllNeighborsRequest) (resp *api.GetAllNeighborsResponse, e error) {
+func (s *CMDNodeServer) UpdateLink(ctx context.Context, req *v1alpha1.UpdateLinkRequest) (resp *v1alpha1.UpdateLinkResponse, e error) {
 	return nil, nil
 }
 
-func (s *NetlinkNodeServer) CreateNeighbor(ctx context.Context, req *api.CreateNeighborRequest) (resp *api.CreateNeighborResponse, e error) {
-
+func (s *CMDNodeServer) DeleteLink(ctx context.Context, req *v1alpha1.DeleteLinkRequest) (resp *v1alpha1.DeleteLinkResponse, e error) {
 	return nil, nil
 }
 
-func (s *NetlinkNodeServer) DeleteNeighbor(ctx context.Context, req *api.DeleteNeighborRequest) (resp *api.DeleteNeighborRequest, e error) {
+func (s *CMDNodeServer) GetLink(ctx context.Context, req *v1alpha1.GetLinkRequest) (resp *v1alpha1.GetLinkResponse, e error) {
 	return nil, nil
 }
 
-func (s *NetlinkNodeServer) UpdateNeighbor(ctx context.Context, req *api.UpdateNeighborRequest) (resp *api.UpdateNeighborResponse, e error) {
+func (s *CMDNodeServer) GetAllLinks(ctx context.Context, req *v1alpha1.GetAllLinksRequest) (resp *v1alpha1.GetAllLinksResponse, e error) {
 	return nil, nil
 }

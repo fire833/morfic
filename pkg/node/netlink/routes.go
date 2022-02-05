@@ -16,30 +16,30 @@
 *	51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package ip_routes
+package netlink
 
 import (
 	"context"
 
-	"github.com/fire833/vroute/src/api/ipcapi/v1alpha1"
+	api "github.com/fire833/vroute/pkg/apis/ipcapi/v1alpha1"
 )
 
-func (s *CMDNodeServer) CreateLink(ctx context.Context, req *v1alpha1.CreateLinkRequest) (resp *v1alpha1.CreateLinkResponse, e error) {
+func (nl *NetlinkNodeServer) CreateStaticRoute(ctx context.Context, req *api.CreateStaticRouteRequest) (resp *api.CreateStaticRouteResponse, e error) {
 	return nil, nil
 }
 
-func (s *CMDNodeServer) UpdateLink(ctx context.Context, req *v1alpha1.UpdateLinkRequest) (resp *v1alpha1.UpdateLinkResponse, e error) {
+func (nl *NetlinkNodeServer) DeleteStaticRoute(ctx context.Context, req *api.DeleteStaticRouteRequest) (resp *api.DeleteStaticRouteResponse, e error) {
 	return nil, nil
 }
 
-func (s *CMDNodeServer) DeleteLink(ctx context.Context, req *v1alpha1.DeleteLinkRequest) (resp *v1alpha1.DeleteLinkResponse, e error) {
+func (nl *NetlinkNodeServer) UpdateStaticRoute(ctx context.Context, req *api.UpdateStaticRouteRequest) (resp *api.UpdateStaticRouteResponse, e error) {
 	return nil, nil
 }
 
-func (s *CMDNodeServer) GetLink(ctx context.Context, req *v1alpha1.GetLinkRequest) (resp *v1alpha1.GetLinkResponse, e error) {
+func (nl *NetlinkNodeServer) GetRoute(ctx context.Context, req *api.GetRouteRequest) (resp *api.GetRouteResponse, e error) {
 	return nil, nil
 }
 
-func (s *CMDNodeServer) GetAllLinks(ctx context.Context, req *v1alpha1.GetAllLinksRequest) (resp *v1alpha1.GetAllLinksResponse, e error) {
+func (nl *NetlinkNodeServer) GetAllRoutes(ctx context.Context, req *api.GetAllRoutesRequest) (resp *api.GetAllRoutesResponse, e error) {
 	return nil, nil
 }

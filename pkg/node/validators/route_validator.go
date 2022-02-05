@@ -19,7 +19,7 @@
 package validators
 
 import (
-	api "github.com/fire833/vroute/src/api/ipcapi/v1alpha1"
+	api "github.com/fire833/vroute/pkg/apis/ipcapi/v1alpha1"
 )
 
 func ValidateRoute(in *api.Route) error {

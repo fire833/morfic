@@ -20,18 +20,21 @@ package localapis
 
 import (
 	"context"
+	"errors"
 	"log"
 	"time"
 
-	ipcapi "github.com/fire833/vroute/src/api/ipcapi/v1alpha1"
-	"google.golang.org/grpc"
+	"github.com/fire833/vroute/pkg/config"
+
+	grpc "google.golang.org/grpc"
+	criapi "k8s.io/cri-api/pkg/apis/runtime/v1"
 )
 
 var (
 	/*
 		Client endpoint to be used by callers for node control operations.
-		This client is used for handling sysctls, links, neighbors, routes,
-		IP addresses for host links, etc.
+		This client is used for managing container/pod sandbox state for
+		containerized services that are being hosted on the host and managed by vroute.
 		This is a gRPC endpoint, which callers can use to invoke remote
 		operations using the specified methods in the client.
 
@@ -46,11 +49,12 @@ var (
 		handlers, the API will not begin to listen for requests until after client
 		establishment, so you are free to call at any point within an API handler.
 	*/
-	NodeClient ipcapi.NodeControllerServiceClient
+	RuntimeClient criapi.RuntimeServiceClient
 	/*
 		Client endpoint to be used by callers for node control operations.
-		This client is used for handling netfilter/nftables rules on the host
-		and managing the firewall state of the host.
+		This client is used for managing images that are stored/used by the local
+		CRI implementation, such as pulling images, deleting unused ones, and checking
+		disk usage for images stored on the host.
 		This is a gRPC endpoint, which callers can use to invoke remote
 		operations using the specified methods in the client.
 
@@ -65,35 +69,48 @@ var (
 		handlers, the API will not begin to listen for requests until after client
 		establishment, so you are free to call at any point within an API handler.
 	*/
-	NodeFirewallClient ipcapi.NodeFirewallControllerServiceClient
+	ImageClient criapi.ImageServiceClient
 
-	// The local node connection endpoint that is maintained by the gRPC library.
-	nodeConn *grpc.ClientConn
+	// The local CRI connection endpoint that is maintained by the gRPC library.
+	runtimeConn *grpc.ClientConn
+
+	runtimeSockets []string = []string{"unix:///var/run/crio/crio.sock", "unix:///run/containerd/containerd.sock", "unix:///var/run/docker.sock"}
 )
 
-const (
-	nodeSocket string = "unix:///var/run/vroute.sock"
-)
+// Used internally for bootstrapping connections to the local CRI instance.
+func dialCRIEndpoints() error {
 
-// Used internally for bootstrapping connections to the local node controller
-// instance that was forked from the control plane not long ago in the bootup process.
-func dialNodeEndpoints() error {
-	ctx, cancel := context.WithTimeout(context.Background(), time.Duration(time.Second*2))
-	defer cancel()
-	c, err := grpc.DialContext(ctx, nodeSocket)
-	if err != nil {
-		return err
+	if config.CPRF.CRISocket != "" {
+		ctx, close := context.WithTimeout(context.Background(), time.Duration(time.Second*2))
+		defer close()
+		c, err := grpc.DialContext(ctx, config.CPRF.CRISocket)
+		if err == nil {
+			runtimeConn = c
+
+			createRuntimeClients(c)
+			log.Printf("established container service runtime API gRPC connection with %s", config.CPRF.CRISocket)
+			return nil
+		}
 	} else {
-		nodeConn = c
+		for _, sock := range runtimeSockets {
+			ctx, close := context.WithTimeout(context.Background(), time.Duration(time.Second*2))
+			defer close()
+			c, err := grpc.DialContext(ctx, sock)
+			if err == nil {
+				runtimeConn = c
 
-		createNodeClients(c)
-		log.Printf("established node API gRPC connection with %s", nodeSocket)
-		return nil
+				createRuntimeClients(c)
+				log.Printf("established container service runtime API gRPC connection with %s", sock)
+				return nil
+			} else {
+				continue
+			}
+		}
 	}
-
+	return errors.New("error with creating runtime connection")
 }
 
-func createNodeClients(conn *grpc.ClientConn) {
-	NodeClient = ipcapi.NewNodeControllerServiceClient(conn)
-	NodeFirewallClient = ipcapi.NewNodeFirewallControllerServiceClient(conn)
+func createRuntimeClients(conn *grpc.ClientConn) {
+	RuntimeClient = criapi.NewRuntimeServiceClient(conn)
+	ImageClient = criapi.NewImageServiceClient(conn)
 }
