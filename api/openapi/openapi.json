@@ -19,9 +19,9 @@
       "summary": "API Group for handling node service management.",
       "description": "services.vroute.io is utilized for managing services that are run on the control plane node in conjunction with the vroute control plane itself."
     },
-    "/apis/dyndns.vroute.io/": {
-      "summary": "API Group for handling dynamic DNS management.",
-      "description": "dyndns.vroute.io is utilized for managing dynamic DNS hostname/IP combinations that are managed by the control plane and updated via various Dynamic DNS providers."
+    "/apis/dns.vroute.io/": {
+      "summary": "API Group for handling DNS management.",
+      "description": "dyndns.vroute.io is utilized for managing DNS hostname/IP combinations that are managed by the control plane and updated via various Dynamic DNS providers along with local DNS servers."
     },
     "/apis/addresses.vroute.io/": {
       "summary": "API Group for handling host addresses.",
