@@ -46,10 +46,13 @@ type Address struct {
 	Spec AddressSpec `json:"spec" yaml:"spec"`
 
 	// Status is the current state of this address on the host.
+	//
+	// Should not be filled out by the user, will be filled/managed
+	// by the server. Can be read by user at runtime.
 	Status AddressStatus `json:"status" yaml:"status"`
 }
 
-// AddressSpec represennts the desired spec for an address.
+// AddressSpec represents the desired spec for an address.
 type AddressSpec struct {
 
 	// Namespace specifies within which net namespace should vroute look for the link
