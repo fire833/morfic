@@ -19,6 +19,6 @@
 package v1alpha1
 
 const (
-	registration string = "dyndns.vroute.io"
+	registration string = "dns.vroute.io"
 	version      string = "v1alpha1"
 )

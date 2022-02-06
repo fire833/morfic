@@ -24,7 +24,7 @@ import (
 	"runtime"
 	"syscall"
 
-	"github.com/fire833/vroute/src"
+	src "github.com/fire833/vroute/pkg"
 	"github.com/spf13/cobra"
 )
 

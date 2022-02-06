@@ -23,7 +23,7 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/fire833/vroute/src/node"
+	"github.com/fire833/vroute/pkg/node"
 )
 
 // Priviledged node operator process main function.

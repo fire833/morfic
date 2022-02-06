@@ -16,4 +16,14 @@
 *	51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package v1alpha1
+package file
+
+// FilePersistenceProvider represents a persistence provider that is able to
+// persist control-plane data to a file, and can retrieve data according to the
+// PersistenceProvider interface.
+type FilePersistenceProvider struct {
+}
+
+func (file *FilePersistenceProvider) Initialize() {
+
+}
