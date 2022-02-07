@@ -52,12 +52,16 @@ type NodeControllerServiceClient interface {
 	DeleteNeighbor(ctx context.Context, in *DeleteNeighborRequest, opts ...grpc.CallOption) (*DeleteNeighborRequest, error)
 	// Updates the state of a neighbor on the host.
 	UpdateNeighbor(ctx context.Context, in *UpdateNeighborRequest, opts ...grpc.CallOption) (*UpdateNeighborResponse, error)
+	// Gets an address on the host.
+	GetAddress(ctx context.Context, in *GetAddressRequest, opts ...grpc.CallOption) (*GetAddressResponse, error)
+	// Gets all addresses that are located on the host.
+	GetAllAddresses(ctx context.Context, in *GetAllAddressesRequest, opts ...grpc.CallOption) (*GetAllAddressesResponse, error)
+	// Adds an address to a link on the host.
+	CreateAddress(ctx context.Context, in *CreateAddressRequest, opts ...grpc.CallOption) (*CreateAddressResponse, error)
 	// Deletes an address assigned to a link on the host.
 	DeleteAddress(ctx context.Context, in *DeleteAddressRequest, opts ...grpc.CallOption) (*DeleteAddressResponse, error)
 	// Updates addresses attached to a link on host.
 	UpdateAddress(ctx context.Context, in *UpdateAddressRequest, opts ...grpc.CallOption) (*UpdateAddressResponse, error)
-	// Adds an address to a link on the host.
-	AddAddress(ctx context.Context, in *AddAddressRequest, opts ...grpc.CallOption) (*AddAddressResponse, error)
 }
 
 type nodeControllerServiceClient struct {
@@ -203,6 +207,33 @@ func (c *nodeControllerServiceClient) UpdateNeighbor(ctx context.Context, in *Up
 	return out, nil
 }
 
+func (c *nodeControllerServiceClient) GetAddress(ctx context.Context, in *GetAddressRequest, opts ...grpc.CallOption) (*GetAddressResponse, error) {
+	out := new(GetAddressResponse)
+	err := c.cc.Invoke(ctx, "/v1alpha1.NodeControllerService/GetAddress", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *nodeControllerServiceClient) GetAllAddresses(ctx context.Context, in *GetAllAddressesRequest, opts ...grpc.CallOption) (*GetAllAddressesResponse, error) {
+	out := new(GetAllAddressesResponse)
+	err := c.cc.Invoke(ctx, "/v1alpha1.NodeControllerService/GetAllAddresses", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *nodeControllerServiceClient) CreateAddress(ctx context.Context, in *CreateAddressRequest, opts ...grpc.CallOption) (*CreateAddressResponse, error) {
+	out := new(CreateAddressResponse)
+	err := c.cc.Invoke(ctx, "/v1alpha1.NodeControllerService/CreateAddress", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *nodeControllerServiceClient) DeleteAddress(ctx context.Context, in *DeleteAddressRequest, opts ...grpc.CallOption) (*DeleteAddressResponse, error) {
 	out := new(DeleteAddressResponse)
 	err := c.cc.Invoke(ctx, "/v1alpha1.NodeControllerService/DeleteAddress", in, out, opts...)
@@ -215,15 +246,6 @@ func (c *nodeControllerServiceClient) DeleteAddress(ctx context.Context, in *Del
 func (c *nodeControllerServiceClient) UpdateAddress(ctx context.Context, in *UpdateAddressRequest, opts ...grpc.CallOption) (*UpdateAddressResponse, error) {
 	out := new(UpdateAddressResponse)
 	err := c.cc.Invoke(ctx, "/v1alpha1.NodeControllerService/UpdateAddress", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *nodeControllerServiceClient) AddAddress(ctx context.Context, in *AddAddressRequest, opts ...grpc.CallOption) (*AddAddressResponse, error) {
-	out := new(AddAddressResponse)
-	err := c.cc.Invoke(ctx, "/v1alpha1.NodeControllerService/AddAddress", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -264,12 +286,16 @@ type NodeControllerServiceServer interface {
 	DeleteNeighbor(context.Context, *DeleteNeighborRequest) (*DeleteNeighborRequest, error)
 	// Updates the state of a neighbor on the host.
 	UpdateNeighbor(context.Context, *UpdateNeighborRequest) (*UpdateNeighborResponse, error)
+	// Gets an address on the host.
+	GetAddress(context.Context, *GetAddressRequest) (*GetAddressResponse, error)
+	// Gets all addresses that are located on the host.
+	GetAllAddresses(context.Context, *GetAllAddressesRequest) (*GetAllAddressesResponse, error)
+	// Adds an address to a link on the host.
+	CreateAddress(context.Context, *CreateAddressRequest) (*CreateAddressResponse, error)
 	// Deletes an address assigned to a link on the host.
 	DeleteAddress(context.Context, *DeleteAddressRequest) (*DeleteAddressResponse, error)
 	// Updates addresses attached to a link on host.
 	UpdateAddress(context.Context, *UpdateAddressRequest) (*UpdateAddressResponse, error)
-	// Adds an address to a link on the host.
-	AddAddress(context.Context, *AddAddressRequest) (*AddAddressResponse, error)
 	mustEmbedUnimplementedNodeControllerServiceServer()
 }
 
@@ -322,14 +348,20 @@ func (UnimplementedNodeControllerServiceServer) DeleteNeighbor(context.Context, 
 func (UnimplementedNodeControllerServiceServer) UpdateNeighbor(context.Context, *UpdateNeighborRequest) (*UpdateNeighborResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateNeighbor not implemented")
 }
+func (UnimplementedNodeControllerServiceServer) GetAddress(context.Context, *GetAddressRequest) (*GetAddressResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAddress not implemented")
+}
+func (UnimplementedNodeControllerServiceServer) GetAllAddresses(context.Context, *GetAllAddressesRequest) (*GetAllAddressesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAllAddresses not implemented")
+}
+func (UnimplementedNodeControllerServiceServer) CreateAddress(context.Context, *CreateAddressRequest) (*CreateAddressResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateAddress not implemented")
+}
 func (UnimplementedNodeControllerServiceServer) DeleteAddress(context.Context, *DeleteAddressRequest) (*DeleteAddressResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteAddress not implemented")
 }
 func (UnimplementedNodeControllerServiceServer) UpdateAddress(context.Context, *UpdateAddressRequest) (*UpdateAddressResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateAddress not implemented")
-}
-func (UnimplementedNodeControllerServiceServer) AddAddress(context.Context, *AddAddressRequest) (*AddAddressResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method AddAddress not implemented")
 }
 func (UnimplementedNodeControllerServiceServer) mustEmbedUnimplementedNodeControllerServiceServer() {}
 
@@ -614,6 +646,60 @@ func _NodeControllerService_UpdateNeighbor_Handler(srv interface{}, ctx context.
 	return interceptor(ctx, in, info, handler)
 }
 
+func _NodeControllerService_GetAddress_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetAddressRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(NodeControllerServiceServer).GetAddress(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/v1alpha1.NodeControllerService/GetAddress",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(NodeControllerServiceServer).GetAddress(ctx, req.(*GetAddressRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _NodeControllerService_GetAllAddresses_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetAllAddressesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(NodeControllerServiceServer).GetAllAddresses(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/v1alpha1.NodeControllerService/GetAllAddresses",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(NodeControllerServiceServer).GetAllAddresses(ctx, req.(*GetAllAddressesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _NodeControllerService_CreateAddress_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateAddressRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(NodeControllerServiceServer).CreateAddress(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/v1alpha1.NodeControllerService/CreateAddress",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(NodeControllerServiceServer).CreateAddress(ctx, req.(*CreateAddressRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _NodeControllerService_DeleteAddress_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(DeleteAddressRequest)
 	if err := dec(in); err != nil {
@@ -646,24 +732,6 @@ func _NodeControllerService_UpdateAddress_Handler(srv interface{}, ctx context.C
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(NodeControllerServiceServer).UpdateAddress(ctx, req.(*UpdateAddressRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _NodeControllerService_AddAddress_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(AddAddressRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(NodeControllerServiceServer).AddAddress(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/v1alpha1.NodeControllerService/AddAddress",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(NodeControllerServiceServer).AddAddress(ctx, req.(*AddAddressRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -736,16 +804,24 @@ var NodeControllerService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _NodeControllerService_UpdateNeighbor_Handler,
 		},
 		{
+			MethodName: "GetAddress",
+			Handler:    _NodeControllerService_GetAddress_Handler,
+		},
+		{
+			MethodName: "GetAllAddresses",
+			Handler:    _NodeControllerService_GetAllAddresses_Handler,
+		},
+		{
+			MethodName: "CreateAddress",
+			Handler:    _NodeControllerService_CreateAddress_Handler,
+		},
+		{
 			MethodName: "DeleteAddress",
 			Handler:    _NodeControllerService_DeleteAddress_Handler,
 		},
 		{
 			MethodName: "UpdateAddress",
 			Handler:    _NodeControllerService_UpdateAddress_Handler,
-		},
-		{
-			MethodName: "AddAddress",
-			Handler:    _NodeControllerService_AddAddress_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

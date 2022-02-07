@@ -17,3 +17,29 @@
  */
 
 package netlink
+
+import (
+	"context"
+
+	api "github.com/fire833/vroute/pkg/apis/ipcapi/v1alpha1"
+)
+
+func (s *NetlinkNodeServer) GetAddress(ctx context.Context, req *api.GetLinkRequest) (resp *api.GetLinkResponse, e error) {
+	return nil, nil
+}
+
+func (s *NetlinkNodeServer) GetAllAddresses(ctx context.Context, req *api.GetLinkRequest) (resp *api.GetLinkResponse, e error) {
+	return nil, nil
+}
+
+func (s *NetlinkNodeServer) CreateAddress(ctx context.Context, req *api.GetLinkRequest) (resp *api.GetLinkResponse, e error) {
+	return nil, nil
+}
+
+func (s *NetlinkNodeServer) DeleteAddress(ctx context.Context, req *api.GetLinkRequest) (resp *api.GetLinkResponse, e error) {
+	return nil, nil
+}
+
+func (s *NetlinkNodeServer) UpdateAddress(ctx context.Context, req *api.GetLinkRequest) (resp *api.GetLinkResponse, e error) {
+	return nil, nil
+}

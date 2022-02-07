@@ -16,7 +16,7 @@
 *	51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package src
+package pkg
 
 // Defines whether or not to set debugging as on for the processes.
 var DebugEnabled bool = false

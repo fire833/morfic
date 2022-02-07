@@ -86,7 +86,7 @@ func forkNode(cmd *cobra.Command, args []string) {
 
 func rootMain(cmd *cobra.Command, args []string) {
 
-	src.GenerateRuntimeTrustToken()
+	src.GenerateRuntimeTrustAnchors()
 
 	// Spawn the node process first to start
 	syscall.ForkExec("vroute", []string{"forkapi", "-t", src.SharedToken.GetToken()}, &syscall.ProcAttr{

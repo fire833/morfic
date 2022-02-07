@@ -24,12 +24,12 @@ import (
 
 var WgClient *wgctrl.Client
 
-func init() {
-	client, err := wgctrl.New()
-	if err != nil {
-		panic(err) // Solve this panic in the future, but probably results in exit of control plane.
-	}
+// func init() {
+// 	client, err := wgctrl.New()
+// 	if err != nil {
+// 		panic(err) // Solve this panic in the future, but probably results in exit of control plane.
+// 	}
 
-	WgClient = client
-	return
-}
+// 	WgClient = client
+// 	return
+// }

@@ -19,20 +19,32 @@
 package node
 
 import (
+	"crypto/ed25519"
+	"crypto/rand"
+	"crypto/tls"
+	"crypto/x509"
 	"fmt"
+	"math/big"
 	"net"
 	"os"
+	"time"
 
+	"github.com/fire833/vroute/pkg"
 	"github.com/fire833/vroute/pkg/apis/ipcapi/v1alpha1"
 	"github.com/fire833/vroute/pkg/config"
 	"github.com/fire833/vroute/pkg/node/netlink"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials"
 )
 
 var (
 	NodeControllerServer *grpc.Server
+
+	LocalCert    *x509.Certificate
+	LocalCertKey ed25519.PrivateKey
 )
 
+// Begins the node grpc server. Should never exit.
 func BeginNodeServer() error {
 	// create the unix bind listener.
 	l, e := net.Listen("unix", config.CPRF.NodeControllerSocket)
@@ -41,12 +53,53 @@ func BeginNodeServer() error {
 		os.Exit(1)
 	}
 
-	s := grpc.NewServer(grpc.EmptyServerOption{})
+	cert, e1 := CreateServerCert()
+	if e1 != nil {
+		// Bail because of this.
+		fmt.Printf("Unable to create server certificate: %v", e)
+		os.Exit(1)
+	}
+
+	creds := credentials.NewServerTLSFromCert(cert)
+
+	s := grpc.NewServer(grpc.Creds(creds))
 
 	// Register the services
-	s.RegisterService(&v1alpha1.NodeControllerService_ServiceDesc, netlink.NetlinkNodeServer{})
+	handlers := netlink.NetlinkNodeServer{}
+
+	s.RegisterService(&v1alpha1.NodeFirewallControllerService_ServiceDesc, handlers)
+	s.RegisterService(&v1alpha1.NodeControllerService_ServiceDesc, handlers)
 
 	NodeControllerServer = s
 	// This will basically be the last main function for the process.
 	return s.Serve(l)
+}
+
+func CreateServerCert() (*tls.Certificate, error) {
+	pub, priv, e := ed25519.GenerateKey(rand.Reader)
+	if e != nil {
+		return nil, e
+	}
+
+	templ := &x509.Certificate{
+		SerialNumber:       big.NewInt(1),
+		SignatureAlgorithm: x509.PureEd25519,
+		IsCA:               true, // This is the CA.
+		NotBefore:          time.Now(),
+		NotAfter:           time.Now().Local().AddDate(5, 0, 0), // Default to making self-signed cert last for five years, so I don't have to create renewal logic.
+		PublicKey:          pub,
+		PublicKeyAlgorithm: x509.Ed25519,
+	}
+
+	cert, e1 := x509.CreateCertificate(rand.Reader, templ, pkg.RuntimeCA, pub, pkg.RuntimeCAKey)
+	if e1 != nil {
+		return nil, e1
+	}
+
+	finalcert, e2 := tls.X509KeyPair(cert, priv)
+	if e2 != nil {
+		return nil, e2
+	}
+
+	return &finalcert, nil
 }

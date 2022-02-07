@@ -20,6 +20,8 @@ package netlink
 
 import "github.com/fire833/vroute/pkg/apis/ipcapi/v1alpha1"
 
+// NetlinkNodeServer is the handlers that satisfy the
+// NodeControllerSeriver and NodeFirewallControllerService interfaces.
 type NetlinkNodeServer struct {
 	v1alpha1.UnimplementedNodeControllerServiceServer
 	v1alpha1.UnimplementedNodeFirewallControllerServiceServer

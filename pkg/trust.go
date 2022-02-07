@@ -16,11 +16,15 @@
 *	51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package src
+package pkg
 
 import (
+	"crypto/ed25519"
 	"crypto/rand"
 	"crypto/x509"
+	"fmt"
+	"math/big"
+	"os"
 	"sync"
 	"time"
 )
@@ -29,10 +33,13 @@ var SharedToken *SharedTrustToken
 
 // Certificate that validates requests between
 // subprocesses during runtime. Is valid for 5 years.
-var RuntimeCA x509.Certificate
+var RuntimeCA *x509.Certificate
+var RuntimeCAKey ed25519.PrivateKey
 
-// The local certificate loaded
+// The local certificate loaded for use by the grpc client
+// for authenticating with the grpc node server.
 var LocalCert *x509.Certificate
+var LocalCertKey ed25519.PrivateKey
 
 const (
 	tokenByteSize = 64
@@ -55,14 +62,56 @@ type SharedTrustToken struct {
 //
 // This method should be called only once by the main vroute command function, as it is used for all of
 // setup with runtime CA as well as well as the runtime trust token.
-func GenerateRuntimeTrustToken() {
+func GenerateRuntimeTrustAnchors() {
 	token := NewToken()
 	// Set the global token
 	SharedToken = token
 
-	// TODO generate runtime CA.
+	pub, priv, e := ed25519.GenerateKey(rand.Reader)
+	if e != nil {
+		// Fail out if we can't create this key, because then bootstrapping won't work.
+		fmt.Printf("Unable to create runtime CA keypair: %v", e)
+		os.Exit(1)
+	}
 
-	return
+	RuntimeCAKey = priv
+
+	RuntimeCA = &x509.Certificate{
+		SerialNumber:       big.NewInt(1),
+		SignatureAlgorithm: x509.PureEd25519,
+		IsCA:               true, // This is the CA.
+		NotBefore:          time.Now(),
+		NotAfter:           time.Now().Local().AddDate(5, 0, 0), // Default to making self-signed cert last for five years, so I don't have to create renewal logic.
+		PublicKey:          pub,
+		PublicKeyAlgorithm: x509.Ed25519,
+	}
+
+	pub2, priv2, e1 := ed25519.GenerateKey(rand.Reader)
+	if e1 != nil {
+		// Fail out if we can't create this key, because then bootstrapping won't work.
+		fmt.Printf("Unable to create runtime certificate keypair: %v", e1)
+		os.Exit(1)
+	}
+
+	LocalCertKey = priv2
+
+	lcert, e2 := x509.CreateCertificate(rand.Reader, &x509.Certificate{
+		SerialNumber:       big.NewInt(1),
+		SignatureAlgorithm: x509.PureEd25519,
+		IsCA:               true, // This is the CA.
+		NotBefore:          time.Now(),
+		NotAfter:           time.Now().Local().AddDate(5, 0, 0), // Default to making self-signed cert last for five years, so I don't have to create renewal logic.
+		PublicKey:          pub2,
+		PublicKeyAlgorithm: x509.Ed25519,
+	}, RuntimeCA, pub2, RuntimeCAKey)
+	if e2 != nil {
+		// Fail out if we can't create this key, because then bootstrapping won't work.
+		fmt.Printf("Unable to create runtime certificate: %v", e2)
+		os.Exit(1)
+	}
+
+	LocalCert, _ = x509.ParseCertificate(lcert) // Ignore the error since we are passing in a cert that was just successfully generated.
+
 }
 
 func NewToken() *SharedTrustToken {
@@ -99,7 +148,7 @@ func (token *SharedTrustToken) UpdateToken() {
 
 // Returns uptime of the process token structure.
 func (token *SharedTrustToken) GetTokenUptime() time.Duration {
-	return time.Now().Sub(token.tokenResetTime)
+	return time.Since(token.tokenResetTime)
 }
 
 func (token *SharedTrustToken) GetToken() string {

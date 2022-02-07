@@ -21,10 +21,6 @@ package main
 import (
 	"os"
 	"syscall"
-
-	"github.com/fasthttp/router"
-
-	api "github.com/fire833/vroute/pkg/apis/v1alpha1"
 )
 
 // Unprivileged API listener main function.
@@ -36,14 +32,14 @@ func api_main() {
 		}
 	}
 
-	router := router.New()
+	// 	router := router.New()
 
-	api.RegisterAuthRoutes(router)
-	api.RegisterInterfaceRoutes(router)
-	api.RegisterNFRoutes(router)
-	api.RegisterRouteRoutes(router)
-	api.RegisterServiceRoutes(router)
-	api.RegisterWireguardRoutes(router)
+	// api.RegisterAuthRoutes(router)
+	// api.RegisterInterfaceRoutes(router)
+	// api.RegisterNFRoutes(router)
+	// api.RegisterRouteRoutes(router)
+	// api.RegisterServiceRoutes(router)
+	// api.RegisterWireguardRoutes(router)
 
 }
 

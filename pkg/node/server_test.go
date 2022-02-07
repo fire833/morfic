@@ -21,11 +21,14 @@ package node
 import (
 	"testing"
 
+	"github.com/fire833/vroute/pkg"
 	"github.com/fire833/vroute/pkg/config"
 )
 
 func init() {
 	config.CPRF = &config.ControlPlaneRuntimeConfig{}
+
+	pkg.GenerateRuntimeTrustAnchors()
 }
 
 func TestStartGRPCServer(t *testing.T) {

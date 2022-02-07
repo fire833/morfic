@@ -53,12 +53,17 @@ service NodeControllerService {
     rpc DeleteNeighbor(DeleteNeighborRequest) returns (DeleteNeighborRequest) {}
     // Updates the state of a neighbor on the host.
     rpc UpdateNeighbor(UpdateNeighborRequest) returns (UpdateNeighborResponse) {}
+    // Gets an address on the host.
+    rpc GetAddress(GetAddressRequest) returns (GetAddressResponse) {}
+    // Gets all addresses that are located on the host.
+    rpc GetAllAddresses(GetAllAddressesRequest) returns (GetAllAddressesResponse) {}
+    // Adds an address to a link on the host.
+    rpc CreateAddress(CreateAddressRequest) returns (CreateAddressResponse) {}
     // Deletes an address assigned to a link on the host.
     rpc DeleteAddress(DeleteAddressRequest) returns (DeleteAddressResponse) {}
     // Updates addresses attached to a link on host.
     rpc UpdateAddress(UpdateAddressRequest) returns (UpdateAddressResponse) {}
-    // Adds an address to a link on the host.
-    rpc AddAddress(AddAddressRequest) returns (AddAddressResponse) {}
+    
 }
 
 // Description of a service that controls the node's netfilter configuration.
@@ -548,6 +553,22 @@ message UpdateNeighborResponse {
 
 }
 
+message GetAddressRequest {
+
+}
+
+message GetAddressResponse {
+
+}
+
+message GetAllAddressesRequest {
+
+}
+
+message GetAllAddressesResponse {
+
+}
+
 message DeleteAddressRequest {
 
 }
@@ -564,11 +585,11 @@ message UpdateAddressResponse {
 
 }
 
-message AddAddressRequest {
+message CreateAddressRequest {
 
 }
 
-message AddAddressResponse {
+message CreateAddressResponse {
 
 }
 
