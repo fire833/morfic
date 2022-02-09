@@ -22,6 +22,17 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
+type RecordType int
+
+const (
+	ARecord RecordType = iota
+	AAAARecord
+	CNAMERecord
+	TXTRecord
+	SRVRecord
+	MXRecord
+)
+
 // DSNRecordList represents a list of DNS records.
 type DNSRecordList struct {
 	metav1.TypeMeta `json:",inline" yaml:",inline"`
@@ -34,20 +45,63 @@ type DNSRecordList struct {
 	Items []DNSRecord `json:"items" yaml:"items"`
 }
 
+// DNSRecord represents a desired DNS record for some DNS server.
 type DNSRecord struct {
-}
-
-// DynamicDNSProviderList describes a list of dynamic DNS providers.
-type DynamicDNSProviderList struct {
 	metav1.TypeMeta `json:",inline" yaml:",inline"`
 
 	// Standard object metadata.
 	// Utilizes the Kubernetes metadata object spec for now.
 	metav1.ObjectMeta `json:"metadata,omitempty" yaml:"metadata,omitempty"`
 
-	// Items specifies the array of dynamic DNS providers.
-	Items []DynamicDNSProvider `json:"items" yaml:"items"`
+	Spec DNSRecordSpec `json:"spec" yaml:"spec"`
+
+	Status DNSRecordStatus `json:"status" yaml:"status"`
 }
 
-type DynamicDNSProvider struct {
+// DNSRecordSpec specifies the desired specification for a DNS record.
+type DNSRecordSpec struct {
+	Type  string `json:"type" yaml:"type"`
+	Host  string `json:"host" yaml:"host"`
+	Value string `json:"value" yaml:"value"`
+	TTL   uint   `json:"ttl" yaml:"ttl"`
+}
+
+// DNSRecordStatus describes the current status of a DNS record.
+type DNSRecordStatus struct {
+	Deployed bool `json:"deployed" yaml:"deployed"`
+}
+
+// DNSProviderList describes a list of dynamic DNS providers.
+type DNSProviderList struct {
+	metav1.TypeMeta `json:",inline" yaml:",inline"`
+
+	// Standard object metadata.
+	// Utilizes the Kubernetes metadata object spec for now.
+	metav1.ObjectMeta `json:"metadata,omitempty" yaml:"metadata,omitempty"`
+
+	// Items specifies the array of DNS providers.
+	Items []DNSProvider `json:"items" yaml:"items"`
+}
+
+// DNSProvider represents a provider for implementing DNS records.
+type DNSProvider struct {
+	metav1.TypeMeta `json:",inline" yaml:",inline"`
+
+	// Standard object metadata.
+	// Utilizes the Kubernetes metadata object spec for now.
+	metav1.ObjectMeta `json:"metadata,omitempty" yaml:"metadata,omitempty"`
+
+	// Spec
+	Spec DNSProviderSpec `json:"spec" yaml:"spec"`
+
+	// Status
+	Status DNSProviderStatus `json:"status" yaml:"status"`
+}
+
+// DNSProviderSpec specifies the desired spec for a DNS provider.
+type DNSProviderSpec struct {
+}
+
+// DNSProviderStatus represents the current status for a DNS provider.
+type DNSProviderStatus struct {
 }
