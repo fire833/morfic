@@ -21,7 +21,7 @@
     },
     "/apis/dns.vroute.io/": {
       "summary": "API Group for handling DNS management.",
-      "description": "dyndns.vroute.io is utilized for managing DNS hostname/IP combinations that are managed by the control plane and updated via various Dynamic DNS providers along with local DNS servers."
+      "description": "dns.vroute.io is utilized for managing DNS hostname/IP combinations that are managed by the control plane and updated via various Dynamic DNS providers along with local DNS servers."
     },
     "/apis/addresses.vroute.io/": {
       "summary": "API Group for handling host addresses.",
@@ -79,7 +79,7 @@
       }
     },
     "/apis/services.vroute.io/v1": {
-      "summary": "v1 of the services API"
+      "summary": "v1 of the services API."
     },
     "/apis/vpn.vroute.io/wireguard/": {
       "summary": "Endpoints to manage Wireguard VPN configurations/state.",
@@ -118,10 +118,18 @@
   },
   "components": {
     "schemas": {
-      "WireguardConfig": {},
-      "L2TPConfig": {},
-      "NATConfig": {},
-      "OpenVPNConfig": {}
-    }
+      "ServiceList": {},
+      "Service": {},
+      "ServiceSpec": {},
+      "ServiceStatus": {},
+      "RouteTableList": {},
+      "RouteTable": {},
+      "RouteTableSpec": {},
+      "Route": {},
+      "RouteSpec": {},
+      "RouteStatus": {}
+    },
+    "responses": {},
+    "examples": {}
   }
 }
