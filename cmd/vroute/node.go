@@ -19,6 +19,8 @@
 package main
 
 import (
+	"fmt"
+	"log"
 	"os"
 	"os/signal"
 	"syscall"
@@ -29,14 +31,18 @@ import (
 // Priviledged node operator process main function.
 func node_main() {
 
-	sig := make(chan os.Signal)
+	fmt.Printf("starting node control process, initializing signal handler")
+
+	sig := make(chan os.Signal, 5)
 	signal.Notify(sig)
 
 	// Begin handler on thread to free up main for gRPC listener.
-	go signalHandler(sig)
+	go nodesignalHandler(sig)
 
+	log.Printf("beginning node grpc server")
 	// Start the node gRPC listener.
 	if e := node.BeginNodeServer(); e != nil {
+		log.Printf("node server exited, error: %v, exiting\n", e.Error())
 		node.NodeControllerServer.GracefulStop() // Kill the server gracefully and exit.
 	}
 
@@ -44,7 +50,7 @@ func node_main() {
 
 }
 
-func signalHandler(sig chan os.Signal) error {
+func nodesignalHandler(sig chan os.Signal) error {
 	for {
 		signal := <-sig
 
@@ -69,5 +75,5 @@ func signalHandler(sig chan os.Signal) error {
 			}
 		}
 	}
-	return nil
+	// return nil
 }

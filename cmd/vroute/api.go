@@ -19,12 +19,16 @@
 package main
 
 import (
+	"fmt"
 	"os"
+	"os/signal"
 	"syscall"
 )
 
 // Unprivileged API listener main function.
 func api_main() {
+
+	fmt.Printf("starting api process, dropping process privilege")
 
 	if os.Getuid() != unprivilegedUID || os.Getgid() != unprivilegedGID {
 		if e := dropPriv(); e != nil {
@@ -32,14 +36,12 @@ func api_main() {
 		}
 	}
 
-	// 	router := router.New()
+	fmt.Printf("starting api process, initializing signal handler")
 
-	// api.RegisterAuthRoutes(router)
-	// api.RegisterInterfaceRoutes(router)
-	// api.RegisterNFRoutes(router)
-	// api.RegisterRouteRoutes(router)
-	// api.RegisterServiceRoutes(router)
-	// api.RegisterWireguardRoutes(router)
+	sig := make(chan os.Signal, 5)
+	signal.Notify(sig)
+
+	go apisignalHandler(sig)
 
 }
 
@@ -52,4 +54,30 @@ func dropPriv() error {
 		return e
 	}
 	return nil
+}
+
+func apisignalHandler(sig chan os.Signal) error {
+	for {
+		signal := <-sig
+
+		switch signal {
+		case syscall.SIGHUP: // Reload configuration, gracefully stop and restart the server.
+			{
+				continue
+			}
+		case syscall.SIGKILL | syscall.SIGINT: // Hard stop the control plane.
+			{
+				break
+			}
+		case syscall.SIGTERM: //Gracefully stop the control plane
+			{
+				break
+			}
+		default:
+			{
+				continue
+			}
+		}
+	}
+	// return nil
 }

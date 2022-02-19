@@ -20,6 +20,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"runtime"
 	"syscall"
@@ -47,15 +48,17 @@ For more information about this project and for documentation, visit https://git
 	}
 
 	forkNodeCmd = &cobra.Command{
-		Use:   "vroute nodefork <runtime_token>",
-		Short: "Used for trusted forking of node subprocess.",
-		Run:   forkAPI,
+		Use:    "nodefork <runtime_token>",
+		Short:  "Used for trusted forking of node subprocess.",
+		Run:    forkAPI,
+		Hidden: true,
 	}
 
 	forkAPICmd = &cobra.Command{
-		Use:   "vroute apifork <runtime_token>",
-		Short: "Used for trusted forking of api subprocess.",
-		Run:   forkNode,
+		Use:    "apifork <runtime_token>",
+		Short:  "Used for trusted forking of api subprocess.",
+		Run:    forkNode,
+		Hidden: true,
 	}
 )
 
@@ -66,30 +69,43 @@ func vrouteMain() {
 	rootCmd.AddCommand(forkAPICmd)
 
 	if e := rootCmd.Execute(); e != nil {
-		fmt.Println("Unable to start vroute: " + e.Error())
+		log.Printf("Unable to start vroute: %v\n", e.Error())
 		os.Exit(1)
 	}
 }
 
 func forkAPI(cmd *cobra.Command, args []string) {
-	if args[0] == "-t" && args[1] == src.SharedToken.GetToken() {
+
+	// Compare the provided token to the root token to make sure this is a
+	// legitimately spawned process.
+	if args[2] == "-t" && args[3] == src.SharedToken.GetToken() {
 		api_main()
+	} else {
+		log.Printf("shared tokens do not match, aborting api fork\n")
+		os.Exit(1)
 	}
 
 }
 
 func forkNode(cmd *cobra.Command, args []string) {
-	if args[0] == "-t" && args[1] == src.SharedToken.GetToken() {
+
+	// Compare the provided token to the root token to make sure this is a
+	// legitimately spawned process.
+	if args[2] == "-t" && args[3] == src.SharedToken.GetToken() {
 		node_main()
+	} else {
+		log.Printf("shared tokens do not match, aborting node fork\n")
+		os.Exit(1)
 	}
 }
 
 func rootMain(cmd *cobra.Command, args []string) {
 
+	log.Printf("generating runtime trust tokens for bootstrapping daughter processes")
 	src.GenerateRuntimeTrustAnchors()
 
-	// Spawn the node process first to start
-	syscall.ForkExec("vroute", []string{"forkapi", "-t", src.SharedToken.GetToken()}, &syscall.ProcAttr{
+	// Spawn the node process first
+	nodepid, nodee := syscall.ForkExec("vroute", []string{"forknode", "-t", src.SharedToken.GetToken()}, &syscall.ProcAttr{
 		Sys: &syscall.SysProcAttr{
 			Ptrace:     false,
 			Cloneflags: syscall.CLONE_NEWIPC,
@@ -97,12 +113,29 @@ func rootMain(cmd *cobra.Command, args []string) {
 		},
 	})
 
-	syscall.ForkExec("vroute", []string{"forknode", "-t", src.SharedToken.GetToken()}, &syscall.ProcAttr{
+	if nodee != nil {
+		log.Printf("Unable to fork node process, error: %v\n", nodee.Error())
+		os.Exit(1) // Kill the bootstrapping process here.
+	} else {
+		log.Printf("vroute node process created, PID: %d\n", nodepid)
+	}
+
+	// Spawn the api server second
+	apipid, apie := syscall.ForkExec("vroute", []string{"forkapi", "-t", src.SharedToken.GetToken()}, &syscall.ProcAttr{
 		Sys: &syscall.SysProcAttr{
 			Ptrace:     false,
 			Cloneflags: syscall.CLONE_NEWIPC,
 			Credential: &syscall.Credential{},
 		},
 	})
+
+	if apie != nil {
+		log.Printf("Unable to fork api process, error: %v\n", apie.Error())
+		os.Exit(1) // Kill the bootstrapping process here.
+	} else {
+		log.Printf("vroute api process created, PID: %d\n", apipid)
+	}
+
+	log.Printf("vroute control plane bootstrapped")
 
 }
