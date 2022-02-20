@@ -18,8 +18,44 @@
 
 package v1alpha1
 
+import (
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+)
+
+// NeighborList represents a list of local neighbors.
 type NeighborList struct {
+	metav1.TypeMeta `json:",inline" yaml:",inline"`
+
+	// Standard object metadata.
+	// Utilizes the Kubernetes metadata object spec for now.
+	metav1.ObjectMeta `json:"metadata,omitempty" yaml:"metadata,omitempty"`
+
+	// Items represents the array of neighbors.
+	Items []Neighbor `json:"items" yaml:"items"`
 }
 
+// Neighbor represents a neighbor in the local ARP table on the host.
 type Neighbor struct {
+	metav1.TypeMeta `json:",inline" yaml:",inline"`
+
+	// Standard object metadata.
+	// Utilizes the Kubernetes metadata object spec for now.
+	metav1.ObjectMeta `json:"metadata,omitempty" yaml:"metadata,omitempty"`
+
+	// Spec is the desired spec of this nighbor on the host ARP table.
+	Spec NeighborSpec `json:"spec" yaml:"spec"`
+
+	// Status is the current state of this neighbor on the host.
+	//
+	// Should not be filled out by the user, will be filled/managed
+	// by the server. Can be read by user at runtime.
+	Status NeighborStatus `json:"status" yaml:"status"`
+}
+
+// NeighborSpec represents the desired spec of a neighbor of the host.
+type NeighborSpec struct {
+}
+
+// NeighborStatus specifies the status of this neighbor on the host.
+type NeighborStatus struct {
 }

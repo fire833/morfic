@@ -33,7 +33,7 @@ const (
 	MXRecord
 )
 
-// DSNRecordList represents a list of DNS records.
+// DNSRecordList represents a list of DNS records.
 type DNSRecordList struct {
 	metav1.TypeMeta `json:",inline" yaml:",inline"`
 
@@ -71,7 +71,7 @@ type DNSRecordStatus struct {
 	Deployed bool `json:"deployed" yaml:"deployed"`
 }
 
-// DNSProviderList describes a list of dynamic DNS providers.
+// DNSProviderList describes a list of DNS providers.
 type DNSProviderList struct {
 	metav1.TypeMeta `json:",inline" yaml:",inline"`
 
@@ -91,10 +91,13 @@ type DNSProvider struct {
 	// Utilizes the Kubernetes metadata object spec for now.
 	metav1.ObjectMeta `json:"metadata,omitempty" yaml:"metadata,omitempty"`
 
-	// Spec
+	// Spec is the desired spec of this DNS provider.
 	Spec DNSProviderSpec `json:"spec" yaml:"spec"`
 
-	// Status
+	// Status is the current state of this DNS provider on the host.
+	//
+	// Should not be filled out by the user, will be filled/managed
+	// by the server. Can be read by user at runtime.
 	Status DNSProviderStatus `json:"status" yaml:"status"`
 }
 

@@ -70,7 +70,7 @@ type AddressSpec struct {
 	IP *IPSpec `json:"ip" yaml:"ip"`
 }
 
-// Specifies the status of the address.
+// AddressStatus specifies the status of an address.
 type AddressStatus struct {
 
 	// Bound notes if this address has been bound to a link on the host.
