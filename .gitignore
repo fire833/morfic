@@ -4,4 +4,7 @@
 vendor/*
 vendor
 
+vroute
+bin/
+
 .vscode

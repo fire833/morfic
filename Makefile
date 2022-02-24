@@ -15,3 +15,10 @@
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 all:
+
+build:
+	@echo "Building control plane from source..."
+	@GOOS=linux GOARCH=amd64 go build -o bin/vroute cmd/vroute/main.go cmd/vroute/constants.go cmd/vroute/node.go cmd/vroute/api.go cmd/vroute/commands.go
+	@# GOOS=windows GOARCH=amd64 go build -o bin/vroute.exe cmd/vroute/main.go cmd/vroute/constants.go cmd/vroute/node.go cmd/vroute/api.go cmd/vroute/commands.go
+	@GOOS=linux GOARCH=arm64 go build -o bin/vroute-linux-arm64 cmd/vroute/main.go cmd/vroute/constants.go cmd/vroute/node.go cmd/vroute/api.go cmd/vroute/commands.go
+	@GOOS=linux GOARCH=arm go build -o bin/vroute-linux-arm cmd/vroute/main.go cmd/vroute/constants.go cmd/vroute/node.go cmd/vroute/api.go cmd/vroute/commands.go

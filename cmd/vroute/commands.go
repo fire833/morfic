@@ -114,7 +114,7 @@ func rootMain(cmd *cobra.Command, args []string) {
 	})
 
 	if nodee != nil {
-		log.Printf("Unable to fork node process, error: %v\n", nodee.Error())
+		log.Printf("unable to fork node process, error: %v\n", nodee.Error())
 		os.Exit(1) // Kill the bootstrapping process here.
 	} else {
 		log.Printf("vroute node process created, PID: %d\n", nodepid)
@@ -130,12 +130,12 @@ func rootMain(cmd *cobra.Command, args []string) {
 	})
 
 	if apie != nil {
-		log.Printf("Unable to fork api process, error: %v\n", apie.Error())
+		log.Printf("unable to fork api process, error: %v\n", apie.Error())
 		os.Exit(1) // Kill the bootstrapping process here.
 	} else {
 		log.Printf("vroute api process created, PID: %d\n", apipid)
 	}
 
-	log.Printf("vroute control plane bootstrapped")
+	log.Printf("vroute control plane bootstrapped, bootstrap process exiting")
 
 }
