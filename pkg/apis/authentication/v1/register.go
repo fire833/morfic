@@ -18,7 +18,31 @@
 
 package v1
 
-const (
-	registration string = "authentication.vroute.io"
-	version      string = "v1"
+import (
+	authenticationv1 "github.com/fire833/vroute/pkg/apis/authentication"
+	"k8s.io/apimachinery/pkg/runtime/schema"
 )
+
+// GroupName is the name of this API group.
+const GroupName = "authentication.vroute.io"
+
+// SchemeGroupVersion is group version used to register these objects
+var SchemeGroupVersion = schema.GroupVersion{Group: GroupName, Version: "v1"}
+
+// Resource takes an unqualified resource and returns a Group qualified GroupResource
+func Resource(resource string) schema.GroupResource {
+	return SchemeGroupVersion.WithResource(resource).GroupResource()
+}
+
+var (
+	localSchemeBuilder = &authenticationv1.SchemeBuilder
+	AddToScheme        = localSchemeBuilder.AddToScheme
+)
+
+func init() {
+	// We only register manually written functions here. The registration of the
+	// generated functions takes place in the generated files. The separation
+	// makes the code compile even when the generated files are missing.
+
+	// localSchemeBuilder.Register(addDefaultingFuncs)
+}
