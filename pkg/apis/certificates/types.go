@@ -79,6 +79,10 @@ type CertificateSignerList struct {
 	Items []CertificateSigner `json:"items" yaml:"items"`
 }
 
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
+// +k8s:openapi-gen=true
+// +k8s:deepcopy-gen=true
+
 // CertificateSigner represents a certificate signing entity.
 type CertificateSigner struct {
 	metav1.TypeMeta `json:",inline" yaml:",inline"`
