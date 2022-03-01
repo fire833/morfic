@@ -16,4 +16,4 @@
 *	51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package v1alpha1
+package config

@@ -14,26 +14,6 @@
 *	You should have received a copy of the GNU General Public License along
 *	with this program; if not, write to the Free Software Foundation, Inc.,
 *	51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
- */ 
+ */
 
-syntax = "proto2";
-package v1alpha1;
-
-import "k8s.io/apimachinery/pkg/apis/meta/v1/generated.proto";
-
-option go_package = "v1alpha1";
-
-// AddressList represents a list of Address objects.
-message AddressList {
-    
-    // Standard object metadata.
-	// Utilizes the Kubernetes metadata object spec for now.
-    optional k8s.io.apimachinery.pkg.apis.meta.v1.ObjectMeta metadata = 1;
-
-    // Items specifies the array of addresses.
-	repeated Address items = 2;
-}
-
-message Address {
-
-}
+package vpn

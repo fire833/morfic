@@ -21,7 +21,7 @@ package validation
 import (
 	"errors"
 
-	interfaces "github.com/fire833/vroute/pkg/apis/interfaces/v1"
+	interfaces "github.com/fire833/vroute/pkg/apis/interfaces"
 )
 
 var (

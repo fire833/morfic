@@ -16,7 +16,7 @@
 *	51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package v1alpha1
+package dns
 
 import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -33,6 +33,10 @@ const (
 	MXRecord
 )
 
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
+// +k8s:openapi-gen=true
+// +k8s:deepcopy-gen=true
+
 // DNSRecordList represents a list of DNS records.
 type DNSRecordList struct {
 	metav1.TypeMeta `json:",inline" yaml:",inline"`
@@ -44,6 +48,10 @@ type DNSRecordList struct {
 	// Items specifies the array of DNS records.
 	Items []DNSRecord `json:"items" yaml:"items"`
 }
+
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
+// +k8s:openapi-gen=true
+// +k8s:deepcopy-gen=true
 
 // DNSRecord represents a desired DNS record for some DNS server.
 type DNSRecord struct {
@@ -71,6 +79,10 @@ type DNSRecordStatus struct {
 	Deployed bool `json:"deployed" yaml:"deployed"`
 }
 
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
+// +k8s:openapi-gen=true
+// +k8s:deepcopy-gen=true
+
 // DNSProviderList describes a list of DNS providers.
 type DNSProviderList struct {
 	metav1.TypeMeta `json:",inline" yaml:",inline"`
@@ -82,6 +94,10 @@ type DNSProviderList struct {
 	// Items specifies the array of DNS providers.
 	Items []DNSProvider `json:"items" yaml:"items"`
 }
+
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
+// +k8s:openapi-gen=true
+// +k8s:deepcopy-gen=true
 
 // DNSProvider represents a provider for implementing DNS records.
 type DNSProvider struct {

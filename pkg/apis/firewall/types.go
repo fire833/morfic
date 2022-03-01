@@ -16,11 +16,15 @@
 *	51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package v1alpha1
+package firewall
 
 import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
+
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
+// +k8s:openapi-gen=true
+// +k8s:deepcopy-gen=true
 
 // FirewallRuleList represents a list of local firewall rules.
 type FirewallRuleList struct {
@@ -33,6 +37,10 @@ type FirewallRuleList struct {
 	// Items represents the array of firewall rules.
 	Items []FirewallRule `json:"items" yaml:"items"`
 }
+
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
+// +k8s:openapi-gen=true
+// +k8s:deepcopy-gen=true
 
 // FirewallRule represents a firewall rule.
 type FirewallRule struct {
@@ -60,6 +68,10 @@ type FirewallRuleSpec struct {
 type FirewallRuleStatus struct {
 }
 
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
+// +k8s:openapi-gen=true
+// +k8s:deepcopy-gen=true
+
 // FirewallChainList represents a list of local firewall chains.
 type FirewallChainList struct {
 	metav1.TypeMeta `json:",inline" yaml:",inline"`
@@ -71,6 +83,10 @@ type FirewallChainList struct {
 	// Items represents the array of firewall chains.
 	Items []FirewallChain `json:"items" yaml:"items"`
 }
+
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
+// +k8s:openapi-gen=true
+// +k8s:deepcopy-gen=true
 
 // FirewallChain represents a firewall chain of rules.
 type FirewallChain struct {
@@ -98,6 +114,10 @@ type FirewallChainSpec struct {
 type FirewallChainStatus struct {
 }
 
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
+// +k8s:openapi-gen=true
+// +k8s:deepcopy-gen=true
+
 // FirewallTableList repesents a list of firewall tables.
 type FirewallTableList struct {
 	metav1.TypeMeta `json:",inline" yaml:",inline"`
@@ -109,6 +129,10 @@ type FirewallTableList struct {
 	// Items represents the array of firewall tables.
 	Items []FirewallTable `json:"items" yaml:"items"`
 }
+
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
+// +k8s:openapi-gen=true
+// +k8s:deepcopy-gen=true
 
 // FirewallTable represents a firewall table.
 type FirewallTable struct {

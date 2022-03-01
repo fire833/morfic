@@ -22,7 +22,7 @@ import (
 	"errors"
 	"net"
 
-	addresses "github.com/fire833/vroute/pkg/apis/addresses/v1alpha1"
+	addresses "github.com/fire833/vroute/pkg/apis/addresses"
 )
 
 var (

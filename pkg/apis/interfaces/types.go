@@ -16,11 +16,15 @@
 *	51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package v1
+package interfaces
 
 import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
+
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
+// +k8s:openapi-gen=true
+// +k8s:deepcopy-gen=true
 
 // LinkList represents a list of Link objects.
 type LinkList struct {
@@ -33,6 +37,10 @@ type LinkList struct {
 	// Items specifies the array of links.
 	Items []Link `json:"items" yaml:"items"`
 }
+
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
+// +k8s:openapi-gen=true
+// +k8s:deepcopy-gen=true
 
 // Link represents a link that exists on the host.
 type Link struct {

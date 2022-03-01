@@ -16,11 +16,15 @@
 *	51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package v1
+package routes
 
 import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
+
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
+// +k8s:openapi-gen=true
+// +k8s:deepcopy-gen=true
 
 // RouteTableList specifies a list of RouteTables.
 type RouteTableList struct {
@@ -33,6 +37,10 @@ type RouteTableList struct {
 	// Items specifies the array of RouteTables.
 	Items []RouteTable `json:"items" yaml:"items"`
 }
+
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
+// +k8s:openapi-gen=true
+// +k8s:deepcopy-gen=true
 
 // RouteTable specifies a routing table located in the kernel.
 type RouteTable struct {
@@ -67,7 +75,11 @@ type RouteTableStatus struct {
 	FoundOnBoot bool `json:"foundOnBoot" yaml:"foundOnBoot"`
 }
 
-// Route specifies a
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
+// +k8s:openapi-gen=true
+// +k8s:deepcopy-gen=true
+
+// Route specifies a route on the host.
 type Route struct {
 	metav1.TypeMeta `json:",inline" yaml:",inline"`
 
@@ -76,13 +88,13 @@ type Route struct {
 	metav1.ObjectMeta `json:"metadata,omitempty" yaml:"metadata,omitempty"`
 
 	// Spec is the desired spec of this route.
-	Spec RouteSpec
+	Spec RouteSpec `json:"spec" yaml:"spec"`
 
 	// Status is the current state of this route on the host.
 	//
 	// Should not be filled out by the user, will be filled/managed
 	// by the server. Can be read by user at runtime.
-	Status RouteStatus
+	Status RouteStatus `json:"status" yaml:"status"`
 }
 
 type RouteSpec struct {

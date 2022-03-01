@@ -16,11 +16,15 @@
 *	51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package v1alpha1
+package neighbors
 
 import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
+
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
+// +k8s:openapi-gen=true
+// +k8s:deepcopy-gen=true
 
 // NeighborList represents a list of local neighbors.
 type NeighborList struct {
@@ -33,6 +37,10 @@ type NeighborList struct {
 	// Items represents the array of neighbors.
 	Items []Neighbor `json:"items" yaml:"items"`
 }
+
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
+// +k8s:openapi-gen=true
+// +k8s:deepcopy-gen=true
 
 // Neighbor represents a neighbor in the local ARP table on the host.
 type Neighbor struct {
