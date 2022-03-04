@@ -18,7 +18,10 @@
 
 package interfaces
 
-import "github.com/fire833/vroute/pkg/apis/interfaces"
+import (
+	"github.com/fire833/vroute/pkg/apis/interfaces"
+	"github.com/fire833/vroute/pkg/controller"
+)
 
 const chanQ int = 3
 
@@ -26,28 +29,25 @@ type LinkListChan chan interfaces.LinkList
 type LinkChan chan interfaces.Link
 
 type InterfaceController struct {
-	linkListChannels map[int]LinkListChan
-	linkChannels     map[int]LinkChan
+	linkListChannel LinkListChan
+	linkChannel     LinkChan
+
+	// StopChan is the channel that should send exit codes to threads to close out after
+	// they have completed their current work.
+	stopChan controller.StopChan
 }
 
 func (c *InterfaceController) BeginWorkers(num int) {
+	lchan := make(LinkChan, chanQ)
+	llchan := make(LinkListChan, chanQ)
+
 	for w := 0; w < num; w++ {
-		lchan := make(LinkChan, chanQ)
-		llchan := make(LinkListChan, chanQ)
-
-		c.linkChannels[w] = lchan
-		c.linkListChannels[w] = llchan
-
 		go c.beginInterfaceControllerWorker(lchan, llchan)
 	}
 }
 
-func (c *InterfaceController) GracefulStop() error {
-	return nil
-}
-
-func (c *InterfaceController) ForceStop() error {
-	return nil
+func (c *InterfaceController) GracefulStop(err uint8) {
+	c.stopChan <- err
 }
 
 func (c *InterfaceController) beginInterfaceControllerWorker(link LinkChan, list LinkListChan) {
@@ -60,6 +60,10 @@ func (c *InterfaceController) beginInterfaceControllerWorker(link LinkChan, list
 		case linklistevent := <-list:
 			{
 
+			}
+		case <-c.stopChan:
+			{
+				return // Just return for now since we need to kill the thread.
 			}
 		}
 	}

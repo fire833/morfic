@@ -39,7 +39,8 @@ type ControllerInterface interface {
 	// to start listening for incoming requests.
 	BeginWorkers(number int)
 
-	GracefulStop() error
-
-	ForceStop() error
+	// Stops all workers gracefully by sending them a signal to return and exit.
+	// Send a exit code as well with this signal exit in order to invoke specific
+	// exit behavior.
+	GracefulStop(uint8)
 }
