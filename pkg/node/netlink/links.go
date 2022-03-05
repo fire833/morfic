@@ -24,6 +24,7 @@ import (
 	"net"
 
 	api "github.com/fire833/vroute/pkg/apis/ipcapi/v1alpha1"
+	"github.com/fire833/vroute/pkg/node/netlink/converters"
 	"github.com/fire833/vroute/pkg/node/validators"
 	"github.com/jsimonetti/rtnetlink"
 
@@ -67,21 +68,8 @@ func (s *NetlinkNodeServer) CreateLink(ctx context.Context, req *api.CreateLinkR
 		return resp, nil
 	}
 
-	// Get the mac addresses.
-	hwaddr, _ := net.ParseMAC(string(req.Link.Mac.Address.Address))
-	bdaddr, _ := net.ParseMAC(string(req.Link.Mac.BroadcastAddress.Address))
-
 	// Create the new link through netlink connection.
-	if e := conn.Link.New(&rtnetlink.LinkMessage{
-		Attributes: &rtnetlink.LinkAttributes{
-			MTU:       req.Link.Mtu,
-			Name:      req.Link.Name,
-			Address:   hwaddr,
-			Broadcast: bdaddr,
-		},
-		Family: 0, // TODO: Need to look into this
-		Index:  req.Link.Index,
-	}); e != nil {
+	if e := conn.Link.New(converters.ConvertAPILinkToNetlinkLink(req.Link)); e != nil {
 
 		resp := &api.CreateLinkResponse{
 			StatusCode: api.ReturnStatusCodes_INTERNAL_ERROR,
@@ -131,7 +119,12 @@ func (s *NetlinkNodeServer) UpdateLink(ctx context.Context, req *api.UpdateLinkR
 
 	}
 
-	// TODO need to update the link still
+	if e := conn.Link.Set(converters.ConvertAPILinkToNetlinkLink(req.Link)); e != nil {
+		return &api.UpdateLinkResponse{
+			StatusCode: api.ReturnStatusCodes_INTERNAL_ERROR,
+			Error:      e.Error(),
+		}, nil
+	}
 
 	// Return that the link was updated correctly.
 	return &api.UpdateLinkResponse{
@@ -200,20 +193,9 @@ func (s *NetlinkNodeServer) DeleteLink(ctx context.Context, req *api.DeleteLinkR
 	}
 
 	return &api.DeleteLinkResponse{
-		StatusCode: api.ReturnStatusCodes_OK,
-		Error:      "",
-		DeletedLink: &api.Link{
-			Name:    msg.Attributes.Name,
-			Mtu:     uint32(i.MTU),
-			Address: nil, // Just keep nil for now I guess
-			Index:   uint32(i.Index),
-			Attributes: &api.LinkAttributes{
-				Up:         false, // link is obviouslyno longer up.
-				ArpEnabled: false,
-				Multicast:  false,
-				Dynamic:    false,
-			},
-		},
+		StatusCode:  api.ReturnStatusCodes_OK,
+		Error:       "",
+		DeletedLink: converters.ConvertNetlinkLinkAPILink(msg),
 	}, nil
 
 }

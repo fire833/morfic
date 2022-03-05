@@ -55,7 +55,7 @@ func CompareLinkAttributes(attr1 *api.LinkAttributes, attr2 *api.LinkAttributes)
 		return false
 	}
 
-	if attr1.ArpEnabled != attr2.ArpEnabled {
+	if attr1.NoArp != attr2.NoArp {
 		return false
 	}
 

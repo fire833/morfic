@@ -265,13 +265,26 @@ enum LinkElements {
 }
 
 // Attributes for a link.
+//
+// Mostly ripped from netdevice(7) at 
+// https://www.man7.org/linux/man-pages/man7/netdevice.7.html
 message LinkAttributes {
     // Is the link up.
     bool up = 1;
-    // Is arp handling enabled on the link.
-    bool arp_enabled = 2;
+    // Is arp handling enabled on the link. True means ARP is disabled, false means enabled.
+    bool no_arp = 2;
+    // Is the link dynamic, in which case addresses are lost upon downing of the link.
     bool dynamic = 3;
+    // Is the link supporting multicast transmission.
     bool multicast = 4;
+    // Does the link have a valid broadcast address.
+    bool broadcast = 5;
+    // Is the interface loopback.
+    bool loopback = 6;
+    // Is the interface a point-to-point link.
+    bool p2p = 7;
+    // Is the link in promiscuous mode.
+    bool promiscuous = 8;
 }
 
 message GetRouteRequest {
