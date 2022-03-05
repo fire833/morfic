@@ -111,7 +111,7 @@ enum ReturnStatusCodes {
     // Not allowed to create this element/perform operation.
     PERMISSION_DENIED = 2;
     // Element you are trying to interface with does not exist.
-    NOT_EXISTENT_ELEMENT = 3;
+    NON_EXISTENT_ELEMENT = 3;
     // Internal error with the server serving this request.
     INTERNAL_ERROR = 4;
     // Error in the request message syntax/format.
@@ -122,22 +122,20 @@ enum ReturnStatusCodes {
     NO_FILTER_RESPONSE_ERROR = 7;
     // Returns if there is an invalid field in the object
     INVALID_FIELD_ERROR = 8;
+    // Returns if the element supplied is a duplicate of an already existing element.
+    DUPLICATE_ELEMENT_ERROR = 9;
 }
 
 message CreateLinkRequest {
-    // Describes multiple or one link that should be created with this request.
-    repeated Link link = 1;
+    // Describes a link that should be created with this request.
+    Link link = 1;
 }
 
 message CreateLinkResponse {
     // Return the response status for this RPC call.
     ReturnStatusCodes status_code = 1;
-    // Error if there is any with updating this link schema.
+    // Error if there is any with creating this link.
     string error = 2;
-    // Links that were created successfully.
-    repeated Link success_links = 3;
-    // Links that were created unsuccessfully.
-    repeated Link unsuccessful_links = 4;
 }
 
 message UpdateLinkRequest {
@@ -154,8 +152,8 @@ message UpdateLinkResponse {
 }
 
 message DeleteLinkRequest {
-    // Delete one or more links.
-    repeated string name = 1;
+    // Delete a link by name.
+    string name = 1;
 }
 
 message DeleteLinkResponse {
@@ -165,7 +163,7 @@ message DeleteLinkResponse {
     string error = 2;
     // Returns the deleted links that were removed 
     // from the kernel with this request.
-    repeated Link deleted_links = 3;
+    Link deleted_link = 3;
 }
 
 message GetLinkRequest {
@@ -304,8 +302,8 @@ message GetAllRoutesResponse {
 }
 
 message CreateStaticRouteRequest {
-    // Can create one or multiple routes with a single request.
-    repeated Route route = 1;
+    // Can create one routes with a single request.
+    Route route = 1;
 }
 
 message CreateStaticRouteResponse {
@@ -318,7 +316,8 @@ message CreateStaticRouteResponse {
 }
 
 message DeleteStaticRouteRequest {
-    repeated Route route = 1;
+    // Remove a route from the kernel.
+    Route route = 1;
 }
 
 message DeleteStaticRouteResponse {
@@ -327,7 +326,7 @@ message DeleteStaticRouteResponse {
     // Error if there is any with updating this route schema.
     string error = 2;
     // Returns the route struct that was removed from the kernel.
-    repeated Route route = 3;
+    Route route = 3;
 }
 
 message UpdateStaticRouteRequest {
@@ -522,7 +521,8 @@ message GetAllNeighborsResponse {
 }
 
 message CreateNeighborRequest {
-    repeated Neighbor neighbor = 1;
+    // Describe the negibor to be added to the ARP cache with this request.
+    Neighbor neighbor = 1;
 }
 
 message CreateNeighborResponse {

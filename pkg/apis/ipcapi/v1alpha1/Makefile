@@ -1,6 +1,6 @@
 # Use to quickly build/update the go API for the node/service proto file.
 
-node:		setup
+node:
 	protoc --go_out=. --go-grpc_out=. node_control.proto
 	sed -i 's/package __/package v1alpha1/g' node_control_grpc.pb.go
 	sed -i 's/package _/package v1alpha1/g' node_control.pb.go

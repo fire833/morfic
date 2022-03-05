@@ -25,10 +25,11 @@ import (
 )
 
 var (
-	// badLinkIPError           ValidatorStatus = NewError("invalid formatted link ip address", api.ReturnStatusCodes_INVALID_FIELD_ERROR)
-	typeAndActualIPTypeError ValidatorStatus = NewError("provided ip address did not match the specified type", api.ReturnStatusCodes_INVALID_FIELD_ERROR)
+	badLinkIPError           ValidatorStatus = NewError("invalid formatted link ip address", api.ReturnStatusCodes_INVALID_FIELD_ERROR)
+	typeAndActualIPTypeError ValidatorStatus = NewError("provided IP address did not match the specified type", api.ReturnStatusCodes_INVALID_FIELD_ERROR)
 	badSubnetMaskError       ValidatorStatus = NewError("incorrect subnet mask value for specified IP type", api.ReturnStatusCodes_INVALID_FIELD_ERROR)
-	invalidMacError                          = NewError("invalid mac address format", api.ReturnStatusCodes_INVALID_FIELD_ERROR)
+	invalidMacError          ValidatorStatus = NewError("invalid mac address format", api.ReturnStatusCodes_INVALID_FIELD_ERROR)
+	invalidIPStringError     ValidatorStatus = NewError("invalid address string provided", api.ReturnStatusCodes_INVALID_FIELD_ERROR)
 )
 
 const (

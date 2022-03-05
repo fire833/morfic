@@ -19,6 +19,7 @@
 package connections
 
 import (
+	"fmt"
 	"math/big"
 	"math/rand"
 	"sync"
@@ -45,7 +46,9 @@ func TestConnectionLoad(t *testing.T) {
 		go func(wg *sync.WaitGroup) {
 			defer wg.Done()
 
+			tstart := time.Now()
 			c, e := NetlinkPool.GetConn()
+			fmt.Printf("Acuired new conn fd, time: %v\n", time.Since(tstart))
 			if e != nil {
 				t.Logf("Error in acquiring worker thread netlink socket.")
 			}

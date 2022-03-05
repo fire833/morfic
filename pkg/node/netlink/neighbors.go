@@ -33,7 +33,6 @@ func (s *NetlinkNodeServer) GetAllNeighbors(ctx context.Context, req *api.GetAll
 }
 
 func (s *NetlinkNodeServer) CreateNeighbor(ctx context.Context, req *api.CreateNeighborRequest) (resp *api.CreateNeighborResponse, e error) {
-
 	return nil, nil
 }
 
