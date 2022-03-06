@@ -25,6 +25,7 @@ import (
 	"syscall"
 
 	"github.com/fire833/vroute/pkg/controller"
+	"github.com/fire833/vroute/pkg/controller/register"
 )
 
 // Unprivileged controllerloop subprocess main function.
@@ -42,6 +43,9 @@ func controllerMain() {
 
 	sig := make(chan os.Signal, 5)
 	signal.Notify(sig)
+
+	// Register all the controllers to be used at runtime.
+	register.RegisterControllers()
 
 	for _, controller := range controller.RegisteredControllers {
 		go controller.BeginWorkers(controller.RunWorkers())

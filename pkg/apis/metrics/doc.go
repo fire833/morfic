@@ -18,5 +18,6 @@
 
 // +k8s:deepcopy-gen=package
 // +groupName=metrics.vroute.io
+// +genclient
 
 package metrics

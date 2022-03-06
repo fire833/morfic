@@ -4,6 +4,8 @@ echo "Rebuilding addresses API..."
 deepcopy-gen --input-dirs ../pkg/apis/addresses -h boilerplate.go.txt -O zz_generated.deepcopy &
 echo "Rebuilding authentication API..."
 deepcopy-gen --input-dirs ../pkg/apis/authentication -h boilerplate.go.txt -O zz_generated.deepcopy &
+echo "Rebuilding certificates API..."
+deepcopy-gen --input-dirs ../pkg/apis/certificates -h boilerplate.go.txt -O zz_generated.deepcopy &
 echo "Rebuilding config API..."
 deepcopy-gen --input-dirs ../pkg/apis/config -h boilerplate.go.txt -O zz_generated.deepcopy &
 echo "Rebuilding dns API..."

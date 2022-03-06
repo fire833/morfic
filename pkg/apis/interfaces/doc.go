@@ -18,5 +18,6 @@
 
 // +k8s:deepcopy-gen=package
 // +groupName=interfaces.vroute.io
+// +genclient
 
 package interfaces

@@ -16,8 +16,19 @@
 *	51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-// +k8s:deepcopy-gen=package
-// +groupName=vpn.vroute.io
-// +genclient
+package register
 
-package vpn
+import (
+	"github.com/fire833/vroute/pkg/controller"
+	"github.com/fire833/vroute/pkg/controller/interfaces"
+)
+
+// Load in all the registered controller loops to be started
+func RegisterControllers() {
+
+	controller.RegisteredControllers = make([]controller.ControllerInterface, 1) // Set to number of controller loops
+
+	iface := &interfaces.InterfaceController{}
+	controller.RegisteredControllers = append(controller.RegisteredControllers, iface)
+
+}

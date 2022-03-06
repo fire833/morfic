@@ -4,6 +4,8 @@ echo "Rebuilding addresses API..."
 lister-gen --input-dirs ../pkg/apis/addresses -h boilerplate.go.txt -O zz_generated.lister -p ../pkg/client/listers &
 echo "Rebuilding authentication API..."
 lister-gen --input-dirs ../pkg/apis/authentication -h boilerplate.go.txt -O zz_generated.lister -p ../pkg/client/listers &
+echo "Rebuilding certificates API..."
+lister-gen --input-dirs ../pkg/apis/certificates -h boilerplate.go.txt -O zz_generated.lister -p ../pkg/client/listers &
 echo "Rebuilding config API..."
 lister-gen --input-dirs ../pkg/apis/config -h boilerplate.go.txt -O zz_generated.lister -p ../pkg/client/listers &
 echo "Rebuilding dns API..."

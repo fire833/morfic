@@ -4,6 +4,8 @@ echo "Rebuilding addresses API..."
 openapi-gen --input-dirs ../pkg/apis/addresses -h boilerplate.go.txt -O zz_generated.openapi &
 echo "Rebuilding authentication API..."
 openapi-gen --input-dirs ../pkg/apis/authentication -h boilerplate.go.txt -O zz_generated.openapi &
+echo "Rebuilding certificates API..."
+openapi-gen --input-dirs ../pkg/apis/certificates -h boilerplate.go.txt -O zz_generated.openapi &
 echo "Rebuilding config API..."
 openapi-gen --input-dirs ../pkg/apis/config -h boilerplate.go.txt -O zz_generated.openapi &
 echo "Rebuilding dns API..."

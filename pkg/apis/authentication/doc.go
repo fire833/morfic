@@ -18,5 +18,6 @@
 
 // +k8s:deepcopy-gen=package
 // +groupName=authentication.vroute.io
+// +genclient
 
 package authentication

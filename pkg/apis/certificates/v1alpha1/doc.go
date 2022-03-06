@@ -16,7 +16,6 @@
 *	51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-// +k8s:conversion-gen=github.com/fire833/vroute/pkg/apis/apps
 // +groupName=certificates.k8s.io
 
 package v1alpha1

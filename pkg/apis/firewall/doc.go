@@ -18,5 +18,6 @@
 
 // +k8s:deepcopy-gen=package
 // +groupName=firewall.vroute.io
+// +genclient
 
 package firewall

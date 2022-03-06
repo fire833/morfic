@@ -18,5 +18,6 @@
 
 // +k8s:deepcopy-gen=package
 // +groupName=nat.vroute.io
+// +genclient
 
 package nat

@@ -18,5 +18,6 @@
 
 // +k8s:deepcopy-gen=package
 // +groupName=dns.vroute.io
+// +genclient
 
 package dns

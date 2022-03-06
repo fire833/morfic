@@ -18,5 +18,6 @@
 
 // +k8s:deepcopy-gen=package
 // +groupName=neighbors.vroute.io
+// +genclient
 
 package neighbors

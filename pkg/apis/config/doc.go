@@ -18,5 +18,6 @@
 
 // +k8s:deepcopy-gen=package
 // +groupName=config.vroute.io
+// +genclient
 
 package config
