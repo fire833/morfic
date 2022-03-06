@@ -19,19 +19,13 @@
 package config
 
 import (
-	"errors"
-	"fmt"
-	"net"
 	"sync"
-	"time"
-
-	"golang.zx2c4.com/wireguard/wgctrl/wgtypes"
 )
 
 // Describes a Wireguard tunnel interface configured by the control plane.
 type WireguardTun struct {
 	// Mutex if the API needs to mutate the state of this link.
-	m sync.Mutex
+	sync.Mutex
 
 	DevName string   `json:"device_name"`
 	Config  wgConfig `json:"interface_config"`
@@ -58,95 +52,95 @@ type wgPeer struct {
 	AllowedIPs                  []string `json:"allowed_ips"`
 }
 
-// Checks that the tunnel device exists in the kernel. Returns nil if the device exists,
-// returns an error if it does or if there is an error acquiring the device status/existence.
-func (tun *WireguardTun) CheckDeviceExists() error {
-	if wg.WgClient == nil {
-		return errors.New("Wireguard client doesn't exist.")
-	}
+// // Checks that the tunnel device exists in the kernel. Returns nil if the device exists,
+// // returns an error if it does or if there is an error acquiring the device status/existence.
+// func (tun *WireguardTun) CheckDeviceExists() error {
+// 	if wg.WgClient == nil {
+// 		return errors.New("Wireguard client doesn't exist.")
+// 	}
 
-	if _, e := wg.WgClient.Device(tun.DevName); e != nil {
-		return e
-	} else {
-		return nil
-	}
-}
+// 	if _, e := wg.WgClient.Device(tun.DevName); e != nil {
+// 		return e
+// 	} else {
+// 		return nil
+// 	}
+// }
 
-// Configures the device state based on the configuration, assuming it exists.
-func (tun *WireguardTun) SetStatus() error {
-	if err := tun.CheckDeviceExists(); err != nil {
-		return err
-	}
+// // Configures the device state based on the configuration, assuming it exists.
+// func (tun *WireguardTun) SetStatus() error {
+// 	if err := tun.CheckDeviceExists(); err != nil {
+// 		return err
+// 	}
 
-	conf, e := tun.Config.serialize()
-	if e != nil {
-		return e
-	}
+// 	conf, e := tun.Config.serialize()
+// 	if e != nil {
+// 		return e
+// 	}
 
-	if err := wg.WgClient.ConfigureDevice(tun.DevName, *conf); err != nil {
-		return err
-	}
+// 	if err := wg.WgClient.ConfigureDevice(tun.DevName, *conf); err != nil {
+// 		return err
+// 	}
 
-	return nil
-}
+// 	return nil
+// }
 
-func (c *wgConfig) serialize() (*wgtypes.Config, error) {
-	wgconf := &wgtypes.Config{
-		ListenPort:   &c.ListenPort,
-		FirewallMark: &c.FirewallMark,
-		ReplacePeers: c.ReplacePeers,
-	}
+// func (c *wgConfig) serialize() (*wgtypes.Config, error) {
+// 	wgconf := &wgtypes.Config{
+// 		ListenPort:   &c.ListenPort,
+// 		FirewallMark: &c.FirewallMark,
+// 		ReplacePeers: c.ReplacePeers,
+// 	}
 
-	if k, err := wgtypes.NewKey([]byte(c.PrivateKey)); err != nil {
-		return wgconf, err
-	} else {
-		wgconf.PrivateKey = &k
-	}
+// 	if k, err := wgtypes.NewKey([]byte(c.PrivateKey)); err != nil {
+// 		return wgconf, err
+// 	} else {
+// 		wgconf.PrivateKey = &k
+// 	}
 
-	for _, peer := range c.Peers {
-		p, err := peer.serialize()
-		if err != nil {
-			fmt.Printf("Unable to load wireguard config: %s", err)
-			continue
-		}
-		wgconf.Peers = append(wgconf.Peers, p)
-	}
-	return wgconf, nil
-}
+// 	for _, peer := range c.Peers {
+// 		p, err := peer.serialize()
+// 		if err != nil {
+// 			fmt.Printf("Unable to load wireguard config: %s", err)
+// 			continue
+// 		}
+// 		wgconf.Peers = append(wgconf.Peers, p)
+// 	}
+// 	return wgconf, nil
+// }
 
-func (c *wgPeer) serialize() (wgtypes.PeerConfig, error) {
+// func (c *wgPeer) serialize() (wgtypes.PeerConfig, error) {
 
-	// Parse the peer public key.
-	key, e := wgtypes.NewKey([]byte(c.PublicKey))
-	if e != nil {
-		return wgtypes.PeerConfig{}, e
-	}
+// 	// Parse the peer public key.
+// 	key, e := wgtypes.NewKey([]byte(c.PublicKey))
+// 	if e != nil {
+// 		return wgtypes.PeerConfig{}, e
+// 	}
 
-	// Parse the peer pre-shared key.
-	pskey, e1 := wgtypes.NewKey([]byte(c.PreSharedKey))
-	if e1 != nil {
-		return wgtypes.PeerConfig{}, e1
-	}
+// 	// Parse the peer pre-shared key.
+// 	pskey, e1 := wgtypes.NewKey([]byte(c.PreSharedKey))
+// 	if e1 != nil {
+// 		return wgtypes.PeerConfig{}, e1
+// 	}
 
-	var allowedips []net.IPNet
+// 	var allowedips []net.IPNet
 
-	for _, ip := range c.AllowedIPs {
-		_, net, e := net.ParseCIDR(ip)
-		if e != nil {
-			continue
-		}
-		allowedips = append(allowedips, *net)
-	}
+// 	for _, ip := range c.AllowedIPs {
+// 		_, net, e := net.ParseCIDR(ip)
+// 		if e != nil {
+// 			continue
+// 		}
+// 		allowedips = append(allowedips, *net)
+// 	}
 
-	pc := wgtypes.PeerConfig{
-		PublicKey:                   key,
-		Remove:                      c.Remove,
-		UpdateOnly:                  c.UpdateOnly,
-		PresharedKey:                &pskey,
-		Endpoint:                    &net.UDPAddr{},
-		PersistentKeepaliveInterval: (*time.Duration)(&c.PersistentKeepaliveInterval),
-		ReplaceAllowedIPs:           c.ReplaceAllowedIPs,
-		AllowedIPs:                  allowedips,
-	}
-	return pc, nil
-}
+// 	pc := wgtypes.PeerConfig{
+// 		PublicKey:                   key,
+// 		Remove:                      c.Remove,
+// 		UpdateOnly:                  c.UpdateOnly,
+// 		PresharedKey:                &pskey,
+// 		Endpoint:                    &net.UDPAddr{},
+// 		PersistentKeepaliveInterval: (*time.Duration)(&c.PersistentKeepaliveInterval),
+// 		ReplaceAllowedIPs:           c.ReplaceAllowedIPs,
+// 		AllowedIPs:                  allowedips,
+// 	}
+// 	return pc, nil
+// }

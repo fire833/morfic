@@ -138,7 +138,7 @@ func (s *NetlinkNodeServer) DeleteLink(ctx context.Context, req *api.DeleteLinkR
 	// Validate the incoming link name to make sure it's valid.
 	if e := validators.ValidateInterfaceName(req.Name); e == nil {
 		return &api.DeleteLinkResponse{
-			StatusCode: api.ReturnStatusCodes_NON_EXISTENT_ELEMENT,
+			StatusCode: api.ReturnStatusCodes_INVALID_FIELD_ERROR,
 			Error:      e.Error(),
 		}, nil
 	}

@@ -29,7 +29,7 @@ import (
 )
 
 // Priviledged node operator process main function.
-func node_main() {
+func nodeMain() {
 
 	fmt.Printf("starting node control process, initializing signal handler")
 

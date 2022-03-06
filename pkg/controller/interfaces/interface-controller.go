@@ -23,7 +23,11 @@ import (
 	"github.com/fire833/vroute/pkg/controller"
 )
 
-const chanQ int = 3
+const (
+	chanQ int = 3
+
+	numberOfWorkers
+)
 
 type LinkListChan chan interfaces.LinkList
 type LinkChan chan interfaces.Link
@@ -48,6 +52,10 @@ func (c *InterfaceController) BeginWorkers(num int) {
 
 func (c *InterfaceController) GracefulStop(err uint8) {
 	c.stopChan <- err
+}
+
+func (c *InterfaceController) RunWorkers() int {
+	return numberOfWorkers
 }
 
 func (c *InterfaceController) beginInterfaceControllerWorker(link LinkChan, list LinkListChan) {

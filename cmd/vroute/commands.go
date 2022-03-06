@@ -60,6 +60,13 @@ For more information about this project and for documentation, visit https://git
 		Run:    forkNode,
 		Hidden: true,
 	}
+
+	forkControllerCmd = &cobra.Command{
+		Use:    "controllerfork <runtime_token>",
+		Short:  "Used for trusted forking of controller subprocess.",
+		Run:    forkController,
+		Hidden: true,
+	}
 )
 
 // The main function for the vroute control plane.
@@ -67,6 +74,7 @@ func vrouteMain() {
 	rootCmd.Flags().BoolVar(&src.DebugEnabled, "debug", false, "Use this subcommand to enable debugging mode for the process.")
 	rootCmd.AddCommand(forkNodeCmd)
 	rootCmd.AddCommand(forkAPICmd)
+	rootCmd.AddCommand(forkControllerCmd)
 
 	if e := rootCmd.Execute(); e != nil {
 		log.Printf("Unable to start vroute: %v\n", e.Error())
@@ -79,7 +87,7 @@ func forkAPI(cmd *cobra.Command, args []string) {
 	// Compare the provided token to the root token to make sure this is a
 	// legitimately spawned process.
 	if args[2] == "-t" && args[3] == src.SharedToken.GetToken() {
-		api_main()
+		apiMain()
 	} else {
 		log.Printf("shared tokens do not match, aborting api fork\n")
 		os.Exit(1)
@@ -92,9 +100,20 @@ func forkNode(cmd *cobra.Command, args []string) {
 	// Compare the provided token to the root token to make sure this is a
 	// legitimately spawned process.
 	if args[2] == "-t" && args[3] == src.SharedToken.GetToken() {
-		node_main()
+		nodeMain()
 	} else {
 		log.Printf("shared tokens do not match, aborting node fork\n")
+		os.Exit(1)
+	}
+}
+
+func forkController(cmd *cobra.Command, args []string) {
+	// Compare the provided token to the root token to make sure this is a
+	// legitimately spawned process.
+	if args[2] == "-t" && args[3] == src.SharedToken.GetToken() {
+		controllerMain()
+	} else {
+		log.Printf("shared tokens do not match, aborting controller fork\n")
 		os.Exit(1)
 	}
 }
@@ -104,12 +123,24 @@ func rootMain(cmd *cobra.Command, args []string) {
 	log.Printf("generating runtime trust tokens for bootstrapping daughter processes")
 	src.GenerateRuntimeTrustAnchors()
 
+	log.Printf("forking node process...\n")
+
+	vroute, e := os.Executable()
+	if e != nil {
+		log.Printf("unable to acquire path to vroute executable: %v, exiting...\n", e)
+		os.Exit(1)
+	}
+
 	// Spawn the node process first
-	nodepid, nodee := syscall.ForkExec("vroute", []string{"forknode", "-t", src.SharedToken.GetToken()}, &syscall.ProcAttr{
+	nodepid, nodee := syscall.ForkExec(vroute, []string{"forknode", "-t", src.SharedToken.GetToken()}, &syscall.ProcAttr{
 		Sys: &syscall.SysProcAttr{
 			Ptrace:     false,
-			Cloneflags: syscall.CLONE_NEWIPC,
-			Credential: &syscall.Credential{},
+			Cloneflags: syscall.CLONE_NEWIPC | syscall.CLONE_VM,
+			Credential: &syscall.Credential{
+				Uid:         uint32(rootUID),
+				Gid:         uint32(rootGID),
+				NoSetGroups: true,
+			},
 		},
 	})
 
@@ -120,12 +151,18 @@ func rootMain(cmd *cobra.Command, args []string) {
 		log.Printf("vroute node process created, PID: %d\n", nodepid)
 	}
 
+	log.Printf("forking api process...\n")
+
 	// Spawn the api server second
-	apipid, apie := syscall.ForkExec("vroute", []string{"forkapi", "-t", src.SharedToken.GetToken()}, &syscall.ProcAttr{
+	apipid, apie := syscall.ForkExec(vroute, []string{"forkapi", "-t", src.SharedToken.GetToken()}, &syscall.ProcAttr{
 		Sys: &syscall.SysProcAttr{
 			Ptrace:     false,
-			Cloneflags: syscall.CLONE_NEWIPC,
-			Credential: &syscall.Credential{},
+			Cloneflags: syscall.CLONE_NEWIPC | syscall.CLONE_VM,
+			Credential: &syscall.Credential{
+				Uid:         uint32(unprivilegedUID),
+				Gid:         uint32(unprivilegedGID),
+				NoSetGroups: true,
+			},
 		},
 	})
 
@@ -134,6 +171,27 @@ func rootMain(cmd *cobra.Command, args []string) {
 		os.Exit(1) // Kill the bootstrapping process here.
 	} else {
 		log.Printf("vroute api process created, PID: %d\n", apipid)
+	}
+
+	log.Printf("forking controller process...\n")
+
+	// Spawn controller manager third.
+	controllerpid, controllere := syscall.ForkExec(vroute, []string{"forkcontroller", "-t", src.SharedToken.GetToken()}, &syscall.ProcAttr{
+		Sys: &syscall.SysProcAttr{
+			Ptrace:     false,
+			Cloneflags: syscall.CLONE_NEWIPC | syscall.CLONE_VM,
+			Credential: &syscall.Credential{
+				Uid:         uint32(unprivilegedUID),
+				Gid:         uint32(unprivilegedGID),
+				NoSetGroups: true,
+			},
+		}})
+
+	if controllere != nil {
+		log.Printf("unable to fork controller process, error: %v\n", controllere.Error())
+		os.Exit(1)
+	} else {
+		log.Printf("vroute controller process created, PID: %d\n", controllerpid)
 	}
 
 	log.Printf("vroute control plane bootstrapped, bootstrap process exiting")

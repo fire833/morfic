@@ -18,6 +18,9 @@
 
 package controller
 
+// List of registered controller loops that are installed and begun at runtime.
+var RegisteredControllers []ControllerInterface
+
 // StopChan specifies a standard interface for killing worker threads within controllers.
 type StopChan chan uint8
 
@@ -38,6 +41,9 @@ type ControllerInterface interface {
 	// Begin workers starts up a number of threads for each controller in order
 	// to start listening for incoming requests.
 	BeginWorkers(number int)
+
+	// Return the number of workers that should be default run on startup.
+	RunWorkers() int
 
 	// Stops all workers gracefully by sending them a signal to return and exit.
 	// Send a exit code as well with this signal exit in order to invoke specific

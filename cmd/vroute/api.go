@@ -26,7 +26,7 @@ import (
 )
 
 // Unprivileged API listener main function.
-func api_main() {
+func apiMain() {
 
 	fmt.Printf("starting api process, dropping process privilege")
 
