@@ -16,18 +16,23 @@
 *	51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package v1alpha1
+package addresses
 
 import (
-	metricsv1alpha1 "github.com/fire833/vroute/pkg/apis/neighbors"
+	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
 
-// GroupName is the group name use in this package
-const GroupName = "metrics"
+// GroupName is the name of this API group.
+const GroupName = "addresses.vroute.io"
 
 // SchemeGroupVersion is group version used to register these objects
-var SchemeGroupVersion = schema.GroupVersion{Group: GroupName, Version: "v1alpha1"}
+var SchemeGroupVersion = schema.GroupVersion{Group: GroupName, Version: runtime.APIVersionInternal}
+
+// Kind takes an unqualified kind and returns a Group qualified GroupKind
+func Kind(kind string) schema.GroupKind {
+	return SchemeGroupVersion.WithKind(kind).GroupKind()
+}
 
 // Resource takes an unqualified resource and returns a Group qualified GroupResource
 func Resource(resource string) schema.GroupResource {
@@ -35,14 +40,16 @@ func Resource(resource string) schema.GroupResource {
 }
 
 var (
-	localSchemeBuilder = &metricsv1alpha1.SchemeBuilder
-	AddToScheme        = localSchemeBuilder.AddToScheme
+	// SchemeBuilder points to a list of functions added to Scheme.
+	SchemeBuilder = runtime.NewSchemeBuilder(addKnownTypes)
+	// AddToScheme applies all the stored functions to the scheme.
+	AddToScheme = SchemeBuilder.AddToScheme
 )
 
-func init() {
-	// We only register manually written functions here. The registration of the
-	// generated functions takes place in the generated files. The separation
-	// makes the code compile even when the generated files are missing.
-
-	// localSchemeBuilder.Register(addDefaultingFuncs)
+func addKnownTypes(scheme *runtime.Scheme) error {
+	scheme.AddKnownTypes(SchemeGroupVersion,
+		&Address{},
+		&AddressList{},
+	)
+	return nil
 }
