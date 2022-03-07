@@ -16,6 +16,6 @@
 *	51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-// +groupName=certificates.vroute.io
+// +groupName=firewall.vroute.io
 
 package v1alpha1
