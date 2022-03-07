@@ -25,6 +25,8 @@ import (
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 // +k8s:openapi-gen=true
 // +k8s:deepcopy-gen=true
+// +genclient
+// +genclient:noStatus
 
 // VPNTunnelList represents a list of VPN tunnels.
 type VPNTunnelList struct {
@@ -41,6 +43,8 @@ type VPNTunnelList struct {
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 // +k8s:openapi-gen=true
 // +k8s:deepcopy-gen=true
+// +genclient
+// +genclient:noStatus
 
 // VPNTunnel represents a tunnel to a remote endpoint with a vpn configuration.
 type VPNTunnel struct {

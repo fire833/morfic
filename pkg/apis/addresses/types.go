@@ -25,6 +25,8 @@ import (
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 // +k8s:openapi-gen=true
 // +k8s:deepcopy-gen=true
+// +genclient
+// +genclient:noStatus
 
 // AddressList represents a list of Address objects.
 type AddressList struct {
@@ -41,6 +43,8 @@ type AddressList struct {
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 // +k8s:openapi-gen=true
 // +k8s:deepcopy-gen=true
+// +genclient
+// +genclient:noStatus
 
 // Address represents an address that is to be assigned to a link on a host.
 type Address struct {

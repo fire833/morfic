@@ -25,6 +25,8 @@ import (
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 // +k8s:openapi-gen=true
 // +k8s:deepcopy-gen=true
+// +genclient
+// +genclient:noStatus
 
 // LinkList represents a list of Link objects.
 type LinkList struct {
@@ -41,6 +43,8 @@ type LinkList struct {
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 // +k8s:openapi-gen=true
 // +k8s:deepcopy-gen=true
+// +genclient
+// +genclient:noStatus
 
 // Link represents a link that exists on the host.
 type Link struct {

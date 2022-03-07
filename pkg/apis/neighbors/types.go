@@ -25,6 +25,8 @@ import (
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 // +k8s:openapi-gen=true
 // +k8s:deepcopy-gen=true
+// +genclient
+// +genclient:noStatus
 
 // NeighborList represents a list of local neighbors.
 type NeighborList struct {
@@ -41,6 +43,8 @@ type NeighborList struct {
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 // +k8s:openapi-gen=true
 // +k8s:deepcopy-gen=true
+// +genclient
+// +genclient:noStatus
 
 // Neighbor represents a neighbor in the local ARP table on the host.
 type Neighbor struct {

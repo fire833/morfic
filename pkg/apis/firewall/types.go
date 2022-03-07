@@ -25,6 +25,8 @@ import (
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 // +k8s:openapi-gen=true
 // +k8s:deepcopy-gen=true
+// +genclient
+// +genclient:noStatus
 
 // FirewallRuleList represents a list of local firewall rules.
 type FirewallRuleList struct {
@@ -41,6 +43,8 @@ type FirewallRuleList struct {
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 // +k8s:openapi-gen=true
 // +k8s:deepcopy-gen=true
+// +genclient
+// +genclient:noStatus
 
 // FirewallRule represents a firewall rule.
 type FirewallRule struct {
@@ -71,6 +75,8 @@ type FirewallRuleStatus struct {
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 // +k8s:openapi-gen=true
 // +k8s:deepcopy-gen=true
+// +genclient
+// +genclient:noStatus
 
 // FirewallChainList represents a list of local firewall chains.
 type FirewallChainList struct {
@@ -87,6 +93,8 @@ type FirewallChainList struct {
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 // +k8s:openapi-gen=true
 // +k8s:deepcopy-gen=true
+// +genclient
+// +genclient:noStatus
 
 // FirewallChain represents a firewall chain of rules.
 type FirewallChain struct {
@@ -117,6 +125,8 @@ type FirewallChainStatus struct {
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 // +k8s:openapi-gen=true
 // +k8s:deepcopy-gen=true
+// +genclient
+// +genclient:noStatus
 
 // FirewallTableList repesents a list of firewall tables.
 type FirewallTableList struct {
@@ -133,6 +143,8 @@ type FirewallTableList struct {
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 // +k8s:openapi-gen=true
 // +k8s:deepcopy-gen=true
+// +genclient
+// +genclient:noStatus
 
 // FirewallTable represents a firewall table.
 type FirewallTable struct {

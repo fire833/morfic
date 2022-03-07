@@ -25,6 +25,8 @@ import (
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 // +k8s:openapi-gen=true
 // +k8s:deepcopy-gen=true
+// +genclient
+// +genclient:noStatus
 
 // CertificateList represents a list of certificates.
 type CertificateList struct {
@@ -66,6 +68,8 @@ type CertificateStatus struct {
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 // +k8s:openapi-gen=true
 // +k8s:deepcopy-gen=true
+// +genclient
+// +genclient:noStatus
 
 // CertificateSignerList represents an array of certificate signing entities.
 type CertificateSignerList struct {
@@ -82,6 +86,8 @@ type CertificateSignerList struct {
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 // +k8s:openapi-gen=true
 // +k8s:deepcopy-gen=true
+// +genclient
+// +genclient:noStatus
 
 // CertificateSigner represents a certificate signing entity.
 type CertificateSigner struct {
@@ -105,6 +111,8 @@ type CertificateSignerStatus struct {
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 // +k8s:openapi-gen=true
 // +k8s:deepcopy-gen=true
+// +genclient
+// +genclient:noStatus
 
 // CertificateSigningRequestList represents a list of signing requests to be signed via a signer.
 type CertificateSigningRequestList struct {
@@ -121,6 +129,8 @@ type CertificateSigningRequestList struct {
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 // +k8s:openapi-gen=true
 // +k8s:deepcopy-gen=true
+// +genclient
+// +genclient:noStatus
 
 // CertificateSigningRequest represents a signing request for a certificate's public key.
 type CertificateSigningRequest struct {
