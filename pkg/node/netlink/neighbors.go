@@ -24,22 +24,22 @@ import (
 	api "github.com/fire833/vroute/pkg/apis/ipcapi/v1alpha1"
 )
 
-func (s *NetlinkNodeServer) GetNeighbor(ctx context.Context, req *api.GetNeighborRequest) (resp *api.GetNeighborResponse, e error) {
+func (s *NetlinkNodeServer) GetNeighbor(ctx context.Context, req *api.GetNeighborRequest) (resp *api.GetNeighborResponse, err error) {
 	return nil, nil
 }
 
-func (s *NetlinkNodeServer) GetAllNeighbors(ctx context.Context, req *api.GetAllNeighborsRequest) (resp *api.GetAllNeighborsResponse, e error) {
+func (s *NetlinkNodeServer) GetAllNeighbors(ctx context.Context, req *api.GetAllNeighborsRequest) (resp *api.GetAllNeighborsResponse, err error) {
 	return nil, nil
 }
 
-func (s *NetlinkNodeServer) CreateNeighbor(ctx context.Context, req *api.CreateNeighborRequest) (resp *api.CreateNeighborResponse, e error) {
+func (s *NetlinkNodeServer) CreateNeighbor(ctx context.Context, req *api.CreateNeighborRequest) (resp *api.CreateNeighborResponse, err error) {
 	return nil, nil
 }
 
-func (s *NetlinkNodeServer) DeleteNeighbor(ctx context.Context, req *api.DeleteNeighborRequest) (resp *api.DeleteNeighborRequest, e error) {
+func (s *NetlinkNodeServer) DeleteNeighbor(ctx context.Context, req *api.DeleteNeighborRequest) (resp *api.DeleteNeighborRequest, err error) {
 	return nil, nil
 }
 
-func (s *NetlinkNodeServer) UpdateNeighbor(ctx context.Context, req *api.UpdateNeighborRequest) (resp *api.UpdateNeighborResponse, e error) {
+func (s *NetlinkNodeServer) UpdateNeighbor(ctx context.Context, req *api.UpdateNeighborRequest) (resp *api.UpdateNeighborResponse, err error) {
 	return nil, nil
 }

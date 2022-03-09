@@ -24,11 +24,11 @@ import (
 	"net"
 
 	api "github.com/fire833/vroute/pkg/apis/ipcapi/v1alpha1"
-	"github.com/fire833/vroute/pkg/node/netlink/converters"
+	"github.com/fire833/vroute/pkg/node/converters"
 	"github.com/fire833/vroute/pkg/node/validators"
 	"github.com/jsimonetti/rtnetlink"
 
-	c "github.com/fire833/vroute/pkg/node/netlink/connections"
+	c "github.com/fire833/vroute/pkg/node/connections"
 )
 
 var (
@@ -37,7 +37,7 @@ var (
 	duplicateLinkError       error = errors.New("link with same name already exists on the host")
 )
 
-func (s *NetlinkNodeServer) CreateLink(ctx context.Context, req *api.CreateLinkRequest) (resp *api.CreateLinkResponse, e error) {
+func (s *NetlinkNodeServer) CreateLink(ctx context.Context, req *api.CreateLinkRequest) (resp *api.CreateLinkResponse, err error) {
 
 	// Validate the incoming link from the request.
 	if e := validators.ValidateLink(req.Link); e != nil {
@@ -86,7 +86,7 @@ func (s *NetlinkNodeServer) CreateLink(ctx context.Context, req *api.CreateLinkR
 	}, nil
 }
 
-func (s *NetlinkNodeServer) UpdateLink(ctx context.Context, req *api.UpdateLinkRequest) (resp *api.UpdateLinkResponse, e error) {
+func (s *NetlinkNodeServer) UpdateLink(ctx context.Context, req *api.UpdateLinkRequest) (resp *api.UpdateLinkResponse, err error) {
 
 	// Validate the incoming link from the request.
 	if e := validators.ValidateLink(req.Link); e != nil {
@@ -133,7 +133,7 @@ func (s *NetlinkNodeServer) UpdateLink(ctx context.Context, req *api.UpdateLinkR
 	}, nil
 }
 
-func (s *NetlinkNodeServer) DeleteLink(ctx context.Context, req *api.DeleteLinkRequest) (resp *api.DeleteLinkResponse, e error) {
+func (s *NetlinkNodeServer) DeleteLink(ctx context.Context, req *api.DeleteLinkRequest) (resp *api.DeleteLinkResponse, err error) {
 
 	// Validate the incoming link name to make sure it's valid.
 	if e := validators.ValidateInterfaceName(req.Name); e == nil {
@@ -200,10 +200,10 @@ func (s *NetlinkNodeServer) DeleteLink(ctx context.Context, req *api.DeleteLinkR
 
 }
 
-func (s *NetlinkNodeServer) GetLink(ctx context.Context, req *api.GetLinkRequest) (resp *api.GetLinkResponse, e error) {
+func (s *NetlinkNodeServer) GetLink(ctx context.Context, req *api.GetLinkRequest) (resp *api.GetLinkResponse, err error) {
 	return nil, nil
 }
 
-func (s *NetlinkNodeServer) GetAllLinks(ctx context.Context, req *api.GetAllLinksRequest) (resp *api.GetAllLinksResponse, e error) {
+func (s *NetlinkNodeServer) GetAllLinks(ctx context.Context, req *api.GetAllLinksRequest) (resp *api.GetAllLinksResponse, err error) {
 	return nil, nil
 }

@@ -24,22 +24,22 @@ import (
 	api "github.com/fire833/vroute/pkg/apis/ipcapi/v1alpha1"
 )
 
-func (s *NetlinkNodeServer) GetChain(ctx context.Context, req *api.GetChainRequest) (resp *api.GetChainResponse, e error) {
+func (s *NetlinkNodeServer) GetChain(ctx context.Context, req *api.GetChainRequest) (resp *api.GetChainResponse, err error) {
 	return nil, nil
 }
 
-func (s *NetlinkNodeServer) GetAllChains(ctx context.Context, req *api.GetAllChainsRequest) (resp *api.GetAllChainsResponse, e error) {
+func (s *NetlinkNodeServer) GetAllChains(ctx context.Context, req *api.GetAllChainsRequest) (resp *api.GetAllChainsResponse, err error) {
 	return nil, nil
 }
 
-func (s *NetlinkNodeServer) DeleteChain(ctx context.Context, req *api.DeleteChainRequest) (resp *api.DeleteChainResponse, e error) {
+func (s *NetlinkNodeServer) DeleteChain(ctx context.Context, req *api.DeleteChainRequest) (resp *api.DeleteChainResponse, err error) {
 	return nil, nil
 }
 
-func (s *NetlinkNodeServer) CreateChain(ctx context.Context, req *api.CreateChainRequest) (resp *api.CreateChainResponse, e error) {
+func (s *NetlinkNodeServer) CreateChain(ctx context.Context, req *api.CreateChainRequest) (resp *api.CreateChainResponse, err error) {
 	return nil, nil
 }
 
-func (s *NetlinkNodeServer) UpdateChain(ctx context.Context, req *api.UpdateChainRequest) (resp *api.UpdateChainResponse, e error) {
+func (s *NetlinkNodeServer) UpdateChain(ctx context.Context, req *api.UpdateChainRequest) (resp *api.UpdateChainResponse, err error) {
 	return nil, nil
 }

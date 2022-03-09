@@ -24,22 +24,22 @@ import (
 	api "github.com/fire833/vroute/pkg/apis/ipcapi/v1alpha1"
 )
 
-func (s *NetlinkNodeServer) GetTable(ctx context.Context, req *api.GetTableRequest) (resp *api.GetTableResponse, e error) {
+func (s *NetlinkNodeServer) GetTable(ctx context.Context, req *api.GetTableRequest) (resp *api.GetTableResponse, err error) {
 	return nil, nil
 }
 
-func (s *NetlinkNodeServer) GetAllTables(ctx context.Context, req *api.GetAllTablesRequest) (resp *api.GetAllTablesResponse, e error) {
+func (s *NetlinkNodeServer) GetAllTables(ctx context.Context, req *api.GetAllTablesRequest) (resp *api.GetAllTablesResponse, err error) {
 	return nil, nil
 }
 
-func (s *NetlinkNodeServer) DeleteTable(ctx context.Context, req *api.DeleteTableRequest) (resp *api.DeleteTableResponse, e error) {
+func (s *NetlinkNodeServer) DeleteTable(ctx context.Context, req *api.DeleteTableRequest) (resp *api.DeleteTableResponse, err error) {
 	return nil, nil
 }
 
-func (s *NetlinkNodeServer) CreateTable(ctx context.Context, req *api.CreateTableRequest) (resp *api.CreateTableResponse, e error) {
+func (s *NetlinkNodeServer) CreateTable(ctx context.Context, req *api.CreateTableRequest) (resp *api.CreateTableResponse, err error) {
 	return nil, nil
 }
 
-func (s *NetlinkNodeServer) UpdateTable(ctx context.Context, req *api.UpdateTableRequest) (resp *api.UpdateTableResponse, e error) {
+func (s *NetlinkNodeServer) UpdateTable(ctx context.Context, req *api.UpdateTableRequest) (resp *api.UpdateTableResponse, err error) {
 	return nil, nil
 }

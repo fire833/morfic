@@ -24,22 +24,22 @@ import (
 	api "github.com/fire833/vroute/pkg/apis/ipcapi/v1alpha1"
 )
 
-func (s *NetlinkNodeServer) GetRule(ctx context.Context, req *api.GetRuleRequest) (resp *api.GetRuleResponse, e error) {
+func (s *NetlinkNodeServer) GetRule(ctx context.Context, req *api.GetRuleRequest) (resp *api.GetRuleResponse, err error) {
 	return nil, nil
 }
 
-func (s *NetlinkNodeServer) GetAllRules(ctx context.Context, req *api.GetAllRulesRequest) (resp *api.GetAllRulesResponse, e error) {
+func (s *NetlinkNodeServer) GetAllRules(ctx context.Context, req *api.GetAllRulesRequest) (resp *api.GetAllRulesResponse, err error) {
 	return nil, nil
 }
 
-func (s *NetlinkNodeServer) DeleteRule(ctx context.Context, req *api.DeleteRuleRequest) (resp *api.DeleteRuleResponse, e error) {
+func (s *NetlinkNodeServer) DeleteRule(ctx context.Context, req *api.DeleteRuleRequest) (resp *api.DeleteRuleResponse, err error) {
 	return nil, nil
 }
 
-func (s *NetlinkNodeServer) CreateRule(ctx context.Context, req *api.CreateRuleRequest) (resp *api.CreateRuleResponse, e error) {
+func (s *NetlinkNodeServer) CreateRule(ctx context.Context, req *api.CreateRuleRequest) (resp *api.CreateRuleResponse, err error) {
 	return nil, nil
 }
 
-func (s *NetlinkNodeServer) UpdateRule(ctx context.Context, req *api.UpdateRuleRequest) (resp *api.UpdateRuleResponse, e error) {
+func (s *NetlinkNodeServer) UpdateRule(ctx context.Context, req *api.UpdateRuleRequest) (resp *api.UpdateRuleResponse, err error) {
 	return nil, nil
 }

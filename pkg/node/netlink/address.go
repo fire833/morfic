@@ -24,23 +24,23 @@ import (
 	api "github.com/fire833/vroute/pkg/apis/ipcapi/v1alpha1"
 )
 
-func (s *NetlinkNodeServer) GetAddress(ctx context.Context, req *api.GetAddressRequest) (resp *api.GetAddressResponse, e error) {
+func (s *NetlinkNodeServer) GetAddress(ctx context.Context, req *api.GetAddressRequest) (resp *api.GetAddressResponse, err error) {
 
 	return nil, nil
 }
 
-func (s *NetlinkNodeServer) GetAllAddresses(ctx context.Context, req *api.GetAllAddressesRequest) (resp *api.GetAllAddressesResponse, e error) {
+func (s *NetlinkNodeServer) GetAllAddresses(ctx context.Context, req *api.GetAllAddressesRequest) (resp *api.GetAllAddressesResponse, err error) {
 	return nil, nil
 }
 
-func (s *NetlinkNodeServer) CreateAddress(ctx context.Context, req *api.CreateAddressRequest) (resp *api.CreateAddressResponse, e error) {
+func (s *NetlinkNodeServer) CreateAddress(ctx context.Context, req *api.CreateAddressRequest) (resp *api.CreateAddressResponse, err error) {
 	return nil, nil
 }
 
-func (s *NetlinkNodeServer) DeleteAddress(ctx context.Context, req *api.DeleteAddressRequest) (resp *api.DeleteAddressResponse, e error) {
+func (s *NetlinkNodeServer) DeleteAddress(ctx context.Context, req *api.DeleteAddressRequest) (resp *api.DeleteAddressResponse, err error) {
 	return nil, nil
 }
 
-func (s *NetlinkNodeServer) UpdateAddress(ctx context.Context, req *api.UpdateAddressRequest) (resp *api.UpdateAddressResponse, e error) {
+func (s *NetlinkNodeServer) UpdateAddress(ctx context.Context, req *api.UpdateAddressRequest) (resp *api.UpdateAddressResponse, err error) {
 	return nil, nil
 }

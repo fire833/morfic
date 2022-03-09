@@ -24,22 +24,22 @@ import (
 	api "github.com/fire833/vroute/pkg/apis/ipcapi/v1alpha1"
 )
 
-func (nl *NetlinkNodeServer) CreateStaticRoute(ctx context.Context, req *api.CreateStaticRouteRequest) (resp *api.CreateStaticRouteResponse, e error) {
+func (nl *NetlinkNodeServer) CreateStaticRoute(ctx context.Context, req *api.CreateStaticRouteRequest) (resp *api.CreateStaticRouteResponse, err error) {
 	return nil, nil
 }
 
-func (nl *NetlinkNodeServer) DeleteStaticRoute(ctx context.Context, req *api.DeleteStaticRouteRequest) (resp *api.DeleteStaticRouteResponse, e error) {
+func (nl *NetlinkNodeServer) DeleteStaticRoute(ctx context.Context, req *api.DeleteStaticRouteRequest) (resp *api.DeleteStaticRouteResponse, err error) {
 	return nil, nil
 }
 
-func (nl *NetlinkNodeServer) UpdateStaticRoute(ctx context.Context, req *api.UpdateStaticRouteRequest) (resp *api.UpdateStaticRouteResponse, e error) {
+func (nl *NetlinkNodeServer) UpdateStaticRoute(ctx context.Context, req *api.UpdateStaticRouteRequest) (resp *api.UpdateStaticRouteResponse, err error) {
 	return nil, nil
 }
 
-func (nl *NetlinkNodeServer) GetRoute(ctx context.Context, req *api.GetRouteRequest) (resp *api.GetRouteResponse, e error) {
+func (nl *NetlinkNodeServer) GetRoute(ctx context.Context, req *api.GetRouteRequest) (resp *api.GetRouteResponse, err error) {
 	return nil, nil
 }
 
-func (nl *NetlinkNodeServer) GetAllRoutes(ctx context.Context, req *api.GetAllRoutesRequest) (resp *api.GetAllRoutesResponse, e error) {
+func (nl *NetlinkNodeServer) GetAllRoutes(ctx context.Context, req *api.GetAllRoutesRequest) (resp *api.GetAllRoutesResponse, err error) {
 	return nil, nil
 }
