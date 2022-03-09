@@ -64,6 +64,10 @@ service NodeControllerService {
     // Updates addresses attached to a link on host.
     rpc UpdateAddress(UpdateAddressRequest) returns (UpdateAddressResponse) {}
     
+    // Returns the status of a sysctl based on the sysctl procfs interface.
+    rpc GetSysctl(GetSysctlRequest) returns (GetSysctlResponse) {}
+    // Sets the status of a sysctl based on the sysctl procfs interface.
+    rpc SetSysctl(SetSysctlRequest) returns (SetSysctlResponse) {}
 }
 
 // Description of a service that controls the node's netfilter configuration.
@@ -797,7 +801,37 @@ message CreateRuleResponse {
 message UpdateRuleRequest {
 
 }
-
+ 
 message UpdateRuleResponse {
 
+}
+
+message GetSysctlRequest {
+    // Present the string of the sysctl to be returned.
+    string name = 1;
+}
+
+message GetSysctlResponse {
+    // Response code for this RPC call.
+    ReturnStatusCodes status_code = 1;
+    // Error if there is any with retrieving this sysctl.
+    string error = 2;
+    // The return value of this sysctl.
+    int64 value = 3;
+}
+
+message SetSysctlRequest {
+    // Present the string of the sysctl to be set.
+    string name = 1;
+    // the value to set this sysctl to.
+    int64 value = 2;
+}
+
+message SetSysctlResponse {
+    // Response code for this RPC call.
+    ReturnStatusCodes status_code = 1;
+    // Error if there is any with retrieving this sysctl.
+    string error = 2;
+    // The set value of this sysctl.
+    int64 value = 3;
 }

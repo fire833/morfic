@@ -62,6 +62,10 @@ type NodeControllerServiceClient interface {
 	DeleteAddress(ctx context.Context, in *DeleteAddressRequest, opts ...grpc.CallOption) (*DeleteAddressResponse, error)
 	// Updates addresses attached to a link on host.
 	UpdateAddress(ctx context.Context, in *UpdateAddressRequest, opts ...grpc.CallOption) (*UpdateAddressResponse, error)
+	// Returns the status of a sysctl based on the sysctl procfs interface.
+	GetSysctl(ctx context.Context, in *GetSysctlRequest, opts ...grpc.CallOption) (*GetSysctlResponse, error)
+	// Sets the status of a sysctl based on the sysctl procfs interface.
+	SetSysctl(ctx context.Context, in *SetSysctlRequest, opts ...grpc.CallOption) (*SetSysctlResponse, error)
 }
 
 type nodeControllerServiceClient struct {
@@ -252,6 +256,24 @@ func (c *nodeControllerServiceClient) UpdateAddress(ctx context.Context, in *Upd
 	return out, nil
 }
 
+func (c *nodeControllerServiceClient) GetSysctl(ctx context.Context, in *GetSysctlRequest, opts ...grpc.CallOption) (*GetSysctlResponse, error) {
+	out := new(GetSysctlResponse)
+	err := c.cc.Invoke(ctx, "/v1alpha1.NodeControllerService/GetSysctl", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *nodeControllerServiceClient) SetSysctl(ctx context.Context, in *SetSysctlRequest, opts ...grpc.CallOption) (*SetSysctlResponse, error) {
+	out := new(SetSysctlResponse)
+	err := c.cc.Invoke(ctx, "/v1alpha1.NodeControllerService/SetSysctl", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // NodeControllerServiceServer is the server API for NodeControllerService service.
 // All implementations must embed UnimplementedNodeControllerServiceServer
 // for forward compatibility
@@ -296,6 +318,10 @@ type NodeControllerServiceServer interface {
 	DeleteAddress(context.Context, *DeleteAddressRequest) (*DeleteAddressResponse, error)
 	// Updates addresses attached to a link on host.
 	UpdateAddress(context.Context, *UpdateAddressRequest) (*UpdateAddressResponse, error)
+	// Returns the status of a sysctl based on the sysctl procfs interface.
+	GetSysctl(context.Context, *GetSysctlRequest) (*GetSysctlResponse, error)
+	// Sets the status of a sysctl based on the sysctl procfs interface.
+	SetSysctl(context.Context, *SetSysctlRequest) (*SetSysctlResponse, error)
 	mustEmbedUnimplementedNodeControllerServiceServer()
 }
 
@@ -362,6 +388,12 @@ func (UnimplementedNodeControllerServiceServer) DeleteAddress(context.Context, *
 }
 func (UnimplementedNodeControllerServiceServer) UpdateAddress(context.Context, *UpdateAddressRequest) (*UpdateAddressResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateAddress not implemented")
+}
+func (UnimplementedNodeControllerServiceServer) GetSysctl(context.Context, *GetSysctlRequest) (*GetSysctlResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetSysctl not implemented")
+}
+func (UnimplementedNodeControllerServiceServer) SetSysctl(context.Context, *SetSysctlRequest) (*SetSysctlResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SetSysctl not implemented")
 }
 func (UnimplementedNodeControllerServiceServer) mustEmbedUnimplementedNodeControllerServiceServer() {}
 
@@ -736,6 +768,42 @@ func _NodeControllerService_UpdateAddress_Handler(srv interface{}, ctx context.C
 	return interceptor(ctx, in, info, handler)
 }
 
+func _NodeControllerService_GetSysctl_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetSysctlRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(NodeControllerServiceServer).GetSysctl(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/v1alpha1.NodeControllerService/GetSysctl",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(NodeControllerServiceServer).GetSysctl(ctx, req.(*GetSysctlRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _NodeControllerService_SetSysctl_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SetSysctlRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(NodeControllerServiceServer).SetSysctl(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/v1alpha1.NodeControllerService/SetSysctl",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(NodeControllerServiceServer).SetSysctl(ctx, req.(*SetSysctlRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // NodeControllerService_ServiceDesc is the grpc.ServiceDesc for NodeControllerService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -822,6 +890,14 @@ var NodeControllerService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateAddress",
 			Handler:    _NodeControllerService_UpdateAddress_Handler,
+		},
+		{
+			MethodName: "GetSysctl",
+			Handler:    _NodeControllerService_GetSysctl_Handler,
+		},
+		{
+			MethodName: "SetSysctl",
+			Handler:    _NodeControllerService_SetSysctl_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
