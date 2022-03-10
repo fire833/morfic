@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo "Updating API deepcopy..."
+
 echo "Rebuilding addresses API..."
 deepcopy-gen --input-dirs ../pkg/apis/addresses -h boilerplate.go.txt -O zz_generated.deepcopy &
 echo "Rebuilding authentication API..."

@@ -40,8 +40,17 @@ func nodeMain() {
 	go nodesignalHandler(sig)
 
 	log.Printf("beginning node grpc server")
+
+	cert, e := node.CreateServerCert()
+	if e != nil {
+		log.Printf("unable to create node server certificate, error: %v", e)
+
+		// Kill the process just for now
+		os.Exit(1)
+	}
+
 	// Start the node gRPC listener.
-	if e := node.BeginNodeServer(); e != nil {
+	if e := node.BeginNodeServer(cert); e != nil {
 		log.Printf("node server exited, error: %v, exiting\n", e.Error())
 		node.NodeControllerServer.GracefulStop() // Kill the server gracefully and exit.
 	}

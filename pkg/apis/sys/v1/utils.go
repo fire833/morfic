@@ -19,13 +19,10 @@
 package v1
 
 import (
-	"encoding/json"
-	"net/http"
 	"time"
 
 	"github.com/fasthttp/router"
 	"github.com/valyala/fasthttp"
-	"gopkg.in/yaml.v3"
 )
 
 var start time.Time = time.Now()
@@ -49,53 +46,53 @@ type UptimeSchema struct {
 
 // Gives the uptime for the service following the above uptime schema.
 func Uptime(ctx *fasthttp.RequestCtx) {
-	if Authenticate(ctx, UptimeRequiredPriv) {
-		accept := string(ctx.Request.Header.Peek("Accept"))
+	// if Authenticate(ctx, UptimeRequiredPriv) {
+	// 	accept := string(ctx.Request.Header.Peek("Accept"))
 
-		uptime := time.Now().Sub(start)
+	// 	uptime := time.Now().Sub(start)
 
-		u := &UptimeSchema{
-			Hours:   uptime.Hours(),
-			Minutes: uptime.Minutes(),
-			Seconds: uptime.Seconds(),
-			String:  uptime.String(),
-		}
+	// 	u := &UptimeSchema{
+	// 		Hours:   uptime.Hours(),
+	// 		Minutes: uptime.Minutes(),
+	// 		Seconds: uptime.Seconds(),
+	// 		String:  uptime.String(),
+	// 	}
 
-		switch accept {
-		case "application/json":
-			{
-				// marshal with json.
-				d, e := json.Marshal(u)
-				if e != nil {
-					ctx.SetStatusCode(http.StatusInternalServerError)
-					return
-				}
+	// 	switch accept {
+	// 	case "application/json":
+	// 		{
+	// 			// marshal with json.
+	// 			d, e := json.Marshal(u)
+	// 			if e != nil {
+	// 				ctx.SetStatusCode(http.StatusInternalServerError)
+	// 				return
+	// 			}
 
-				ctx.Write(d)
-				ctx.SetStatusCode(http.StatusOK)
-				return
-			}
-		case "application/yaml":
-			{
-				// Marshal with yaml.
-				d, e := yaml.Marshal(u)
-				if e != nil {
-					ctx.SetStatusCode(http.StatusInternalServerError)
-					return
-				}
+	// 			ctx.Write(d)
+	// 			ctx.SetStatusCode(http.StatusOK)
+	// 			return
+	// 		}
+	// 	case "application/yaml":
+	// 		{
+	// 			// Marshal with yaml.
+	// 			d, e := yaml.Marshal(u)
+	// 			if e != nil {
+	// 				ctx.SetStatusCode(http.StatusInternalServerError)
+	// 				return
+	// 			}
 
-				ctx.Write(d)
-				ctx.SetStatusCode(http.StatusOK)
-				return
-			}
-		default:
-			{
-				// Just write the current uptime stringified by default. That can be
-				// read in with regex if needed, or they just use the JSON schema.
-				ctx.WriteString(uptime.String())
-				ctx.SetStatusCode(http.StatusOK)
-				return
-			}
-		}
-	}
+	// 			ctx.Write(d)
+	// 			ctx.SetStatusCode(http.StatusOK)
+	// 			return
+	// 		}
+	// 	default:
+	// 		{
+	// 			// Just write the current uptime stringified by default. That can be
+	// 			// read in with regex if needed, or they just use the JSON schema.
+	// 			ctx.WriteString(uptime.String())
+	// 			ctx.SetStatusCode(http.StatusOK)
+	// 			return
+	// 		}
+	// 	}
+	// }
 }

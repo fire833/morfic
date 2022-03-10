@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo "Updating API informers..."
+
 informer-gen -i \
 github.com/fire833/vroute/pkg/apis/addresses,\
 github.com/fire833/vroute/pkg/apis/authentication,\
@@ -14,7 +16,15 @@ github.com/fire833/vroute/pkg/apis/neighbors,\
 github.com/fire833/vroute/pkg/apis/routes,\
 github.com/fire833/vroute/pkg/apis/services,\
 github.com/fire833/vroute/pkg/apis/vpn \
--h boilerplate.go.txt --listers-package github.com/fire833/vroute/pkg/client/listers --single-directory -o ../pkg/client -p informers
+-h boilerplate.go.txt --listers-package github.com/fire833/vroute/pkg/client/listers \
+--single-directory -o ../pkg/client -p informers \
+--versioned-clientset-package github.com/fire833/vroute/pkg/client/clientset
+
+# Move all of the apis out to the outer directory.
+# mv ../pkg/client/informers/apis/* ../pkg/client/informers
+
+# Remove the apis directory.
+# rm -rf ../pkg/client/informers/apis
 
 # echo "Rebuilding addresses API..."
 # informer-gen --input-dirs github.com/fire833/vroute/pkg/apis/addresses -h boilerplate.go.txt --listers-package github.com/fire833/vroute/pkg/client/listers --single-directory -p addresses -o ../pkg/client/informers &

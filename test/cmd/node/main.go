@@ -23,6 +23,7 @@ import (
 	"crypto/rand"
 	"crypto/tls"
 	"crypto/x509"
+	"encoding/pem"
 	"fmt"
 	"math/big"
 	"os"
@@ -38,7 +39,7 @@ func main() {
 
 	cert, err := ephemeralCert()
 	if err != nil {
-		fmt.Printf("Unable to start node grpc server: %v\n", err)
+		fmt.Printf("Unable to create node server cert: %v\n", err)
 
 		os.Exit(1)
 	}
@@ -69,7 +70,7 @@ func ephemeralCert() (*tls.Certificate, error) {
 		SignatureAlgorithm: x509.PureEd25519,
 		IsCA:               false, // This is the CA.
 		NotBefore:          time.Now(),
-		NotAfter:           time.Now().Local().AddDate(0, 0, 1), // Default to making self-signed cert last for five years, so I don't have to create renewal logic.
+		NotAfter:           time.Now().Local().AddDate(0, 0, 1),
 		PublicKey:          pub,
 		PublicKeyAlgorithm: x509.Ed25519,
 	}
@@ -79,7 +80,12 @@ func ephemeralCert() (*tls.Certificate, error) {
 		return nil, e1
 	}
 
-	finalcert, e2 := tls.X509KeyPair(cert, priv)
+	data := pem.EncodeToMemory(&pem.Block{
+		Type:  "CERTIFICATE",
+		Bytes: cert,
+	})
+
+	finalcert, e2 := tls.X509KeyPair(data, priv)
 	if e2 != nil {
 		return nil, e2
 	}

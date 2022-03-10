@@ -24,6 +24,7 @@ import (
 	"crypto/tls"
 	"crypto/x509"
 	"fmt"
+	"log"
 	"math/big"
 	"net"
 	"os"
@@ -46,6 +47,8 @@ var (
 
 // Begins the node grpc server. Should never exit.
 func BeginNodeServer(cert *tls.Certificate) error {
+
+	log.Printf("creating listener for node grpc server")
 	// create the unix bind listener.
 	l, e := net.Listen("unix", config.CPRF.NodeControllerSocket)
 	if e != nil {
@@ -53,10 +56,12 @@ func BeginNodeServer(cert *tls.Certificate) error {
 		os.Exit(1)
 	}
 
+	log.Printf("creating credentials for node grpc server")
 	creds := credentials.NewServerTLSFromCert(cert)
 
 	s := grpc.NewServer(grpc.Creds(creds))
 
+	log.Printf("registering services with node grpc server")
 	// Register the services
 	handlers := netlink.NetlinkNodeServer{}
 

@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo "Updating API listers..."
+
 lister-gen -i \
 github.com/fire833/vroute/pkg/apis/addresses,\
 github.com/fire833/vroute/pkg/apis/authentication,\
@@ -15,6 +17,10 @@ github.com/fire833/vroute/pkg/apis/routes,\
 github.com/fire833/vroute/pkg/apis/services,\
 github.com/fire833/vroute/pkg/apis/vpn \
 -h boilerplate.go.txt -o ../pkg/client -p listers
+
+# mv ../pkg/client/listers/apis/* ../pkg/client/listers
+
+# rm -rf ../pkg/client/listers/apis
 
 # echo "Rebuilding addresses API..."
 # lister-gen --input-dirs github.com/fire833/vroute/pkg/apis/addresses -h boilerplate.go.txt -p addresses -o ../pkg/client/listers &
