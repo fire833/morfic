@@ -16,7 +16,7 @@
 *	51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package main
+package app
 
 import (
 	"fmt"
@@ -70,7 +70,7 @@ For more information about this project and for documentation, visit https://git
 )
 
 // The main function for the vroute control plane.
-func vrouteMain() {
+func VrouteMain() {
 	rootCmd.Flags().BoolVar(&src.DebugEnabled, "debug", false, "Use this subcommand to enable debugging mode for the process.")
 	rootCmd.AddCommand(forkNodeCmd)
 	rootCmd.AddCommand(forkAPICmd)

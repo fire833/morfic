@@ -25,7 +25,6 @@ import (
 )
 
 func (s *NetlinkNodeServer) GetAddress(ctx context.Context, req *api.GetAddressRequest) (resp *api.GetAddressResponse, err error) {
-
 	return nil, nil
 }
 

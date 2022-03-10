@@ -16,7 +16,7 @@
 *	51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package main
+package app
 
 const (
 	unprivilegedUID int = 65534
@@ -24,4 +24,10 @@ const (
 
 	rootUID int = 0
 	rootGID int = 0
+
+	UnprivilegedUID int = 65534
+	UnprivilegedGID int = 65534
+
+	RootUID int = 0
+	RootGID int = 0
 )
