@@ -19,6 +19,7 @@
 package node
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/fire833/vroute/pkg"
@@ -32,7 +33,15 @@ func init() {
 }
 
 func TestStartGRPCServer(t *testing.T) {
-	if e := BeginNodeServer(); e != nil {
+	if cert, e := CreateServerCert(); e != nil {
 		t.Fail()
+
+		fmt.Printf("Unable to create server cert: %v\n", e)
+	} else {
+		if e1 := BeginNodeServer(cert); e1 != nil {
+			t.Fail()
+
+			fmt.Printf("Unable to start grpc server: %v\n", e1)
+		}
 	}
 }

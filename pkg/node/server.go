@@ -45,18 +45,11 @@ var (
 )
 
 // Begins the node grpc server. Should never exit.
-func BeginNodeServer() error {
+func BeginNodeServer(cert *tls.Certificate) error {
 	// create the unix bind listener.
 	l, e := net.Listen("unix", config.CPRF.NodeControllerSocket)
 	if e != nil {
 		fmt.Printf("Unable to start node server: %s", e.Error())
-		os.Exit(1)
-	}
-
-	cert, e1 := CreateServerCert()
-	if e1 != nil {
-		// Bail because of this.
-		fmt.Printf("Unable to create server certificate: %v", e)
 		os.Exit(1)
 	}
 
@@ -84,7 +77,7 @@ func CreateServerCert() (*tls.Certificate, error) {
 	templ := &x509.Certificate{
 		SerialNumber:       big.NewInt(1),
 		SignatureAlgorithm: x509.PureEd25519,
-		IsCA:               true, // This is the CA.
+		IsCA:               false,
 		NotBefore:          time.Now(),
 		NotAfter:           time.Now().Local().AddDate(5, 0, 0), // Default to making self-signed cert last for five years, so I don't have to create renewal logic.
 		PublicKey:          pub,

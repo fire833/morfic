@@ -1,0 +1,9 @@
+
+# Ignore node test server binary.
+node-test
+
+# Ignore API test server binary.
+api-test
+
+# Ignore controller test server binary.
+controller-test
