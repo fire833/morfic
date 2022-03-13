@@ -18,6 +18,11 @@
 
 package persistence
 
+import (
+	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/apimachinery/pkg/runtime/schema"
+)
+
 /*
 	Persistence provider is an interface for storage backends to persist data
 	about the control plane to a durable medium for persistence across restarts
@@ -63,6 +68,16 @@ type PersistenceProvider interface {
 		Another example could be you want to persist to both a file locally mounted
 		on the bare metal machine, and in another location of the filesystem that is
 		actually mounted via NFS onto the bare metal host.
+
+		It is generally up to the discretion of the provider to determine how
+		individual instances are to be labeled, but names should be unique and avoid
+		any chances for collision between two or more instances at runtime. Given that
+		these strings are only to be parsed by persistence management layers rather than
+		human administrators, so they do not have to be human readable. The suggested format
+		is to repesent an instance as <generic_instance_name>-<instance_hash>.
+		To copy the s3 instance noted above, generic_instance_name could be s3, and the
+		instance_hash be a uniquely generated hex hash from the configuration of that
+		instance.
 	*/
 	Instances() []string
 
@@ -75,15 +90,33 @@ type PersistenceProvider interface {
 	*/
 	InstanceStatus(instance string) *PersistenceProviderStatus
 
-	// WORK IN PROGRESS
+	/*
+		Call this method to persist a runtime object to this persistence provider. Callers
+		should specify the specific instance to which this provider should persist the object,
+		and the object itself, which conforms to the runtime.Object interface.
 
-	GetObjects(instance string)
+		This method returns the key to accessthis specific object in the future, so it can
+		be cached by the persistence management layer with minimal memory footprint. If there
+		was an error in persisting the data, a corresponding error shall be returned.
+	*/
+	PutObject(instance string, object *runtime.Object) (key string, e error)
 
-	PutObjects(instance string)
+	/*
+		Call this method to remove a runtime object from a specific provider instance.
+	*/
+	DeleteObject(instance string, kind schema.ObjectKind, key string) error
 
-	DeleteObjects(instance string)
+	/*
+		Returns a persisted instance of an object from a specific provider instance.
+	*/
+	GetObject(instance string, kind schema.ObjectKind, key string) *runtime.Object
 
-	UpdateObjects(instance string)
+	/*
+		Returns all of the persisted instances of this object kind stored with this persistence
+		provider. The ObjectKind denotes the types that callersrequest, and the instance should be
+		a valid provider instance to be queried for the data.
+	*/
+	GetAllObjects(instance string, kind schema.ObjectKind) []*runtime.Object
 }
 
 /*
