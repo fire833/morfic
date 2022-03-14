@@ -82,6 +82,12 @@ type PersistenceProvider interface {
 	Instances() []string
 
 	/*
+		InstancePriority describes the priority value of an instance from a randomly generated
+
+	*/
+	InstancePriority(instance string) uint16
+
+	/*
 		InstanceStatus allows the control plane to asyncronously access the status for
 		a specific known instance of a backend. This can be useful for when the control
 		plane knows it will need to make a bunch of write/read requests (especially
@@ -91,7 +97,7 @@ type PersistenceProvider interface {
 	InstanceStatus(instance string) *PersistenceProviderStatus
 
 	/*
-		Call this method to persist a runtime object to this persistence provider. Callers
+		PutObject persists a runtime object to this persistence provider. Callers
 		should specify the specific instance to which this provider should persist the object,
 		and the object itself, which conforms to the runtime.Object interface.
 
@@ -102,21 +108,21 @@ type PersistenceProvider interface {
 	PutObject(instance string, object *runtime.Object) (key string, e error)
 
 	/*
-		Call this method to remove a runtime object from a specific provider instance.
+		DeleteObject removes a runtime object from a specific provider instance.
 	*/
-	DeleteObject(instance string, kind schema.ObjectKind, key string) error
+	DeleteObject(instance string, kind schema.GroupVersionKind, key string) error
 
 	/*
-		Returns a persisted instance of an object from a specific provider instance.
+		GetObject returns a persisted instance of an object from a specific provider instance.
 	*/
-	GetObject(instance string, kind schema.ObjectKind, key string) *runtime.Object
+	GetObject(instance string, kind schema.GroupVersionKind, key string) *runtime.Object
 
 	/*
-		Returns all of the persisted instances of this object kind stored with this persistence
-		provider. The ObjectKind denotes the types that callersrequest, and the instance should be
-		a valid provider instance to be queried for the data.
+		GetAllObjects returns all of the persisted instances of this object kind stored with
+		this persistence provider. The ObjectKind denotes the types that callers request, and
+		the instance should be a valid provider instance to be queried for the data.
 	*/
-	GetAllObjects(instance string, kind schema.ObjectKind) []*runtime.Object
+	GetAllObjects(instance string, kind schema.GroupVersionKind) []*runtime.Object
 }
 
 /*
@@ -130,14 +136,22 @@ type PersistenceProviderStatus struct {
 	// should assume that this instance doesn't exist if this field is set to false and abort
 	// any planned upcoming operations to the instance.
 	InstanceExists bool `json:"exists" yaml:"exists"`
+
 	// Returns true if the instance is reported as up by the provider. Otherwise should be
 	// considered down and the control plane should abort any planned upcoming operations
 	// on the instance.
 	Status bool `json:"status,omitempty" yaml:"status,omitempty"`
+
+	// Returns the average persistence persistence latency for this instance. This latency should
+	// be measured as the time from when the request for an object to persist gets called, and
+	// the time where the persistence backend has processed the request (ie s3 has returned a 200
+	// or 201 from a post/delete request, file has been been saved, basically transaction has concluded).
+	MeanPersistLatency float64 `json:"mean_persist_latency,omitempty" yaml:"meanPersistLatency,omitempty"`
 }
 
 /*
-
- */
+	SecretPersistenceProvider serves as an interface for storing secrets from the control plane
+	to a persistent (and secure) medium.
+*/
 type SecretPersistenceProvider interface {
 }

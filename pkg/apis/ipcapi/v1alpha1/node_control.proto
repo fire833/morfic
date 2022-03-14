@@ -74,37 +74,36 @@ service NodeControllerService {
 // Provides CRUD endpoints to edits aspects such as chains, rules, and tables
 // that are found within the 
 service NodeFirewallControllerService {
-
+    // Get a table that contains chains and rules. Returns table based on name.
     rpc GetTable(GetTableRequest) returns (GetTableResponse) {}
-
+    // Returns all netfilter tables that are configured on the host.
     rpc GetAllTables(GetAllTablesRequest) returns (GetAllTablesResponse) {}
-
+    // Removes a table from the host based on name. Returns the table that was deleted.
     rpc DeleteTable(DeleteTableRequest) returns (DeleteTableResponse) {}
-
+    // Creates a table based on name. Returns if there was an error with creation.
     rpc CreateTable(CreateTableRequest) returns (CreateTableResponse) {}
-
+    // Updates a table with with a new table object.
     rpc UpdateTable(UpdateTableRequest) returns (UpdateTableResponse) {}
-
+    // Returns a chain object based on filters.
     rpc GetChain(GetChainRequest) returns (GetChainResponse) {}
-
+    // Returns allchains that are loaded on the host.
     rpc GetAllChains(GetAllChainsRequest) returns (GetAllChainsResponse) {}
-
+    // Removes a chain based on name. Returns the deleted chain object.
     rpc DeleteChain(DeleteChainRequest) returns (DeleteChainResponse) {}
-
+    // Creates a new chain on the host based on the provided object.
     rpc CreateChain(CreateChainRequest) returns (CreateChainResponse) {}
-
+    // Updates a chain on the host with the provided object.
     rpc UpdateChain(UpdateChainRequest) returns (UpdateChainRequest) {}
-
+    // Returns a rule object based on specified filters.
     rpc GetRule(GetRuleRequest) returns (GetRuleResponse) {}
-
+    // Returns all rules loaded on the host.
     rpc GetAllRules(GetAllRulesRequest) returns (GetAllRulesResponse) {}
-
+    // Deletes a rule from the host, and returns the rule that was removed.
     rpc DeleteRule(DeleteRuleRequest) returns (DeleteRuleResponse) {}
-
+    // Creates a new rule based on the provided object.
     rpc CreateRule(CreateRuleRequest) returns (CreateRuleResponse) {}
-
+    // Updates a new rule on the host via the provided object.
     rpc UpdateRule(UpdateRuleRequest) returns (UpdateRuleResponse) {}
-
 }
 
 enum ReturnStatusCodes {
@@ -145,6 +144,7 @@ message CreateLinkResponse {
 message UpdateLinkRequest {
     // The name of the link
     string name = 1;
+    // The link to compare/update.
     Link link = 2;
 }
 
@@ -242,15 +242,15 @@ enum LinkTypes {
 message Link {
     // Describes the interface address for this link.
     string name = 1;
-    // Addressing for this link
+    // Addressing for this link.
     repeated LinkAddress address = 2;
-    // MAC hardware addressing for this link
+    // MAC hardware addressing for this link.
     LinkMACAddress mac = 3;
     // The type of this link.
     LinkTypes type = 4;
     // MTU of link.
     uint32 mtu = 5;
-    // Specify the index of the link
+    // Specify the index of the link.
     uint32 index = 6;
     LinkAttributes attributes = 7;
 }
@@ -696,7 +696,7 @@ message DeleteTableResponse {
 }
 
 message CreateTableRequest {
-
+    Table table = 1;
 }
 
 message CreateTableResponse {

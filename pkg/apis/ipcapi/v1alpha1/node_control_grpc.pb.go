@@ -908,20 +908,35 @@ var NodeControllerService_ServiceDesc = grpc.ServiceDesc{
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type NodeFirewallControllerServiceClient interface {
+	// Get a table that contains chains and rules. Returns table based on name.
 	GetTable(ctx context.Context, in *GetTableRequest, opts ...grpc.CallOption) (*GetTableResponse, error)
+	// Returns all netfilter tables that are configured on the host.
 	GetAllTables(ctx context.Context, in *GetAllTablesRequest, opts ...grpc.CallOption) (*GetAllTablesResponse, error)
+	// Removes a table from the host based on name. Returns the table that was deleted.
 	DeleteTable(ctx context.Context, in *DeleteTableRequest, opts ...grpc.CallOption) (*DeleteTableResponse, error)
+	// Creates a table based on name. Returns if there was an error with creation.
 	CreateTable(ctx context.Context, in *CreateTableRequest, opts ...grpc.CallOption) (*CreateTableResponse, error)
+	// Updates a table with with a new table object.
 	UpdateTable(ctx context.Context, in *UpdateTableRequest, opts ...grpc.CallOption) (*UpdateTableResponse, error)
+	// Returns a chain object based on filters.
 	GetChain(ctx context.Context, in *GetChainRequest, opts ...grpc.CallOption) (*GetChainResponse, error)
+	// Returns allchains that are loaded on the host.
 	GetAllChains(ctx context.Context, in *GetAllChainsRequest, opts ...grpc.CallOption) (*GetAllChainsResponse, error)
+	// Removes a chain based on name. Returns the deleted chain object.
 	DeleteChain(ctx context.Context, in *DeleteChainRequest, opts ...grpc.CallOption) (*DeleteChainResponse, error)
+	// Creates a new chain on the host based on the provided object.
 	CreateChain(ctx context.Context, in *CreateChainRequest, opts ...grpc.CallOption) (*CreateChainResponse, error)
+	// Updates a chain on the host with the provided object.
 	UpdateChain(ctx context.Context, in *UpdateChainRequest, opts ...grpc.CallOption) (*UpdateChainRequest, error)
+	// Returns a rule object based on specified filters.
 	GetRule(ctx context.Context, in *GetRuleRequest, opts ...grpc.CallOption) (*GetRuleResponse, error)
+	// Returns all rules loaded on the host.
 	GetAllRules(ctx context.Context, in *GetAllRulesRequest, opts ...grpc.CallOption) (*GetAllRulesResponse, error)
+	// Deletes a rule from the host, and returns the rule that was removed.
 	DeleteRule(ctx context.Context, in *DeleteRuleRequest, opts ...grpc.CallOption) (*DeleteRuleResponse, error)
+	// Creates a new rule based on the provided object.
 	CreateRule(ctx context.Context, in *CreateRuleRequest, opts ...grpc.CallOption) (*CreateRuleResponse, error)
+	// Updates a new rule on the host via the provided object.
 	UpdateRule(ctx context.Context, in *UpdateRuleRequest, opts ...grpc.CallOption) (*UpdateRuleResponse, error)
 }
 
@@ -1072,20 +1087,35 @@ func (c *nodeFirewallControllerServiceClient) UpdateRule(ctx context.Context, in
 // All implementations must embed UnimplementedNodeFirewallControllerServiceServer
 // for forward compatibility
 type NodeFirewallControllerServiceServer interface {
+	// Get a table that contains chains and rules. Returns table based on name.
 	GetTable(context.Context, *GetTableRequest) (*GetTableResponse, error)
+	// Returns all netfilter tables that are configured on the host.
 	GetAllTables(context.Context, *GetAllTablesRequest) (*GetAllTablesResponse, error)
+	// Removes a table from the host based on name. Returns the table that was deleted.
 	DeleteTable(context.Context, *DeleteTableRequest) (*DeleteTableResponse, error)
+	// Creates a table based on name. Returns if there was an error with creation.
 	CreateTable(context.Context, *CreateTableRequest) (*CreateTableResponse, error)
+	// Updates a table with with a new table object.
 	UpdateTable(context.Context, *UpdateTableRequest) (*UpdateTableResponse, error)
+	// Returns a chain object based on filters.
 	GetChain(context.Context, *GetChainRequest) (*GetChainResponse, error)
+	// Returns allchains that are loaded on the host.
 	GetAllChains(context.Context, *GetAllChainsRequest) (*GetAllChainsResponse, error)
+	// Removes a chain based on name. Returns the deleted chain object.
 	DeleteChain(context.Context, *DeleteChainRequest) (*DeleteChainResponse, error)
+	// Creates a new chain on the host based on the provided object.
 	CreateChain(context.Context, *CreateChainRequest) (*CreateChainResponse, error)
+	// Updates a chain on the host with the provided object.
 	UpdateChain(context.Context, *UpdateChainRequest) (*UpdateChainRequest, error)
+	// Returns a rule object based on specified filters.
 	GetRule(context.Context, *GetRuleRequest) (*GetRuleResponse, error)
+	// Returns all rules loaded on the host.
 	GetAllRules(context.Context, *GetAllRulesRequest) (*GetAllRulesResponse, error)
+	// Deletes a rule from the host, and returns the rule that was removed.
 	DeleteRule(context.Context, *DeleteRuleRequest) (*DeleteRuleResponse, error)
+	// Creates a new rule based on the provided object.
 	CreateRule(context.Context, *CreateRuleRequest) (*CreateRuleResponse, error)
+	// Updates a new rule on the host via the provided object.
 	UpdateRule(context.Context, *UpdateRuleRequest) (*UpdateRuleResponse, error)
 	mustEmbedUnimplementedNodeFirewallControllerServiceServer()
 }
