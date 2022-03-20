@@ -23,8 +23,17 @@ import (
 
 	api "github.com/fire833/vroute/pkg/apis/ipcapi/v1alpha1"
 	"github.com/jsimonetti/rtnetlink"
+	"github.com/vishvananda/netlink"
 	"golang.org/x/sys/unix"
 )
+
+func ConvertAPILinkToNetlinkLinkNew(link *api.Link) *netlink.Link {
+	return nil
+}
+
+func ConvertNetlinkLinkNewToAPILink(link *netlink.Link) *api.Link {
+	return nil
+}
 
 // Converts an API Link to a netlink message object to be sent over the wire.
 //

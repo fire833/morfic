@@ -315,7 +315,7 @@ message GetAllRoutesResponse {
     // Error string if there was any getting kernel routes.
     string error = 2;
     // Returns the route objects that are on the host.
-    Route routes = 3; 
+    repeated Route routes = 3; 
 }
 
 message CreateStaticRouteRequest {
@@ -328,8 +328,6 @@ message CreateStaticRouteResponse {
     ReturnStatusCodes status_code = 1;
     // Error string if there was adding the routes.
     string error = 2;
-    // Returns the routes that failed to be created.
-    repeated Route failed_routes = 3;
 }
 
 message DeleteStaticRouteRequest {

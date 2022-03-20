@@ -35,6 +35,8 @@ require (
 	k8s.io/cri-api v0.23.4
 )
 
+require github.com/vishvananda/netns v0.0.0-20191106174202-0a2b9b5464df // indirect
+
 require (
 	github.com/PuerkitoBio/purell v1.1.1 // indirect
 	github.com/PuerkitoBio/urlesc v0.0.0-20170810143723-de5bf2ad4578 // indirect
@@ -59,6 +61,7 @@ require (
 	github.com/savsgio/gotils v0.0.0-20220201163454-d252f0a44d5b // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
+	github.com/vishvananda/netlink v1.1.0
 	golang.org/x/lint v0.0.0-20210508222113-6edffad5e616 // indirect
 	golang.org/x/mod v0.5.1 // indirect
 	golang.org/x/net v0.0.0-20220225172249-27dd8689420f // indirect

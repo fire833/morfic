@@ -25,18 +25,18 @@ import (
 	api "github.com/fire833/vroute/pkg/apis/ipcapi/v1alpha1"
 )
 
-func ConvertAPIAddrtoNetlinkAddrNew(addr *api.LinkAddress) *netlink.Addr {
+func ConvertAPINeighborToNetlinkNeighborNew(neigh *api.Neighbor) *netlink.Neigh {
 	return nil
 }
 
-func ConvertAPIAddrtoNetlinkAddr(addr *api.IPCIDR) *rtnetlink.AddressMessage {
+func ConvertAPINeighborToNetlinkNeighbor(neigh *api.Neighbor) *rtnetlink.NeighMessage {
 	return nil
 }
 
-func ConvertNetlinkAddrNewToAPIAddr(addr *netlink.Addr) *api.LinkAddress {
+func ConvertNetlinkNeighborNewToAPINeighbor(neigh *netlink.Neigh) *api.Neighbor {
 	return nil
 }
 
-func ConvertNetlinkAddrToAPIAddr(addr *rtnetlink.AddressMessage) *api.LinkAddress {
+func ConvertNetlinkNeighborToAPINeighbor(neigh *rtnetlink.NeighMessage) *api.Neighbor {
 	return nil
 }

@@ -84,6 +84,7 @@ func (s *NetlinkNodeServer) CreateLink(ctx context.Context, req *api.CreateLinkR
 		StatusCode: api.ReturnStatusCodes_OK,
 		Error:      "",
 	}, nil
+
 }
 
 func (s *NetlinkNodeServer) UpdateLink(ctx context.Context, req *api.UpdateLinkRequest) (resp *api.UpdateLinkResponse, err error) {
@@ -131,6 +132,7 @@ func (s *NetlinkNodeServer) UpdateLink(ctx context.Context, req *api.UpdateLinkR
 		StatusCode: api.ReturnStatusCodes_OK,
 		Error:      "",
 	}, nil
+
 }
 
 func (s *NetlinkNodeServer) DeleteLink(ctx context.Context, req *api.DeleteLinkRequest) (resp *api.DeleteLinkResponse, err error) {
@@ -138,8 +140,9 @@ func (s *NetlinkNodeServer) DeleteLink(ctx context.Context, req *api.DeleteLinkR
 	// Validate the incoming link name to make sure it's valid.
 	if e := validators.ValidateInterfaceName(req.Name); e == nil {
 		return &api.DeleteLinkResponse{
-			StatusCode: api.ReturnStatusCodes_INVALID_FIELD_ERROR,
-			Error:      e.Error(),
+			StatusCode:  api.ReturnStatusCodes_INVALID_FIELD_ERROR,
+			Error:       e.Error(),
+			DeletedLink: nil, // Return nothing, since nothing was deleted.
 		}, nil
 	}
 
@@ -148,8 +151,9 @@ func (s *NetlinkNodeServer) DeleteLink(ctx context.Context, req *api.DeleteLinkR
 	// Get the index for this address name so it can be deleted.
 	if iface, e := net.InterfaceByName(req.Name); e != nil {
 		return &api.DeleteLinkResponse{
-			StatusCode: api.ReturnStatusCodes_NON_EXISTENT_ELEMENT,
-			Error:      "",
+			StatusCode:  api.ReturnStatusCodes_NON_EXISTENT_ELEMENT,
+			Error:       "",
+			DeletedLink: nil, // Return nothing, since nothing was deleted.
 		}, nil
 	} else {
 		i = iface
@@ -162,8 +166,9 @@ func (s *NetlinkNodeServer) DeleteLink(ctx context.Context, req *api.DeleteLinkR
 	if e1 != nil {
 
 		resp := &api.DeleteLinkResponse{
-			StatusCode: api.ReturnStatusCodes_INTERNAL_ERROR,
-			Error:      e1.Error(),
+			StatusCode:  api.ReturnStatusCodes_INTERNAL_ERROR,
+			Error:       e1.Error(),
+			DeletedLink: nil, // Return nothing, since nothing was deleted.
 		}
 
 		return resp, nil
@@ -176,7 +181,7 @@ func (s *NetlinkNodeServer) DeleteLink(ctx context.Context, req *api.DeleteLinkR
 		return &api.DeleteLinkResponse{
 			StatusCode:  api.ReturnStatusCodes_INTERNAL_ERROR,
 			Error:       e.Error(),
-			DeletedLink: nil,
+			DeletedLink: nil, // Return nothing, since nothing was deleted.
 		}, nil
 	} else {
 		msg = &m
@@ -187,7 +192,7 @@ func (s *NetlinkNodeServer) DeleteLink(ctx context.Context, req *api.DeleteLinkR
 		return &api.DeleteLinkResponse{
 			StatusCode:  api.ReturnStatusCodes_INTERNAL_ERROR,
 			Error:       e.Error(),
-			DeletedLink: nil,
+			DeletedLink: nil, // Return nothing, since nothing was deleted.
 		}, nil
 
 	}

@@ -22,17 +22,87 @@ import (
 	"context"
 
 	api "github.com/fire833/vroute/pkg/apis/ipcapi/v1alpha1"
+	"github.com/fire833/vroute/pkg/node/converters"
+	"github.com/fire833/vroute/pkg/node/validators"
+	netl "github.com/vishvananda/netlink"
 )
 
 func (nl *NetlinkNodeServer) CreateStaticRoute(ctx context.Context, req *api.CreateStaticRouteRequest) (resp *api.CreateStaticRouteResponse, err error) {
-	return nil, nil
+
+	// Validate the incoming route request.
+	if e := validators.ValidateRoute(req.GetRoute()); e != nil {
+		return &api.CreateStaticRouteResponse{
+			StatusCode: api.ReturnStatusCodes_INVALID_FIELD_ERROR,
+			Error:      e.Error(),
+		}, nil
+	}
+
+	// Add the route after converting it to avalid form for netlink.
+	if e := netl.RouteAdd(converters.ConvertAPIRouteToNetlinkRouteNew(req.GetRoute())); e != nil {
+		return &api.CreateStaticRouteResponse{
+			StatusCode: api.ReturnStatusCodes_INTERNAL_ERROR,
+			Error:      e.Error(),
+		}, nil
+	}
+
+	return &api.CreateStaticRouteResponse{
+		StatusCode: api.ReturnStatusCodes_OK,
+		Error:      "",
+	}, nil
+
 }
 
 func (nl *NetlinkNodeServer) DeleteStaticRoute(ctx context.Context, req *api.DeleteStaticRouteRequest) (resp *api.DeleteStaticRouteResponse, err error) {
-	return nil, nil
+
+	// Validate the incoming route request.
+	if e := validators.ValidateRoute(req.GetRoute()); e != nil {
+		return &api.DeleteStaticRouteResponse{
+			StatusCode: api.ReturnStatusCodes_INVALID_FIELD_ERROR,
+			Error:      e.Error(),
+			Route:      nil, // Return nothing, since nothing was deleted.
+		}, nil
+	}
+
+	var delRoute netl.Route
+
+	// Check that the route exists, otherwise abort and return invalid element error.
+	if r, e := netl.RouteGet(nil); r == nil || e != nil { // Need to update the destination with a value
+		return &api.DeleteStaticRouteResponse{
+			StatusCode: api.ReturnStatusCodes_NON_EXISTENT_ELEMENT,
+			Error:      e.Error(),
+			Route:      nil, // Return nothing, since nothing was deleted.
+		}, nil
+	} else {
+		delRoute = r[0] // TODO need to figure out which route we are looking to delete from the returned options.
+	}
+
+	// Now try to delete the route.
+	if e := netl.RouteDel(converters.ConvertAPIRouteToNetlinkRouteNew(req.GetRoute())); e != nil {
+		return &api.DeleteStaticRouteResponse{
+			StatusCode: api.ReturnStatusCodes_INTERNAL_ERROR,
+			Error:      e.Error(),
+			Route:      nil, // Return nothing, since nothing was deleted.
+		}, nil
+	}
+
+	return &api.DeleteStaticRouteResponse{
+		StatusCode: api.ReturnStatusCodes_OK,
+		Error:      "",
+		Route:      converters.ConvertNetlinkRouteNewToAPIRoute(&delRoute),
+	}, nil
+
 }
 
 func (nl *NetlinkNodeServer) UpdateStaticRoute(ctx context.Context, req *api.UpdateStaticRouteRequest) (resp *api.UpdateStaticRouteResponse, err error) {
+
+	// Validate the incoming route request.
+	if e := validators.ValidateRoute(req.GetRoute()); e != nil {
+		return &api.UpdateStaticRouteResponse{
+			StatusCode: api.ReturnStatusCodes_INVALID_FIELD_ERROR,
+			Error:      e.Error(),
+		}, nil
+	}
+
 	return nil, nil
 }
 
