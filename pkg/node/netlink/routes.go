@@ -24,10 +24,10 @@ import (
 	api "github.com/fire833/vroute/pkg/apis/ipcapi/v1alpha1"
 	"github.com/fire833/vroute/pkg/node/converters"
 	"github.com/fire833/vroute/pkg/node/validators"
-	netl "github.com/vishvananda/netlink"
+	nl "github.com/vishvananda/netlink"
 )
 
-func (nl *NetlinkNodeServer) CreateStaticRoute(ctx context.Context, req *api.CreateStaticRouteRequest) (resp *api.CreateStaticRouteResponse, err error) {
+func (s *NetlinkNodeServer) CreateStaticRoute(ctx context.Context, req *api.CreateStaticRouteRequest) (resp *api.CreateStaticRouteResponse, err error) {
 
 	// Validate the incoming route request.
 	if e := validators.ValidateRoute(req.GetRoute()); e != nil {
@@ -38,7 +38,7 @@ func (nl *NetlinkNodeServer) CreateStaticRoute(ctx context.Context, req *api.Cre
 	}
 
 	// Add the route after converting it to avalid form for netlink.
-	if e := netl.RouteAdd(converters.ConvertAPIRouteToNetlinkRouteNew(req.GetRoute())); e != nil {
+	if e := nl.RouteAdd(converters.ConvertAPIRouteToNetlinkRouteNew(req.GetRoute())); e != nil {
 		return &api.CreateStaticRouteResponse{
 			StatusCode: api.ReturnStatusCodes_INTERNAL_ERROR,
 			Error:      e.Error(),
@@ -52,7 +52,7 @@ func (nl *NetlinkNodeServer) CreateStaticRoute(ctx context.Context, req *api.Cre
 
 }
 
-func (nl *NetlinkNodeServer) DeleteStaticRoute(ctx context.Context, req *api.DeleteStaticRouteRequest) (resp *api.DeleteStaticRouteResponse, err error) {
+func (s *NetlinkNodeServer) DeleteStaticRoute(ctx context.Context, req *api.DeleteStaticRouteRequest) (resp *api.DeleteStaticRouteResponse, err error) {
 
 	// Validate the incoming route request.
 	if e := validators.ValidateRoute(req.GetRoute()); e != nil {
@@ -63,10 +63,10 @@ func (nl *NetlinkNodeServer) DeleteStaticRoute(ctx context.Context, req *api.Del
 		}, nil
 	}
 
-	var delRoute netl.Route
+	var delRoute nl.Route
 
 	// Check that the route exists, otherwise abort and return invalid element error.
-	if r, e := netl.RouteGet(nil); r == nil || e != nil { // Need to update the destination with a value
+	if r, e := nl.RouteGet(nil); r == nil || e != nil { // Need to update the destination with a value
 		return &api.DeleteStaticRouteResponse{
 			StatusCode: api.ReturnStatusCodes_NON_EXISTENT_ELEMENT,
 			Error:      e.Error(),
@@ -77,7 +77,7 @@ func (nl *NetlinkNodeServer) DeleteStaticRoute(ctx context.Context, req *api.Del
 	}
 
 	// Now try to delete the route.
-	if e := netl.RouteDel(converters.ConvertAPIRouteToNetlinkRouteNew(req.GetRoute())); e != nil {
+	if e := nl.RouteDel(converters.ConvertAPIRouteToNetlinkRouteNew(req.GetRoute())); e != nil {
 		return &api.DeleteStaticRouteResponse{
 			StatusCode: api.ReturnStatusCodes_INTERNAL_ERROR,
 			Error:      e.Error(),
@@ -93,7 +93,7 @@ func (nl *NetlinkNodeServer) DeleteStaticRoute(ctx context.Context, req *api.Del
 
 }
 
-func (nl *NetlinkNodeServer) UpdateStaticRoute(ctx context.Context, req *api.UpdateStaticRouteRequest) (resp *api.UpdateStaticRouteResponse, err error) {
+func (s *NetlinkNodeServer) UpdateStaticRoute(ctx context.Context, req *api.UpdateStaticRouteRequest) (resp *api.UpdateStaticRouteResponse, err error) {
 
 	// Validate the incoming route request.
 	if e := validators.ValidateRoute(req.GetRoute()); e != nil {
@@ -103,13 +103,54 @@ func (nl *NetlinkNodeServer) UpdateStaticRoute(ctx context.Context, req *api.Upd
 		}, nil
 	}
 
+	// Check that the route exists, otherwise abort and return invalid element error.
+	if r, e := nl.RouteGet(nil); r == nil || e != nil { // Need to update the destination with a value
+		return &api.UpdateStaticRouteResponse{
+			StatusCode: api.ReturnStatusCodes_NON_EXISTENT_ELEMENT,
+			Error:      e.Error(),
+		}, nil
+	}
+
+	// Run a replace on the route.
+	if e := nl.RouteReplace(converters.ConvertAPIRouteToNetlinkRouteNew(req.GetRoute())); e != nil {
+		return &api.UpdateStaticRouteResponse{
+			StatusCode: api.ReturnStatusCodes_INTERNAL_ERROR,
+			Error:      e.Error(),
+		}, nil
+	}
+
+	return &api.UpdateStaticRouteResponse{
+		StatusCode: api.ReturnStatusCodes_OK,
+		Error:      "",
+	}, nil
+
+}
+
+func (s *NetlinkNodeServer) GetRoute(ctx context.Context, req *api.GetRouteRequest) (resp *api.GetRouteResponse, err error) {
 	return nil, nil
 }
 
-func (nl *NetlinkNodeServer) GetRoute(ctx context.Context, req *api.GetRouteRequest) (resp *api.GetRouteResponse, err error) {
-	return nil, nil
-}
+func (s *NetlinkNodeServer) GetAllRoutes(ctx context.Context, req *api.GetAllRoutesRequest) (resp *api.GetAllRoutesResponse, err error) {
 
-func (nl *NetlinkNodeServer) GetAllRoutes(ctx context.Context, req *api.GetAllRoutesRequest) (resp *api.GetAllRoutesResponse, err error) {
-	return nil, nil
+	if r, e := nl.RouteList(nil, 0); e != nil { // TODO: Need to check that family value to see what should be put
+		return &api.GetAllRoutesResponse{
+			StatusCode: api.ReturnStatusCodes_NON_EXISTENT_ELEMENT,
+			Error:      e.Error(),
+			Routes:     nil, // Return nil, since nothing was returned
+		}, nil
+	} else {
+		var retRoutes []*api.Route
+
+		// Convert all the returned routes to API route object for return.
+		for _, route := range r {
+			retRoutes = append(retRoutes, converters.ConvertNetlinkRouteNewToAPIRoute(&route))
+		}
+
+		return &api.GetAllRoutesResponse{
+			StatusCode: api.ReturnStatusCodes_OK,
+			Error:      "",
+			Routes:     retRoutes,
+		}, nil
+	}
+
 }
