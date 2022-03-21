@@ -171,3 +171,46 @@ type FirewallTableSpec struct {
 // FirewallTableStatus specifies the current status for a firewall table on the host.
 type FirewallTableStatus struct {
 }
+
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
+// +k8s:openapi-gen=true
+// +k8s:deepcopy-gen=true
+// +genclient
+// +genclient:noStatus
+
+// FirewallSetList represents a list of FirewallSets.
+type FirewallSetList struct {
+	metav1.TypeMeta `json:",inline" yaml:",inline"`
+
+	// Standard object metadata.
+	// Utilizes the Kubernetes metadata object spec for now.
+	metav1.ObjectMeta `json:"metadata,omitempty" yaml:"metadata,omitempty"`
+
+	// Items represents the array of firewall sets.
+	Items []FirewallSet `json:"items" yaml:"items"`
+}
+
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
+// +k8s:openapi-gen=true
+// +k8s:deepcopy-gen=true
+// +genclient
+// +genclient:noStatus
+
+// FirewallSet reresents a
+type FirewallSet struct {
+	metav1.TypeMeta `json:",inline" yaml:",inline"`
+
+	// Standard object metadata.
+	// Utilizes the Kubernetes metadata object spec for now.
+	metav1.ObjectMeta `json:"metadata,omitempty" yaml:"metadata,omitempty"`
+
+	Spec FirewallSetSpec `json:"spec" yaml:"spec"`
+
+	Status FirewallSetStatus `json:"status" yaml:"status"`
+}
+
+type FirewallSetSpec struct {
+}
+
+type FirewallSetStatus struct {
+}
