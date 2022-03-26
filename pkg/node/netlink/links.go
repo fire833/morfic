@@ -25,6 +25,7 @@ import (
 
 	api "github.com/fire833/vroute/pkg/apis/ipcapi/v1alpha1"
 	"github.com/fire833/vroute/pkg/node/converters"
+	"github.com/fire833/vroute/pkg/node/locks"
 	"github.com/fire833/vroute/pkg/node/validators"
 	"github.com/jsimonetti/rtnetlink"
 
@@ -38,6 +39,7 @@ var (
 )
 
 func (s *NetlinkNodeServer) CreateLink(ctx context.Context, req *api.CreateLinkRequest) (resp *api.CreateLinkResponse, err error) {
+	ll := locks.LinkLock
 
 	// Validate the incoming link from the request.
 	if e := validators.ValidateLink(req.Link); e != nil {
@@ -47,13 +49,19 @@ func (s *NetlinkNodeServer) CreateLink(ctx context.Context, req *api.CreateLinkR
 		}, nil
 	}
 
+	ll.RLock()
+
 	// Check if a duplicate link already exists.
 	if _, e := net.InterfaceByName(req.Link.Name); e == nil {
+		ll.RUnlock()
+
 		return &api.CreateLinkResponse{
 			StatusCode: api.ReturnStatusCodes_DUPLICATE_ELEMENT_ERROR,
 			Error:      duplicateLinkError.Error(),
 		}, nil
 	}
+
+	ll.RUnlock()
 
 	// Acquire connection to netlink.
 	conn, e1 := c.NetlinkPool.GetConn()
@@ -68,16 +76,19 @@ func (s *NetlinkNodeServer) CreateLink(ctx context.Context, req *api.CreateLinkR
 		return resp, nil
 	}
 
+	ll.Lock()
+
 	// Create the new link through netlink connection.
 	if e := conn.Link.New(converters.ConvertAPILinkToNetlinkLink(req.Link)); e != nil {
+		ll.Unlock()
 
-		resp := &api.CreateLinkResponse{
+		return &api.CreateLinkResponse{
 			StatusCode: api.ReturnStatusCodes_INTERNAL_ERROR,
 			Error:      e.Error(),
-		}
-
-		return resp, nil
+		}, nil
 	}
+
+	ll.Unlock()
 
 	// Return that the link was created correctly.
 	return &api.CreateLinkResponse{
@@ -88,6 +99,7 @@ func (s *NetlinkNodeServer) CreateLink(ctx context.Context, req *api.CreateLinkR
 }
 
 func (s *NetlinkNodeServer) UpdateLink(ctx context.Context, req *api.UpdateLinkRequest) (resp *api.UpdateLinkResponse, err error) {
+	ll := locks.LinkLock
 
 	// Validate the incoming link from the request.
 	if e := validators.ValidateLink(req.Link); e != nil {
@@ -97,13 +109,19 @@ func (s *NetlinkNodeServer) UpdateLink(ctx context.Context, req *api.UpdateLinkR
 		}, nil
 	}
 
+	ll.RLock()
+
 	// Check if the link doesn't already exist.
 	if _, e := net.InterfaceByName(req.Link.Name); e == nil {
+		ll.RUnlock()
+
 		return &api.UpdateLinkResponse{
 			StatusCode: api.ReturnStatusCodes_NON_EXISTENT_ELEMENT,
 			Error:      duplicateLinkError.Error(),
 		}, nil
 	}
+
+	ll.RUnlock()
 
 	// Acquire connection to netlink.
 	conn, e1 := c.NetlinkPool.GetConn()
@@ -120,12 +138,18 @@ func (s *NetlinkNodeServer) UpdateLink(ctx context.Context, req *api.UpdateLinkR
 
 	}
 
+	ll.Lock()
+
 	if e := conn.Link.Set(converters.ConvertAPILinkToNetlinkLink(req.Link)); e != nil {
+		ll.Unlock()
+
 		return &api.UpdateLinkResponse{
 			StatusCode: api.ReturnStatusCodes_INTERNAL_ERROR,
 			Error:      e.Error(),
 		}, nil
 	}
+
+	ll.Unlock()
 
 	// Return that the link was updated correctly.
 	return &api.UpdateLinkResponse{
@@ -136,6 +160,7 @@ func (s *NetlinkNodeServer) UpdateLink(ctx context.Context, req *api.UpdateLinkR
 }
 
 func (s *NetlinkNodeServer) DeleteLink(ctx context.Context, req *api.DeleteLinkRequest) (resp *api.DeleteLinkResponse, err error) {
+	ll := locks.LinkLock
 
 	// Validate the incoming link name to make sure it's valid.
 	if e := validators.ValidateInterfaceName(req.Name); e == nil {
@@ -148,14 +173,20 @@ func (s *NetlinkNodeServer) DeleteLink(ctx context.Context, req *api.DeleteLinkR
 
 	var i *net.Interface // Interface with the index of the name.
 
+	ll.RLock()
+
 	// Get the index for this address name so it can be deleted.
 	if iface, e := net.InterfaceByName(req.Name); e != nil {
+		ll.RUnlock()
+
 		return &api.DeleteLinkResponse{
 			StatusCode:  api.ReturnStatusCodes_NON_EXISTENT_ELEMENT,
 			Error:       "",
 			DeletedLink: nil, // Return nothing, since nothing was deleted.
 		}, nil
 	} else {
+		ll.RUnlock()
+
 		i = iface
 	}
 
@@ -177,25 +208,35 @@ func (s *NetlinkNodeServer) DeleteLink(ctx context.Context, req *api.DeleteLinkR
 
 	var msg *rtnetlink.LinkMessage
 
+	ll.RLock()
+
 	if m, e := conn.Link.Get(uint32(i.Index)); e != nil {
+		ll.RUnlock()
+
 		return &api.DeleteLinkResponse{
 			StatusCode:  api.ReturnStatusCodes_INTERNAL_ERROR,
 			Error:       e.Error(),
 			DeletedLink: nil, // Return nothing, since nothing was deleted.
 		}, nil
 	} else {
+		ll.RUnlock()
+
 		msg = &m
 	}
 
+	ll.Lock()
+
 	if e := conn.Link.Delete(uint32(i.Index)); e != nil {
+		ll.Unlock()
 
 		return &api.DeleteLinkResponse{
 			StatusCode:  api.ReturnStatusCodes_INTERNAL_ERROR,
 			Error:       e.Error(),
 			DeletedLink: nil, // Return nothing, since nothing was deleted.
 		}, nil
-
 	}
+
+	ll.Unlock()
 
 	return &api.DeleteLinkResponse{
 		StatusCode:  api.ReturnStatusCodes_OK,
