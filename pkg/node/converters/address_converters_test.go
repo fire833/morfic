@@ -19,6 +19,7 @@
 package converters
 
 import (
+	"net"
 	"reflect"
 	"testing"
 
@@ -102,6 +103,66 @@ func TestConvertNetlinkAddrToAPIAddr(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			if got := ConvertNetlinkAddrToAPIAddr(tt.args.addr); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("ConvertNetlinkAddrToAPIAddr() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestConvertAPICDRtoNetIP(t *testing.T) {
+	type args struct {
+		cidr *api.IPCIDR
+	}
+	tests := []struct {
+		name string
+		args args
+		want *net.IPNet
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := ConvertAPICDRtoNetIP(tt.args.cidr); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("ConvertAPICDRtoNetIP() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestConvertAPIAddrtoNetIP(t *testing.T) {
+	type args struct {
+		addr *api.IPAddress
+	}
+	tests := []struct {
+		name string
+		args args
+		want net.IP
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := ConvertAPIAddrtoNetIP(tt.args.addr); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("ConvertAPIAddrtoNetIP() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestConvertAPIMasktoNetMask(t *testing.T) {
+	type args struct {
+		mask *api.IPMask
+	}
+	tests := []struct {
+		name string
+		args args
+		want net.IPMask
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := ConvertAPIMasktoNetMask(tt.args.mask); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("ConvertAPIMasktoNetMask() = %v, want %v", got, tt.want)
 			}
 		})
 	}
