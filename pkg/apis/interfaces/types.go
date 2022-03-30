@@ -73,7 +73,7 @@ type LinkSpec struct {
 	Type string `json:"type" yaml:"type"`
 
 	// HWAddress specifies the hardware address for this link address.
-	HWAddress *HardwareAddressSpec `json:"hardwareAddress" yaml:"hardwareAddress"`
+	HWAddress *HardwareAddress `json:"hardwareAddress" yaml:"hardwareAddress"`
 }
 
 // LinkStatus represents the status of the link.
@@ -98,5 +98,5 @@ type NetNamespaceSpec struct {
 	Id string `json:"id" yaml:"id"`
 }
 
-type HardwareAddressSpec struct {
+type HardwareAddress struct {
 }
