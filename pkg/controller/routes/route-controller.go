@@ -16,14 +16,7 @@
 *	51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package register
+package routes
 
-import (
-	"github.com/fire833/vroute/pkg/controller"
-)
-
-// Load in all the registered controller loops to be started
-func RegisterControllers() {
-
-	controller.RegisteredControllers = make([]controller.ControllerInterface, 1) // Set to number of controller loops
+type RouteController struct {
 }
