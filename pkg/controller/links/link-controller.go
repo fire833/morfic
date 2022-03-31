@@ -66,7 +66,7 @@ func NewLinkController(client clientset.Interface) (*LinkController, error) {
 // Run starts off the number of worker threads as defined by workers.
 // Each thread watches and syncs state of Link objects.
 func (c *LinkController) Run(ctx context.Context, workers int) {
-	defer c.queue.Shutdown()
+	defer c.queue.ShutDown()
 
 	for i := 0; i < workers; i++ {
 		go wait.UntilWithContext(ctx, c.worker, c.workerLoopPeriod)
@@ -83,6 +83,14 @@ func (c *LinkController) worker(ctx context.Context) {
 }
 
 func (c *LinkController) processNextWorkItem(ctx context.Context) bool {
+	lkey, quit := c.queue.Get()
+	if quit {
+		return false
+	}
+	defer c.queue.Done(lkey)
+	c.syncLink(ctx, lkey.(string))
+	c.queue.Forget(lkey)
+
 	return true
 }
 
@@ -96,4 +104,8 @@ func (c *LinkController) delLink() {
 
 func (c *LinkController) updateLink() {
 
+}
+
+func (c *LinkController) syncLink(ctx context.Context, key string) error {
+	return nil
 }
