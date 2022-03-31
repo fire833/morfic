@@ -23,15 +23,15 @@ import (
 )
 
 // RecordType defines the type of a DNS record.
-type RecordType int
+type RecordType string
 
 const (
-	ARecord RecordType = iota
-	AAAARecord
-	CNAMERecord
-	TXTRecord
-	SRVRecord
-	MXRecord
+	ARecord     RecordType = "A"
+	AAAARecord  RecordType = "AAAA"
+	CNAMERecord RecordType = "CNAME"
+	TXTRecord   RecordType = "TXT"
+	SRVRecord   RecordType = "SRV"
+	MXRecord    RecordType = "MX"
 )
 
 // ProviderStatus defines the status of a provider from the perspective of the control plane.
@@ -88,8 +88,10 @@ type DNSRecordSpec struct {
 	Type RecordType `json:"type" yaml:"type"`
 
 	// Specify the hostname that is to be controlled via this record.
-	// Should be formatted as <subdomain_to_be_used>.<domain>.<tld>.
 	Host string `json:"host" yaml:"host"`
+
+	// Domain notes the domain for this host record.
+	Domain string `json:"domain" yaml:"domain"`
 
 	// The value for the record.
 	Value string `json:"value" yaml:"value"`
@@ -98,6 +100,8 @@ type DNSRecordSpec struct {
 	//
 	// +optional
 	TTL uint `json:"ttl" yaml:"ttl"`
+
+	// TODO: add provider reference for who will implement this entry.
 }
 
 // DNSRecordStatus describes the current status of a DNS record.
@@ -149,9 +153,6 @@ type DNSProvider struct {
 
 // DNSProviderSpec specifies the desired spec for a DNS provider.
 type DNSProviderSpec struct {
-	// Specify the name for this DNS provider for reference by other
-	// resources and/or the control plane itself.
-	Name string `json:"name" yaml:"name"`
 
 	// Specify a cloudflare provider as the backend for this provider object.
 	//
