@@ -57,7 +57,7 @@ type PersistenceProvider interface {
 		If there is an error in initializing this backend, the appropriate error will
 		be returned and the control plane will assume the backend is dead.
 	*/
-	Initialize() error
+	Initialize(id *MachineId) error
 
 	/*
 		Instances returns to the controlplane the names of the instances this
@@ -82,12 +82,6 @@ type PersistenceProvider interface {
 	Instances() []string
 
 	/*
-		InstancePriority describes the priority value of an instance from a randomly generated
-
-	*/
-	InstancePriority(instance string) uint16
-
-	/*
 		InstanceStatus allows the control plane to asyncronously access the status for
 		a specific known instance of a backend. This can be useful for when the control
 		plane knows it will need to make a bunch of write/read requests (especially
@@ -105,17 +99,17 @@ type PersistenceProvider interface {
 		be cached by the persistence management layer with minimal memory footprint. If there
 		was an error in persisting the data, a corresponding error shall be returned.
 	*/
-	PutObject(instance string, object *runtime.Object) (key string, e error)
+	PutObject(instance string, object *runtime.Object) (key ObjectKey, e error)
 
 	/*
 		DeleteObject removes a runtime object from a specific provider instance.
 	*/
-	DeleteObject(instance string, kind schema.GroupVersionKind, key string) error
+	DeleteObject(instance string, kind schema.GroupVersionKind, key ObjectKey) error
 
 	/*
 		GetObject returns a persisted instance of an object from a specific provider instance.
 	*/
-	GetObject(instance string, kind schema.GroupVersionKind, key string) *runtime.Object
+	GetObject(instance string, kind schema.GroupVersionKind, key ObjectKey) *runtime.Object
 
 	/*
 		GetAllObjects returns all of the persisted instances of this object kind stored with

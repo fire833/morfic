@@ -18,12 +18,73 @@
 
 package file
 
+import (
+	"crypto/rand"
+	"fmt"
+
+	"github.com/fire833/vroute/pkg/persistence"
+	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/apimachinery/pkg/runtime/schema"
+)
+
 // FilePersistenceProvider represents a persistence provider that is able to
 // persist control-plane data to a file, and can retrieve data according to the
 // PersistenceProvider interface.
 type FilePersistenceProvider struct {
+	id           *persistence.MachineId
+	instances    []string
+	writeLatency float64
+	up           bool
 }
 
-func (file *FilePersistenceProvider) Initialize() {
+func (file *FilePersistenceProvider) Initialize(id *persistence.MachineId) {
+	file.id = id
+	file.up = true
+	file.writeLatency = 0
+
+	// Start off with only one provider available for now.
+	file.instances = make([]string, 1)
+
+	buf := make([]byte, 10)
+	rand.Read(buf)
+
+	file.instances[1] = fmt.Sprintf("file-%b", buf)
+}
+
+func (file *FilePersistenceProvider) Instances() []string {
+	return file.instances
+}
+
+func (file *FilePersistenceProvider) InstanceStatus(instance string) *persistence.PersistenceProviderStatus {
+	for n, instance := range file.instances {
+		if instance == file.instances[n] {
+			return &persistence.PersistenceProviderStatus{
+				InstanceExists:     true,
+				Status:             file.up,
+				MeanPersistLatency: file.writeLatency,
+			}
+		}
+	}
+
+	return &persistence.PersistenceProviderStatus{
+		InstanceExists:     false,
+		Status:             false,
+		MeanPersistLatency: 0,
+	}
+}
+
+func (file *FilePersistenceProvider) PutObject(instance string, object *runtime.Object) (key persistence.ObjectKey, e error) {
+
+}
+
+func (file *FilePersistenceProvider) DeleteObject(instance string, kind schema.GroupVersionKind, key persistence.ObjectKey) error {
+
+}
+
+func (file *FilePersistenceProvider) GetObject(instance string, kind schema.GroupVersionKind, key persistence.ObjectKey) *runtime.Object {
+
+}
+
+func (file *FilePersistenceProvider) GetAllObjects(instance string, kind schema.GroupVersionKind) []*runtime.Object {
 
 }
