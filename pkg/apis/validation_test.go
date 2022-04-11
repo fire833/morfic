@@ -19,6 +19,7 @@
 package apis
 
 import (
+	"fmt"
 	"reflect"
 	"testing"
 
@@ -26,6 +27,8 @@ import (
 )
 
 func TestValidateTypeMeta(t *testing.T) {
+	var e []error
+
 	type args struct {
 		in                *metav1.TypeMeta
 		desiredKind       string
@@ -36,7 +39,67 @@ func TestValidateTypeMeta(t *testing.T) {
 		args args
 		want []error
 	}{
-		// TODO: Add test cases.
+		{
+			name: "1",
+			args: args{
+				in: &metav1.TypeMeta{
+					Kind:       "Route",
+					APIVersion: "routes.vroute.io/v1alpha1",
+				},
+				desiredKind:       "Route",
+				desiredAPIVersion: "routes.vroute.io/v1alpha1",
+			},
+			want: e,
+		},
+		{
+			name: "2",
+			args: args{
+				in: &metav1.TypeMeta{
+					Kind:       "Neighbor",
+					APIVersion: "neighbors.vroute.io/v1alpha1",
+				},
+				desiredKind:       "Neighbor",
+				desiredAPIVersion: "neighbors.vroute.io/v1alpha1",
+			},
+			want: e,
+		},
+		{
+			name: "3",
+			args: args{
+				in: &metav1.TypeMeta{
+					Kind:       "FirewallTable",
+					APIVersion: "firewall.vroute.io/v1alpha1",
+				},
+				desiredKind:       "FirewallTable",
+				desiredAPIVersion: "firewall.vroute.io/v1alpha1",
+			},
+			want: e,
+		},
+		{
+			name: "4",
+			args: args{
+				in: &metav1.TypeMeta{
+					Kind:       "Address",
+					APIVersion: "addresses.vroute.io/v1alpha1",
+				},
+				desiredKind:       "Address",
+				desiredAPIVersion: "addresses.vroute.io/v1alpha1",
+			},
+			want: e,
+		},
+		{
+			name: "5",
+			args: args{
+				in: &metav1.TypeMeta{
+					Kind:       "Address",
+					APIVersion: "addresses.vroute.io/v1alpha1",
+				},
+				desiredKind:       "Route",
+				desiredAPIVersion: "routes.vroute.io/v1alpha1",
+			},
+			want: []error{fmt.Errorf("desired kind %s does not match actual kind of object: %s", "Route", "Address"),
+				fmt.Errorf("desired APIVersion %s does not match actual APIVersion of object: %s", "routes.vroute.io/v1alpha1", "addresses.vroute.io/v1alpha1")},
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

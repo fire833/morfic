@@ -25,47 +25,54 @@ import (
 	"github.com/fire833/vroute/pkg/apis/dns"
 )
 
-func TestValidateDNSRecordList(t *testing.T) {
-	type args struct {
-		in *dns.DNSRecordList
-	}
-	tests := []struct {
-		name string
-		args args
-		want []error
-	}{
-		// TODO: Add test cases.
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if got := ValidateDNSRecordList(tt.args.in); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("ValidateDNSRecordList() = %v, want %v", got, tt.want)
-			}
-		})
-	}
-}
+func TestValidateDomain(t *testing.T) {
+	// var e []error
 
-func TestValidateDNSRecord(t *testing.T) {
-	type args struct {
-		in *dns.DNSRecord
+	validCombos := map[string]string{
+		"drive":                             "google.com",
+		"tree-sac0-0001":                    "backblaze.com",
+		"ae2.3204.edge7.Amsterdam1":         "level3.net",
+		"be2977.rcr21.mex02.atlas":          "cogentco.com",
+		"maps":                              "google.com",
+		"ldap":                              "ninjawanted.com",
+		"BR2.Amsterdam1":                    "surf.net",
+		"drive1":                            "stacksphere.com",
+		"lala-123":                          "vast-and-endless-sea.com",
+		"something":                         "isstackoverflowdownforeveryoneorjustme.com",
+		"3":                                 "14159265358979323846264338327950288419716939937510582097494459.net",
+		"testapp":                           "isitworking.xyz",
+		"docs":                              "vroute.io",
+		"gar25.dlstx.ip":                    "att.net",
+		"play":                              "fubo.tv",
+		"ip-101-130.amnet":                  "com.ni",
+		"be2784.nr01.b042396-0.mex02.atlas": "cogentco.com",
+		"70-138-128-1.lightspeed.hstntx":    "sbcglobal.net",
+		"167-338-273-3.lightspeed.chiill":   "sbcglobal.net",
+		"ae1.37.bar4.Minneapolis2":          "level3.net",
+		"if-ae-47-2.tcore1.svq-singapore":   "as6453.net",
+		"if-be-10-2.ecore2.svq-singapore":   "as6453.net",
+		"if-ae-2-2.tcore2.dt8-dallas":       "as6453.net",
+		"ae0-2.RT.IR9.AMS.NL":               "retn.net",
+		"be2763.ccr31.dfw01.atlas":          "cogentco.com",
+		"ip4":                               "gtt.net",
+		"ae0.cr2-nyc4.ip4":                  "gtt.net",
 	}
-	tests := []struct {
-		name string
-		args args
-		want []error
-	}{
-		// TODO: Add test cases.
+
+	for host, domain := range validCombos {
+		errs := ValidateDomain(host, domain)
+		if len(errs) != 0 {
+			t.Fail()
+			t.Logf("failed a valid host/domain combo: %s.%s", host, domain)
+		}
+
+		// t.Logf("%s.%s", host, domain)
 	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if got := ValidateDNSRecord(tt.args.in); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("ValidateDNSRecord() = %v, want %v", got, tt.want)
-			}
-		})
-	}
+
 }
 
 func TestValidateDNSRecordSpec(t *testing.T) {
+	// var e []error
+
 	type args struct {
 		in *dns.DNSRecordSpec
 	}
@@ -73,53 +80,11 @@ func TestValidateDNSRecordSpec(t *testing.T) {
 		name string
 		args args
 		want []error
-	}{
-		// TODO: Add test cases.
-	}
+	}{}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			if got := ValidateDNSRecordSpec(tt.args.in); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("ValidateDNSRecordSpec() = %v, want %v", got, tt.want)
-			}
-		})
-	}
-}
-
-func TestValidateDNSProviderList(t *testing.T) {
-	type args struct {
-		in *dns.DNSProviderList
-	}
-	tests := []struct {
-		name string
-		args args
-		want []error
-	}{
-		// TODO: Add test cases.
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if got := ValidateDNSProviderList(tt.args.in); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("ValidateDNSProviderList() = %v, want %v", got, tt.want)
-			}
-		})
-	}
-}
-
-func TestValidateDNSProvider(t *testing.T) {
-	type args struct {
-		in *dns.DNSProvider
-	}
-	tests := []struct {
-		name string
-		args args
-		want []error
-	}{
-		// TODO: Add test cases.
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if got := ValidateDNSProvider(tt.args.in); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("ValidateDNSProvider() = %v, want %v", got, tt.want)
 			}
 		})
 	}
@@ -133,53 +98,11 @@ func TestValidateDNSProviderSpec(t *testing.T) {
 		name string
 		args args
 		want []error
-	}{
-		// TODO: Add test cases.
-	}
+	}{}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			if got := ValidateDNSProviderSpec(tt.args.in); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("ValidateDNSProviderSpec() = %v, want %v", got, tt.want)
-			}
-		})
-	}
-}
-
-func TestValidateDNSProviderCloudflareSpec(t *testing.T) {
-	type args struct {
-		in *dns.CloudflareProviderSpec
-	}
-	tests := []struct {
-		name string
-		args args
-		want []error
-	}{
-		// TODO: Add test cases.
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if got := ValidateDNSProviderCloudflareSpec(tt.args.in); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("ValidateDNSProviderCloudflareSpec() = %v, want %v", got, tt.want)
-			}
-		})
-	}
-}
-
-func TestValidateDNSProviderRoute53Spec(t *testing.T) {
-	type args struct {
-		in *dns.Route53ProviderSpec
-	}
-	tests := []struct {
-		name string
-		args args
-		want []error
-	}{
-		// TODO: Add test cases.
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if got := ValidateDNSProviderRoute53Spec(tt.args.in); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("ValidateDNSProviderRoute53Spec() = %v, want %v", got, tt.want)
 			}
 		})
 	}
