@@ -74,17 +74,17 @@ func (file *FilePersistenceProvider) InstanceStatus(instance string) *persistenc
 }
 
 func (file *FilePersistenceProvider) PutObject(instance string, object *runtime.Object) (key persistence.ObjectKey, e error) {
-
+	return nil, nil
 }
 
 func (file *FilePersistenceProvider) DeleteObject(instance string, kind schema.GroupVersionKind, key persistence.ObjectKey) error {
-
+	return nil
 }
 
 func (file *FilePersistenceProvider) GetObject(instance string, kind schema.GroupVersionKind, key persistence.ObjectKey) *runtime.Object {
-
+	return nil
 }
 
 func (file *FilePersistenceProvider) GetAllObjects(instance string, kind schema.GroupVersionKind) []*runtime.Object {
-
+	return nil
 }
