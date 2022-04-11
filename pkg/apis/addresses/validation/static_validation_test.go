@@ -18,10 +18,89 @@
 
 package validation
 
-import "testing"
+import (
+	"reflect"
+	"testing"
+
+	addresses "github.com/fire833/vroute/pkg/apis/addresses"
+)
 
 func TestValidateAddressList(t *testing.T) {
+	type args struct {
+		in *addresses.AddressList
+	}
+	tests := []struct {
+		name string
+		args args
+		want []error
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := ValidateAddressList(tt.args.in); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("ValidateAddressList() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
 
-	// TODO generate a bunch of valid/invalid Addresses and test the validation works as expected.
+func TestValidateAddress(t *testing.T) {
+	type args struct {
+		in *addresses.Address
+	}
+	tests := []struct {
+		name string
+		args args
+		want []error
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := ValidateAddress(tt.args.in); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("ValidateAddress() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
 
+func TestValidateAddressSpec(t *testing.T) {
+	type args struct {
+		in *addresses.AddressSpec
+	}
+	tests := []struct {
+		name string
+		args args
+		want []error
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := ValidateAddressSpec(tt.args.in); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("ValidateAddressSpec() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestValidateIPSpec(t *testing.T) {
+	type args struct {
+		in *addresses.IPSpec
+	}
+	tests := []struct {
+		name string
+		args args
+		want []error
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := ValidateIPSpec(tt.args.in); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("ValidateIPSpec() = %v, want %v", got, tt.want)
+			}
+		})
+	}
 }
