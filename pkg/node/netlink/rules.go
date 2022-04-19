@@ -22,6 +22,9 @@ import (
 	"context"
 
 	api "github.com/fire833/vroute/pkg/apis/ipcapi/v1alpha1"
+	"github.com/fire833/vroute/pkg/node/locks"
+
+	"github.com/vishvananda/netlink"
 )
 
 func (s *NetlinkNodeServer) GetRule(ctx context.Context, req *api.GetRuleRequest) (resp *api.GetRuleResponse, err error) {
@@ -29,7 +32,18 @@ func (s *NetlinkNodeServer) GetRule(ctx context.Context, req *api.GetRuleRequest
 }
 
 func (s *NetlinkNodeServer) GetAllRules(ctx context.Context, req *api.GetAllRulesRequest) (resp *api.GetAllRulesResponse, err error) {
-	return nil, nil
+	tl := locks.TableLock
+
+	tl.RLock()
+
+	if _, e := netlink.RuleList(0); e != nil {
+		tl.RUnlock()
+		return &api.GetAllRulesResponse{}, nil
+	} else {
+		tl.RUnlock()
+
+		return &api.GetAllRulesResponse{}, nil
+	}
 }
 
 func (s *NetlinkNodeServer) DeleteRule(ctx context.Context, req *api.DeleteRuleRequest) (resp *api.DeleteRuleResponse, err error) {

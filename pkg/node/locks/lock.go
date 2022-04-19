@@ -27,6 +27,7 @@ var (
 	NeighborLock *neighborLock = new(neighborLock)
 	AddrLock     *addrLock     = new(addrLock)
 	LinkLock     *linkLock     = new(linkLock)
+	TableLock    *tableLock    = new(tableLock)
 )
 
 // RouteLock serves as a wrapper around RWMutex as a means for consistent
@@ -54,5 +55,12 @@ type addrLock struct {
 // changes to host state via the node server. Should be called for reading/writing
 // links over netlink. Should also be called whenever addresses are updated as well.
 type linkLock struct {
+	sync.RWMutex
+}
+
+// TableLock serves as a wrapper around RWMutex as a means for consistent
+// changes to host state via the node server. Should be called for reading/writing
+// netfilter tables over netlink. Should also be called whenever addresses are updated as well.
+type tableLock struct {
 	sync.RWMutex
 }
