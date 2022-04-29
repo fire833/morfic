@@ -14,12 +14,30 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
+VERSION 	=	0.0.1
+
+GO			=	$(shell which go)
+COMMIT		=	$(shell git rev-parse HEAD)
+DATE		=	$(shell date)
+
 all:
 
-build:
+binary:
 	@echo "Building control plane from source..."
-	@GOOS=linux GOARCH=amd64 go build -o bin/vroute cmd/vroute/main.go cmd/vroute/constants.go cmd/vroute/node.go cmd/vroute/api.go cmd/vroute/commands.go cmd/vroute/controller.go
-	@# GOOS=windows GOARCH=amd64 go build -o bin/vroute.exe cmd/vroute/main.go cmd/vroute/constants.go cmd/vroute/node.go cmd/vroute/api.go cmd/vroute/commands.go cmd/vroute/controller.go
-	@GOOS=linux GOARCH=arm64 go build -o bin/vroute-linux-arm64 cmd/vroute/main.go cmd/vroute/constants.go cmd/vroute/node.go cmd/vroute/api.go cmd/vroute/commands.go cmd/vroute/controller.go
-	@GOOS=linux GOARCH=arm go build -o bin/vroute-linux-arm cmd/vroute/main.go cmd/vroute/constants.go cmd/vroute/node.go cmd/vroute/api.go cmd/vroute/commands.go cmd/vroute/controller.go
+	@GOOS=linux GOARCH=amd64 ${GO} build -o bin/vroute cmd/vroute/main.go cmd/vroute/constants.go cmd/vroute/node.go cmd/vroute/api.go cmd/vroute/commands.go cmd/vroute/controller.go
+	@# GOOS=windows GOARCH=amd64 ${GO} build -o bin/vroute.exe cmd/vroute/main.go cmd/vroute/constants.go cmd/vroute/node.go cmd/vroute/api.go cmd/vroute/commands.go cmd/vroute/controller.go
+	@GOOS=linux GOARCH=arm64 ${GO} build -o bin/vroute-linux-arm64 cmd/vroute/main.go cmd/vroute/constants.go cmd/vroute/node.go cmd/vroute/api.go cmd/vroute/commands.go cmd/vroute/controller.go
+	@GOOS=linux GOARCH=arm ${GO} build -o bin/vroute-linux-arm cmd/vroute/main.go cmd/vroute/constants.go cmd/vroute/node.go cmd/vroute/api.go cmd/vroute/commands.go cmd/vroute/controller.go
 	@echo "Success!"
+
+test:
+	@echo "Testing vroute packages..."
+	${GO} test -v ./...
+
+vet:
+	@echo "Vetting vroute source..."
+	${GO} vet -v ./...
+
+fmt:
+	@echo "Formatting vroute source..."
+	${GO} fmt ./...
