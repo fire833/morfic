@@ -19,7 +19,7 @@
 package v1alpha1
 
 import (
-	dnsv1alpha1 "github.com/fire833/vroute/pkg/apis/dns"
+	dnsv1alpha1 "github.com/fire833/morfic/pkg/apis/dns"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
 

@@ -23,11 +23,11 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/fire833/vroute/pkg/config/persist"
+	"github.com/fire833/morfic/pkg/config/persist"
 )
 
 var (
-	serviceLocations []string = []string{"/etc/vroute/services/"}
+	serviceLocations []string = []string{"/etc/morfic/services/"}
 
 	// Initialized by loadSavedConfigs()
 	serviceDir string

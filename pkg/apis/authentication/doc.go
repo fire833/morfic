@@ -17,7 +17,7 @@
  */
 
 // +k8s:deepcopy-gen=package
-// +groupName=authentication.vroute.io
+// +groupName=authentication.morfic.io
 // +genclient
 
 package authentication

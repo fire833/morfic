@@ -25,7 +25,7 @@ import (
 	"runtime"
 	"syscall"
 
-	src "github.com/fire833/vroute/pkg"
+	src "github.com/fire833/morfic/pkg"
 	"github.com/spf13/cobra"
 )
 
@@ -38,12 +38,12 @@ var (
 	license string = "GPL V2.0"        // license for this project
 
 	rootCmd = &cobra.Command{
-		Use:   "vroute [options]",
-		Short: "Run the vroute control plane.",
-		Long: `This is the main binary for running the vRoute linux based routing, firewalling, and secured local service control plane.
-For more information about this project and for documentation, visit https://github.com/fire833/vroute or visit https://vroute.io.`,
+		Use:   "morfic [options]",
+		Short: "Run the morfic control plane.",
+		Long: `This is the main binary for running the morfic linux based routing, firewalling, and secured local service control plane.
+For more information about this project and for documentation, visit https://github.com/fire833/morfic or visit https://morfic.io.`,
 		Version: fmt.Sprintf(": %s\nGit commit: %s\nGo version: %s\nOS: %s\nArchitecture: %s\nLicense: %s\n\nCopyright (C) 2022  Kendall Tauser", version, commit, g, o, arch, license),
-		Example: "vroute",
+		Example: "morfic",
 		Run:     rootMain,
 	}
 
@@ -69,15 +69,15 @@ For more information about this project and for documentation, visit https://git
 	}
 )
 
-// The main function for the vroute control plane.
-func VrouteMain() {
+// The main function for the morfic control plane.
+func morficMain() {
 	rootCmd.Flags().BoolVar(&src.DebugEnabled, "debug", false, "Use this subcommand to enable debugging mode for the process.")
 	rootCmd.AddCommand(forkNodeCmd)
 	rootCmd.AddCommand(forkAPICmd)
 	rootCmd.AddCommand(forkControllerCmd)
 
 	if e := rootCmd.Execute(); e != nil {
-		log.Printf("Unable to start vroute: %v\n", e.Error())
+		log.Printf("Unable to start morfic: %v\n", e.Error())
 		os.Exit(1)
 	}
 }
@@ -125,14 +125,14 @@ func rootMain(cmd *cobra.Command, args []string) {
 
 	log.Printf("forking node process...\n")
 
-	vroute, e := os.Executable()
+	morfic, e := os.Executable()
 	if e != nil {
-		log.Printf("unable to acquire path to vroute executable: %v, exiting...\n", e)
+		log.Printf("unable to acquire path to morfic executable: %v, exiting...\n", e)
 		os.Exit(1)
 	}
 
 	// Spawn the node process first
-	nodepid, nodee := syscall.ForkExec(vroute, []string{"forknode", "-t", src.SharedToken.GetToken()}, &syscall.ProcAttr{
+	nodepid, nodee := syscall.ForkExec(morfic, []string{"forknode", "-t", src.SharedToken.GetToken()}, &syscall.ProcAttr{
 		Sys: &syscall.SysProcAttr{
 			Ptrace:     false,
 			Cloneflags: syscall.CLONE_NEWIPC | syscall.CLONE_VM,
@@ -148,13 +148,13 @@ func rootMain(cmd *cobra.Command, args []string) {
 		log.Printf("unable to fork node process, error: %v\n", nodee.Error())
 		os.Exit(1) // Kill the bootstrapping process here.
 	} else {
-		log.Printf("vroute node process created, PID: %d\n", nodepid)
+		log.Printf("morfic node process created, PID: %d\n", nodepid)
 	}
 
 	log.Printf("forking api process...\n")
 
 	// Spawn the api server second
-	apipid, apie := syscall.ForkExec(vroute, []string{"forkapi", "-t", src.SharedToken.GetToken()}, &syscall.ProcAttr{
+	apipid, apie := syscall.ForkExec(morfic, []string{"forkapi", "-t", src.SharedToken.GetToken()}, &syscall.ProcAttr{
 		Sys: &syscall.SysProcAttr{
 			Ptrace:     false,
 			Cloneflags: syscall.CLONE_NEWIPC | syscall.CLONE_VM,
@@ -170,13 +170,13 @@ func rootMain(cmd *cobra.Command, args []string) {
 		log.Printf("unable to fork api process, error: %v\n", apie.Error())
 		os.Exit(1) // Kill the bootstrapping process here.
 	} else {
-		log.Printf("vroute api process created, PID: %d\n", apipid)
+		log.Printf("morfic api process created, PID: %d\n", apipid)
 	}
 
 	log.Printf("forking controller process...\n")
 
 	// Spawn controller manager third.
-	controllerpid, controllere := syscall.ForkExec(vroute, []string{"forkcontroller", "-t", src.SharedToken.GetToken()}, &syscall.ProcAttr{
+	controllerpid, controllere := syscall.ForkExec(morfic, []string{"forkcontroller", "-t", src.SharedToken.GetToken()}, &syscall.ProcAttr{
 		Sys: &syscall.SysProcAttr{
 			Ptrace:     false,
 			Cloneflags: syscall.CLONE_NEWIPC | syscall.CLONE_VM,
@@ -191,9 +191,9 @@ func rootMain(cmd *cobra.Command, args []string) {
 		log.Printf("unable to fork controller process, error: %v\n", controllere.Error())
 		os.Exit(1)
 	} else {
-		log.Printf("vroute controller process created, PID: %d\n", controllerpid)
+		log.Printf("morfic controller process created, PID: %d\n", controllerpid)
 	}
 
-	log.Printf("vroute control plane bootstrapped, bootstrap process exiting")
+	log.Printf("morfic control plane bootstrapped, bootstrap process exiting")
 
 }

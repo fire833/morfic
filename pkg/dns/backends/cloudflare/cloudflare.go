@@ -18,7 +18,7 @@
 
 package cloudflare
 
-import "github.com/fire833/vroute/pkg/dns"
+import "github.com/fire833/morfic/pkg/dns"
 
 type CloudflareDNSProvider struct {
 }

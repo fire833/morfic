@@ -24,7 +24,7 @@ import (
 )
 
 // GroupName is the name of this API group.
-const GroupName = "vpn.vroute.io"
+const GroupName = "vpn.morfic.io"
 
 // SchemeGroupVersion is group version used to register these objects
 var SchemeGroupVersion = schema.GroupVersion{Group: GroupName, Version: runtime.APIVersionInternal}

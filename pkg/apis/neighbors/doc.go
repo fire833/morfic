@@ -17,7 +17,7 @@
  */
 
 // +k8s:deepcopy-gen=package
-// +groupName=neighbors.vroute.io
+// +groupName=neighbors.morfic.io
 // +genclient
 
 package neighbors

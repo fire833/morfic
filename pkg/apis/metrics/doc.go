@@ -17,7 +17,7 @@
  */
 
 // +k8s:deepcopy-gen=package
-// +groupName=metrics.vroute.io
+// +groupName=metrics.morfic.io
 // +genclient
 
 package metrics

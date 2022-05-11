@@ -16,6 +16,6 @@
 *	51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-// +groupName=routes.vroute.io
+// +groupName=routes.morfic.io
 
 package v1

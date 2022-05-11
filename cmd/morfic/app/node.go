@@ -20,57 +20,62 @@ package app
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"os/signal"
 	"syscall"
 
-	"github.com/fire833/vroute/pkg/controller"
-	"github.com/fire833/vroute/pkg/controller/register"
+	"github.com/fire833/morfic/pkg/node"
 )
 
-// Unprivileged controllerloop subprocess main function.
-func controllerMain() {
-
-	fmt.Printf("starting api process, dropping process privilege")
-
-	if os.Getuid() != unprivilegedUID || os.Getgid() != unprivilegedGID {
-		if e := dropPriv(); e != nil {
-			// TODO send calls to the other processes to kill themselves, and kill the whole control plane.
-		}
-	}
+// Priviledged node operator process main function.
+func nodeMain() {
 
 	fmt.Printf("starting node control process, initializing signal handler")
 
 	sig := make(chan os.Signal, 5)
 	signal.Notify(sig)
 
-	// Register all the controllers to be used at runtime.
-	register.RegisterControllers()
+	// Begin handler on thread to free up main for gRPC listener.
+	go nodesignalHandler(sig)
 
-	for _, controller := range controller.RegisteredControllers {
-		go controller.BeginWorkers(controller.RunWorkers())
+	log.Printf("beginning node grpc server")
+
+	cert, e := node.CreateServerCert()
+	if e != nil {
+		log.Printf("unable to create node server certificate, error: %v", e)
+
+		// Kill the process just for now
+		os.Exit(1)
 	}
 
-	// Wait for signals for this process.
-	controllerSignalHandler(sig)
+	// Start the node gRPC listener.
+	if e := node.BeginNodeServer(cert); e != nil {
+		log.Printf("node server exited, error: %v, exiting\n", e.Error())
+		node.NodeControllerServer.GracefulStop() // Kill the server gracefully and exit.
+	}
+
+	os.Exit(1) // Kill subprocess after shutdown of server.
 
 }
 
-func controllerSignalHandler(sig chan os.Signal) error {
+func nodesignalHandler(sig chan os.Signal) error {
 	for {
 		signal := <-sig
 
 		switch signal {
-		case syscall.SIGHUP: // Reload configuration
+		case syscall.SIGHUP: // Reload configuration, gracefully stop and restart the server.
 			{
 
 			}
 		case syscall.SIGKILL | syscall.SIGINT: // Hard stop process.
 			{
+				node.NodeControllerServer.Stop()
 				break
 			}
-		case syscall.SIGTERM: // Gracefully kill the process and all control loops
+		case syscall.SIGTERM:
 			{
+				node.NodeControllerServer.GracefulStop()
 				break
 			}
 		default:
@@ -79,4 +84,5 @@ func controllerSignalHandler(sig chan os.Signal) error {
 			}
 		}
 	}
+	// return nil
 }

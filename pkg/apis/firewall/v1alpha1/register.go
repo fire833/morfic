@@ -19,7 +19,7 @@
 package v1alpha1
 
 import (
-	firewallv1alpha1 "github.com/fire833/vroute/pkg/apis/firewall"
+	firewallv1alpha1 "github.com/fire833/morfic/pkg/apis/firewall"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
 

@@ -17,7 +17,7 @@
  */
 
 // +k8s:deepcopy-gen=package
-// +groupName=vpn.vroute.io
+// +groupName=vpn.morfic.io
 // +genclient
 
 package vpn

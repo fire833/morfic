@@ -17,6 +17,6 @@
  */
 
 // +k8s:deepcopy-gen=package
-// +groupName=certificates.vroute.io
+// +groupName=certificates.morfic.io
 
 package certificates

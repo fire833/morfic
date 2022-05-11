@@ -19,6 +19,6 @@
 package v1
 
 const (
-	registration string = "sys.vroute.io"
+	registration string = "sys.morfic.io"
 	version      string = "v1alpha1"
 )

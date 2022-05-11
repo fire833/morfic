@@ -19,7 +19,7 @@
 package v1
 
 import (
-	configv1 "github.com/fire833/vroute/pkg/apis/config"
+	configv1 "github.com/fire833/morfic/pkg/apis/config"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
 

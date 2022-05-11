@@ -19,7 +19,7 @@
 package v1alpha1
 
 import (
-	natv1alpha1 "github.com/fire833/vroute/pkg/apis/nat"
+	natv1alpha1 "github.com/fire833/morfic/pkg/apis/nat"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
 

@@ -22,16 +22,16 @@ import (
 	"fmt"
 	"os"
 
-	app "github.com/fire833/vroute/cmd/vroute/app"
+	app "github.com/fire833/morfic/cmd/morfic/app"
 )
 
 // Primary privileged bootstrap process for control plane.
 func main() {
 
 	if os.Getuid() != app.RootUID {
-		fmt.Println("vRoute control plane must be run as root.")
+		fmt.Println("morfic control plane must be run as root.")
 		os.Exit(1)
 	}
 
-	app.VrouteMain()
+	app.morficMain()
 }

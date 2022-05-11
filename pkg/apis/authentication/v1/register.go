@@ -19,12 +19,12 @@
 package v1
 
 import (
-	authenticationv1 "github.com/fire833/vroute/pkg/apis/authentication"
+	authenticationv1 "github.com/fire833/morfic/pkg/apis/authentication"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
 
 // GroupName is the name of this API group.
-const GroupName = "authentication.vroute.io"
+const GroupName = "authentication.morfic.io"
 
 // SchemeGroupVersion is group version used to register these objects
 var SchemeGroupVersion = schema.GroupVersion{Group: GroupName, Version: "v1"}

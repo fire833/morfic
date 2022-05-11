@@ -22,7 +22,7 @@ import (
 	"reflect"
 	"testing"
 
-	addresses "github.com/fire833/vroute/pkg/apis/addresses"
+	addresses "github.com/fire833/morfic/pkg/apis/addresses"
 )
 
 func TestValidateAddressList(t *testing.T) {

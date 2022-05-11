@@ -17,7 +17,7 @@
  */
 
 // +k8s:deepcopy-gen=package
-// +groupName=routes.vroute.io
+// +groupName=routes.morfic.io
 // +genclient
 
 package routes

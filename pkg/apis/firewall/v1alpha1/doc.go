@@ -16,6 +16,6 @@
 *	51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-// +groupName=firewall.vroute.io
+// +groupName=firewall.morfic.io
 
 package v1alpha1

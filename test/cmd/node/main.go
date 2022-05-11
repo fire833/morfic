@@ -29,8 +29,8 @@ import (
 	"os"
 	"time"
 
-	"github.com/fire833/vroute/pkg/config"
-	"github.com/fire833/vroute/pkg/node"
+	"github.com/fire833/morfic/pkg/config"
+	"github.com/fire833/morfic/pkg/node"
 )
 
 func main() {
@@ -55,7 +55,7 @@ func main() {
 func testConfig() {
 	config.CPRF = new(config.ControlPlaneRuntimeConfig)
 
-	config.CPRF.CRISocket = "/var/run/vroute/vroute_node.sock"
+	config.CPRF.CRISocket = "/var/run/morfic/morfic_node.sock"
 }
 
 func ephemeralCert() (*tls.Certificate, error) {

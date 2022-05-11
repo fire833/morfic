@@ -17,7 +17,7 @@
  */
 
 // +k8s:deepcopy-gen=package
-// +groupName=firewall.vroute.io
+// +groupName=firewall.morfic.io
 // +genclient
 
 package firewall

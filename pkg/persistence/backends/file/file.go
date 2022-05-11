@@ -22,7 +22,7 @@ import (
 	"crypto/rand"
 	"fmt"
 
-	"github.com/fire833/vroute/pkg/persistence"
+	"github.com/fire833/morfic/pkg/persistence"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )

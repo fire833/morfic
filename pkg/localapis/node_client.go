@@ -23,7 +23,7 @@ import (
 	"log"
 	"time"
 
-	ipcapi "github.com/fire833/vroute/pkg/apis/ipcapi/v1alpha1"
+	ipcapi "github.com/fire833/morfic/pkg/apis/ipcapi/v1alpha1"
 	"google.golang.org/grpc"
 )
 
@@ -72,7 +72,7 @@ var (
 )
 
 const (
-	nodeSocket string = "unix:///var/run/vroute.sock"
+	nodeSocket string = "unix:///var/run/morfic.sock"
 )
 
 // Used internally for bootstrapping connections to the local node controller

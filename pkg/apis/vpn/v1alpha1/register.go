@@ -19,7 +19,7 @@
 package v1alpha1
 
 import (
-	vpnv1alpha1 "github.com/fire833/vroute/pkg/apis/vpn"
+	vpnv1alpha1 "github.com/fire833/morfic/pkg/apis/vpn"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
 

@@ -34,7 +34,7 @@ var (
 
 	// Default locations where runtime configs are loaded in from on the host for the controlplane.
 	// By default, the package installs a default config at /etc/router-cp/runtime.conf.
-	runtimePaths []string = []string{"/etc/vroute/runtime.conf"}
+	runtimePaths []string = []string{"/etc/morfic/runtime.conf"}
 )
 
 type ControlPlaneRuntimeConfig struct {
@@ -46,7 +46,7 @@ type ControlPlaneRuntimeConfig struct {
 	// config locations that are baked into the binary.
 	KeyStorePath string `json:"key_store" yaml:"keyStorePath" toml:"keyStorePath"`
 	// Location for the priviledged node controller process to create a unix socket for IPC communication.
-	// Defaults at runtime to /var/run/vroute/vroute_node.sock
+	// Defaults at runtime to /var/run/morfic/morfic_node.sock
 	NodeControllerSocket string `json:"node_controller_socket" yaml:"nodeControllerSocket" toml:"nodeControllerSocket"`
 }
 
@@ -78,5 +78,5 @@ func LoadRuntimeConfig() {
 }
 
 func setDefaultValues(c *ControlPlaneRuntimeConfig) {
-	c.NodeControllerSocket = "/var/run/vroute/vroute_node.sock"
+	c.NodeControllerSocket = "/var/run/morfic/morfic_node.sock"
 }

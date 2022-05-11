@@ -23,7 +23,7 @@ import (
 	"net"
 	"strconv"
 
-	api "github.com/fire833/vroute/pkg/apis/ipcapi/v1alpha1"
+	api "github.com/fire833/morfic/pkg/apis/ipcapi/v1alpha1"
 )
 
 // wrapper for validating the integrity of a link object.

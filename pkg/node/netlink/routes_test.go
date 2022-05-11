@@ -23,8 +23,8 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/fire833/vroute/pkg/apis/ipcapi/v1alpha1"
-	api "github.com/fire833/vroute/pkg/apis/ipcapi/v1alpha1"
+	"github.com/fire833/morfic/pkg/apis/ipcapi/v1alpha1"
+	api "github.com/fire833/morfic/pkg/apis/ipcapi/v1alpha1"
 )
 
 func TestNetlinkNodeServer_CreateStaticRoute(t *testing.T) {

@@ -22,7 +22,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/fire833/vroute/pkg/apis/dns"
+	"github.com/fire833/morfic/pkg/apis/dns"
 )
 
 func TestValidateDomain(t *testing.T) {

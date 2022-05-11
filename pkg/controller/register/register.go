@@ -19,7 +19,7 @@
 package register
 
 import (
-	"github.com/fire833/vroute/pkg/controller"
+	"github.com/fire833/morfic/pkg/controller"
 )
 
 // Load in all the registered controller loops to be started

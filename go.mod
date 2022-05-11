@@ -13,7 +13,7 @@
 //   You should have received a copy of the GNU General Public LicenshInc.,
 //   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-module github.com/fire833/vroute
+module github.com/fire833/morfic
 
 go 1.17
 

@@ -24,7 +24,7 @@ import (
 	"log"
 	"time"
 
-	"github.com/fire833/vroute/pkg/config"
+	"github.com/fire833/morfic/pkg/config"
 
 	grpc "google.golang.org/grpc"
 	criapi "k8s.io/cri-api/pkg/apis/runtime/v1"
@@ -34,7 +34,7 @@ var (
 	/*
 		Client endpoint to be used by callers for node control operations.
 		This client is used for managing container/pod sandbox state for
-		containerized services that are being hosted on the host and managed by vroute.
+		containerized services that are being hosted on the host and managed by morfic.
 		This is a gRPC endpoint, which callers can use to invoke remote
 		operations using the specified methods in the client.
 

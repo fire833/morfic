@@ -17,7 +17,7 @@
  */
 
 // +k8s:deepcopy-gen=package
-// +groupName=nat.vroute.io
+// +groupName=nat.morfic.io
 // +genclient
 
 package nat

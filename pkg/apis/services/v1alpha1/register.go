@@ -19,7 +19,7 @@
 package v1alpha1
 
 import (
-	servicesv1alpha1 "github.com/fire833/vroute/pkg/apis/services"
+	servicesv1alpha1 "github.com/fire833/morfic/pkg/apis/services"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
 

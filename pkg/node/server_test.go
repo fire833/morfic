@@ -22,8 +22,8 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/fire833/vroute/pkg"
-	"github.com/fire833/vroute/pkg/config"
+	"github.com/fire833/morfic/pkg"
+	"github.com/fire833/morfic/pkg/config"
 )
 
 func init() {

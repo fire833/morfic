@@ -19,7 +19,7 @@
 package v1
 
 import (
-	interfacesv1 "github.com/fire833/vroute/pkg/apis/interfaces"
+	interfacesv1 "github.com/fire833/morfic/pkg/apis/interfaces"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
 

@@ -25,7 +25,7 @@ import (
 
 var (
 	// Default
-	keylocations []string = []string{"/etc/vroute/keys.json", "/etc/vroute/keys.yaml", "/etc/vroute/keys.toml"}
+	keylocations []string = []string{"/etc/morfic/keys.json", "/etc/morfic/keys.yaml", "/etc/morfic/keys.toml"}
 )
 
 type KeyStore struct {

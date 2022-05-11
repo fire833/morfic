@@ -24,15 +24,15 @@ import (
 	"net"
 	"regexp"
 
-	"github.com/fire833/vroute/pkg/apis"
-	"github.com/fire833/vroute/pkg/apis/dns"
+	"github.com/fire833/morfic/pkg/apis"
+	"github.com/fire833/morfic/pkg/apis/dns"
 )
 
 var ()
 
 func ValidateDNSRecordList(in *dns.DNSRecordList) []error {
 	var retErrors []error
-	retErrors = append(retErrors, apis.ValidateTypeMeta(&in.TypeMeta, "DNSRecordList", "dns.vroute.io/v1alpha1")...)
+	retErrors = append(retErrors, apis.ValidateTypeMeta(&in.TypeMeta, "DNSRecordList", "dns.morfic.io/v1alpha1")...)
 	retErrors = append(retErrors, apis.ValidateObjectMeta(&in.ObjectMeta)...)
 	for _, record := range in.Items {
 		retErrors = append(retErrors, ValidateDNSRecord(&record)...)
@@ -42,7 +42,7 @@ func ValidateDNSRecordList(in *dns.DNSRecordList) []error {
 
 func ValidateDNSRecord(in *dns.DNSRecord) []error {
 	var retErrors []error
-	retErrors = append(retErrors, apis.ValidateTypeMeta(&in.TypeMeta, "DNSRecord", "dns.vroute.io/v1alpha1")...)
+	retErrors = append(retErrors, apis.ValidateTypeMeta(&in.TypeMeta, "DNSRecord", "dns.morfic.io/v1alpha1")...)
 	retErrors = append(retErrors, apis.ValidateObjectMeta(&in.ObjectMeta)...)
 	retErrors = append(retErrors, ValidateDNSRecordSpec(&in.Spec)...)
 	return retErrors
@@ -86,7 +86,7 @@ func ValidateDNSProviderList(in *dns.DNSProviderList) []error {
 
 func ValidateDNSProvider(in *dns.DNSProvider) []error {
 	var retErrors []error
-	retErrors = append(retErrors, apis.ValidateTypeMeta(&in.TypeMeta, "DNSProvider", "dns.vroute.io/v1alpha1")...)
+	retErrors = append(retErrors, apis.ValidateTypeMeta(&in.TypeMeta, "DNSProvider", "dns.morfic.io/v1alpha1")...)
 	retErrors = append(retErrors, apis.ValidateObjectMeta(&in.ObjectMeta)...)
 	retErrors = append(retErrors, ValidateDNSProviderSpec(&in.Spec)...)
 	return retErrors

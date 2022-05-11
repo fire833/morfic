@@ -19,12 +19,12 @@
 package v1alpha1
 
 import (
-	certificatesv1alpha1 "github.com/fire833/vroute/pkg/apis/certificates"
+	certificatesv1alpha1 "github.com/fire833/morfic/pkg/apis/certificates"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
 
 // GroupName is the name of this API group.
-const GroupName = "certificates.vroute.io"
+const GroupName = "certificates.morfic.io"
 
 // SchemeGroupVersion is group version used to register these objects
 var SchemeGroupVersion = schema.GroupVersion{Group: GroupName, Version: "v1alpha1"}

@@ -18,7 +18,7 @@
 
 package validation
 
-import "github.com/fire833/vroute/pkg/apis/firewall"
+import "github.com/fire833/morfic/pkg/apis/firewall"
 
 func ValidateFirewallTableList(in *firewall.TableList) []error {
 	var retErrors []error

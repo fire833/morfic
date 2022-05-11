@@ -22,7 +22,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/fire833/vroute/pkg/apis/firewall"
+	"github.com/fire833/morfic/pkg/apis/firewall"
 )
 
 func TestValidateFirewallTableList(t *testing.T) {

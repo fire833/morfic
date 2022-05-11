@@ -22,7 +22,7 @@ import (
 	"errors"
 	"net"
 
-	addresses "github.com/fire833/vroute/pkg/apis/addresses"
+	addresses "github.com/fire833/morfic/pkg/apis/addresses"
 )
 
 var (

@@ -16,6 +16,6 @@
 *	51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-// +groupName=addresses.vroute.io
+// +groupName=addresses.morfic.io
 
 package v1alpha1

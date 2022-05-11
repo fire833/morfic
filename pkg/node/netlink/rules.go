@@ -21,8 +21,8 @@ package netlink
 import (
 	"context"
 
-	api "github.com/fire833/vroute/pkg/apis/ipcapi/v1alpha1"
-	"github.com/fire833/vroute/pkg/node/locks"
+	api "github.com/fire833/morfic/pkg/apis/ipcapi/v1alpha1"
+	"github.com/fire833/morfic/pkg/node/locks"
 
 	"github.com/vishvananda/netlink"
 )
