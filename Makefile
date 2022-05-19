@@ -20,24 +20,29 @@ GO			=	$(shell which go)
 COMMIT		=	$(shell git rev-parse HEAD)
 DATE		=	$(shell date)
 
+.PHONY: all
 all:
 
+.PHONY: binary
 binary:
 	@echo "Building control plane from source..."
-	@GOOS=linux GOARCH=amd64 ${GO} build -o bin/vroute cmd/vroute/main.go cmd/vroute/constants.go cmd/vroute/node.go cmd/vroute/api.go cmd/vroute/commands.go cmd/vroute/controller.go
-	@# GOOS=windows GOARCH=amd64 ${GO} build -o bin/vroute.exe cmd/vroute/main.go cmd/vroute/constants.go cmd/vroute/node.go cmd/vroute/api.go cmd/vroute/commands.go cmd/vroute/controller.go
-	@GOOS=linux GOARCH=arm64 ${GO} build -o bin/vroute-linux-arm64 cmd/vroute/main.go cmd/vroute/constants.go cmd/vroute/node.go cmd/vroute/api.go cmd/vroute/commands.go cmd/vroute/controller.go
-	@GOOS=linux GOARCH=arm ${GO} build -o bin/vroute-linux-arm cmd/vroute/main.go cmd/vroute/constants.go cmd/vroute/node.go cmd/vroute/api.go cmd/vroute/commands.go cmd/vroute/controller.go
+	GOOS=linux GOARCH=amd64 ${GO} build -o bin/morfic -ldflags "-X 'main.version=${VERSION}' -X 'main.commit=${COMMIT}' -X 'main.buildTime=${DATE}'" cmd/morfic/main.go
+	@# GOOS=windows GOARCH=amd64 ${GO} build -o bin/morfic.exe -ldflags "-X 'main.version=${VERSION}' -X 'main.commit=${COMMIT}' -X 'main.buildTime=${DATE}'" cmd/morfic/main.go 
+	GOOS=linux GOARCH=arm64 ${GO} build -o bin/morfic-linux-arm64 -ldflags "-X 'main.version=${VERSION}' -X 'main.commit=${COMMIT}' -X 'main.buildTime=${DATE}'" cmd/morfic/main.go 
+	GOOS=linux GOARCH=arm ${GO} build -o bin/morfic-linux-arm -ldflags "-X 'main.version=${VERSION}' -X 'main.commit=${COMMIT}' -X 'main.buildTime=${DATE}'" cmd/morfic/main.go 
 	@echo "Success!"
 
+.PHONY: test
 test:
-	@echo "Testing vroute packages..."
+	@echo "Testing morfic packages..."
 	${GO} test -v ./...
 
+.PHONY: vet
 vet:
-	@echo "Vetting vroute source..."
+	@echo "Vetting morfic source..."
 	${GO} vet -v ./...
 
+.PHONY: fmt
 fmt:
-	@echo "Formatting vroute source..."
+	@echo "Formatting morfic source..."
 	${GO} fmt ./...

@@ -16,33 +16,16 @@
 *	51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package main
+package pkg
 
-import (
-	"fmt"
-	"os"
-
-	app "github.com/fire833/morfic/cmd/morfic/app"
-	"github.com/fire833/morfic/pkg"
-)
+import "runtime"
 
 var (
-	version   string = "unknown"
-	buildTime string = "unknown"
-	commit    string = "unknown"
+	Version   string = "unknown"         // String to pass in the version to the binary at compiletime.
+	BuildTime string = "unknown"         // The build time for the control plane.
+	Commit    string = "unknown"         // Git commit version of this binary.
+	Go        string = runtime.Version() // Go version at runtime.
+	Os        string = runtime.GOOS      // operating system for this binary
+	Arch      string = runtime.GOARCH    // architecture for this binary
+	License   string = "GPL V2.0"        // license for this project
 )
-
-// Primary privileged bootstrap process for control plane.
-func main() {
-
-	pkg.Version = version
-	pkg.BuildTime = buildTime
-	pkg.Commit = commit
-
-	if os.Getuid() != app.RootUID {
-		fmt.Println("morfic control plane must be run as root.")
-		os.Exit(1)
-	}
-
-	app.MorficMain()
-}

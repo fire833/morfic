@@ -22,7 +22,6 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"runtime"
 	"syscall"
 
 	src "github.com/fire833/morfic/pkg"
@@ -30,19 +29,13 @@ import (
 )
 
 var (
-	version string = "unknown"         // String to pass in the version to the binary at compiletime.
-	commit  string = "unknown"         // Git commit version of this binary.
-	g       string = runtime.Version() // Go version at runtime.
-	o       string = runtime.GOOS      // operating system for this binary
-	arch    string = runtime.GOARCH    // architecture for this binary
-	license string = "GPL V2.0"        // license for this project
-
 	rootCmd = &cobra.Command{
 		Use:   "morfic [options]",
 		Short: "Run the morfic control plane.",
 		Long: `This is the main binary for running the morfic linux based routing, firewalling, and secured local service control plane.
 For more information about this project and for documentation, visit https://github.com/fire833/morfic or visit https://morfic.io.`,
-		Version: fmt.Sprintf(": %s\nGit commit: %s\nGo version: %s\nOS: %s\nArchitecture: %s\nLicense: %s\n\nCopyright (C) 2022  Kendall Tauser", version, commit, g, o, arch, license),
+		Version: fmt.Sprintf(": %s\nGit commit: %s\nBuild Time: %s\nGo version: %s\nOS: %s\nArchitecture: %s\nLicense: %s\n\nCopyright (C) 2022  Kendall Tauser",
+			src.Version, src.Commit, src.BuildTime, src.Go, src.Os, src.Arch, src.License),
 		Example: "morfic",
 		Run:     rootMain,
 	}
@@ -70,7 +63,7 @@ For more information about this project and for documentation, visit https://git
 )
 
 // The main function for the morfic control plane.
-func morficMain() {
+func MorficMain() {
 	rootCmd.Flags().BoolVar(&src.DebugEnabled, "debug", false, "Use this subcommand to enable debugging mode for the process.")
 	rootCmd.AddCommand(forkNodeCmd)
 	rootCmd.AddCommand(forkAPICmd)
