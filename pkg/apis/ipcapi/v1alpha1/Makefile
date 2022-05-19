@@ -1,5 +1,7 @@
 # Use to quickly build/update the go API for the node/service proto file.
 
+GO		=	$(shell which go)
+
 node:
 	@echo "Rebuilding node control IPC API..."
 	@protoc --go_out=. --go-grpc_out=. node_control.proto
@@ -13,4 +15,9 @@ service: 	setup
 	@echo "Success!"
 
 setup:
+	
+	@echo "Installing protoc and grpc plugin..."
+	${GO} install google.golang.org/protobuf/cmd/protoc-gen-go@latest
+	${GO} install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
+	
 	export PATH="${PATH}:$(go env GOPATH)/bin"

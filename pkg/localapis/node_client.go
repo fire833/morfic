@@ -67,6 +67,10 @@ var (
 	*/
 	NodeFirewallClient ipcapi.NodeFirewallControllerServiceClient
 
+	/*
+	 */
+	NodeVPNClient ipcapi.NodeVPNControllerServiceClient
+
 	// The local node connection endpoint that is maintained by the gRPC library.
 	nodeConn *grpc.ClientConn
 )
@@ -96,4 +100,5 @@ func dialNodeEndpoints() error {
 func createNodeClients(conn *grpc.ClientConn) {
 	NodeClient = ipcapi.NewNodeControllerServiceClient(conn)
 	NodeFirewallClient = ipcapi.NewNodeFirewallControllerServiceClient(conn)
+	NodeVPNClient = ipcapi.NewNodeVPNControllerServiceClient(conn)
 }

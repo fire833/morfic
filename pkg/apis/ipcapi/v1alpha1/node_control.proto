@@ -106,6 +106,43 @@ service NodeFirewallControllerService {
     rpc UpdateRule(UpdateRuleRequest) returns (UpdateRuleResponse) {}
 }
 
+// Description of a service for managing VPN tunnels on the host.
+// Provides CRUD endpoints for managing the configuration and status
+// of said VPN tunnels. The types that are supported are Wireguard, IPSec,
+// and L2TP.
+service NodeVPNControllerService {
+    
+    rpc GetL2TPTunnel(GetL2TPTunnelRequest) returns (GetL2TPTunnelResponse) {}
+
+    rpc GetAllL2TPTunnels(GetAllL2TPTunnelsRequest) returns (GetAllL2TPTunnelsResponse) {}
+    // Deletes an L2TP tunnel on the host.
+    rpc DeleteL2TPTunnel(DeleteL2TPTunnelRequest) returns (DeleteL2TPTunnelResponse) {}
+    // Creates an L2TP tunnel on the host.
+    rpc CreateL2TPTunnel(CreateL2TPTunnelRequest) returns (CreateL2TPTunnelResponse) {}
+
+    rpc UpdateL2TPTunnel(UpdateL2TPTunnelRequest) returns (UpdateL2TPTunnelResponse) {}
+
+    rpc GetIPSecTunnel(GetIPSecTunnelRequest) returns (GetIPSecTunnelResponse) {}
+
+    rpc GetAllIPSecTunnels(GetAllIPSecTunnelsRequest) returns (GetAllIPSecTunnelsResponse) {}
+    // Deletes an IPSec tunnel on the host.
+    rpc DeleteIPSecTunnel(DeleteIPSecTunnelRequest) returns (DeleteIPSecTunnelResponse) {}
+    // Creates an IPSec tunnel on the host.
+    rpc CreateIPSecTunnel(CreateIPSecTunnelRequest) returns (CreateIPSecTunnelResponse) {}
+
+    rpc UpdateIPSecTunnel(UpdateIPSecTunnelRequest) returns (UpdateIPSecTunnelResponse) {}
+
+    rpc GetWireguardTunnel(GetWireguardTunnelRequest) returns (GetWireguardTunnelResponse) {}
+
+    rpc GetAllWireguardTunnels(GetAllWireguardTunnelsRequest) returns (GetAllWireguardTunnelsResponse) {}
+    // Deletes an Wireguard tunnel on the host.
+    rpc DeleteWireguardTunnel(DeleteWireguardTunnelRequest) returns (DeleteWireguardTunnelResponse) {}
+    // Creates an Wireguard tunnel on the host.
+    rpc CreateWireguardTunnel(CreateWireguardTunnelRequest) returns (CreateWireguardTunnelResponse) {}
+
+    rpc UpdateWireguardTunnel(UpdateWireguardTunnelRequest) returns (UpdateWireguardTunnelResponse) {}
+}
+
 enum ReturnStatusCodes {
     // Default, action was successful and returned correct objects.
     OK = 0;
@@ -832,4 +869,124 @@ message SetSysctlResponse {
     string error = 2;
     // The set value of this sysctl.
     int64 value = 3;
+}
+
+message GetL2TPTunnelRequest {
+
+}
+
+message GetL2TPTunnelResponse {
+
+}
+
+message GetAllL2TPTunnelsRequest {
+
+}
+
+message GetAllL2TPTunnelsResponse {
+
+}
+
+message CreateL2TPTunnelRequest {
+
+}
+
+message CreateL2TPTunnelResponse {
+
+}
+
+message DeleteL2TPTunnelRequest {
+
+}
+
+message DeleteL2TPTunnelResponse {
+
+}
+
+message UpdateL2TPTunnelRequest {
+
+}
+
+message UpdateL2TPTunnelResponse {
+
+}
+
+message GetIPSecTunnelRequest {
+
+}
+
+message GetIPSecTunnelResponse {
+
+}
+
+message GetAllIPSecTunnelsRequest {
+
+}
+
+message GetAllIPSecTunnelsResponse {
+
+}
+
+message CreateIPSecTunnelRequest {
+
+}
+
+message CreateIPSecTunnelResponse {
+
+}
+
+message DeleteIPSecTunnelRequest {
+
+}
+
+message DeleteIPSecTunnelResponse {
+
+}
+
+message UpdateIPSecTunnelRequest {
+
+}
+
+message UpdateIPSecTunnelResponse {
+    
+}
+
+message GetWireguardTunnelRequest {
+
+}
+
+message GetWireguardTunnelResponse {
+
+}
+
+message GetAllWireguardTunnelsRequest {
+
+}
+
+message GetAllWireguardTunnelsResponse {
+
+}
+
+message CreateWireguardTunnelRequest {
+
+}
+
+message CreateWireguardTunnelResponse {
+
+}
+
+message DeleteWireguardTunnelRequest {
+
+}
+
+message DeleteWireguardTunnelResponse {
+
+}
+
+message UpdateWireguardTunnelRequest {
+
+}
+
+message UpdateWireguardTunnelResponse {
+    
 }

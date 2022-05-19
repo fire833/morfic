@@ -1524,3 +1524,606 @@ var NodeFirewallControllerService_ServiceDesc = grpc.ServiceDesc{
 	Streams:  []grpc.StreamDesc{},
 	Metadata: "node_control.proto",
 }
+
+// NodeVPNControllerServiceClient is the client API for NodeVPNControllerService service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type NodeVPNControllerServiceClient interface {
+	GetL2TPTunnel(ctx context.Context, in *GetL2TPTunnelRequest, opts ...grpc.CallOption) (*GetL2TPTunnelResponse, error)
+	GetAllL2TPTunnels(ctx context.Context, in *GetAllL2TPTunnelsRequest, opts ...grpc.CallOption) (*GetAllL2TPTunnelsResponse, error)
+	// Deletes an L2TP tunnel on the host.
+	DeleteL2TPTunnel(ctx context.Context, in *DeleteL2TPTunnelRequest, opts ...grpc.CallOption) (*DeleteL2TPTunnelResponse, error)
+	// Creates an L2TP tunnel on the host.
+	CreateL2TPTunnel(ctx context.Context, in *CreateL2TPTunnelRequest, opts ...grpc.CallOption) (*CreateL2TPTunnelResponse, error)
+	UpdateL2TPTunnel(ctx context.Context, in *UpdateL2TPTunnelRequest, opts ...grpc.CallOption) (*UpdateL2TPTunnelResponse, error)
+	GetIPSecTunnel(ctx context.Context, in *GetIPSecTunnelRequest, opts ...grpc.CallOption) (*GetIPSecTunnelResponse, error)
+	GetAllIPSecTunnels(ctx context.Context, in *GetAllIPSecTunnelsRequest, opts ...grpc.CallOption) (*GetAllIPSecTunnelsResponse, error)
+	// Deletes an IPSec tunnel on the host.
+	DeleteIPSecTunnel(ctx context.Context, in *DeleteIPSecTunnelRequest, opts ...grpc.CallOption) (*DeleteIPSecTunnelResponse, error)
+	// Creates an IPSec tunnel on the host.
+	CreateIPSecTunnel(ctx context.Context, in *CreateIPSecTunnelRequest, opts ...grpc.CallOption) (*CreateIPSecTunnelResponse, error)
+	UpdateIPSecTunnel(ctx context.Context, in *UpdateIPSecTunnelRequest, opts ...grpc.CallOption) (*UpdateIPSecTunnelResponse, error)
+	GetWireguardTunnel(ctx context.Context, in *GetWireguardTunnelRequest, opts ...grpc.CallOption) (*GetWireguardTunnelResponse, error)
+	GetAllWireguardTunnels(ctx context.Context, in *GetAllWireguardTunnelsRequest, opts ...grpc.CallOption) (*GetAllWireguardTunnelsResponse, error)
+	// Deletes an Wireguard tunnel on the host.
+	DeleteWireguardTunnel(ctx context.Context, in *DeleteWireguardTunnelRequest, opts ...grpc.CallOption) (*DeleteWireguardTunnelResponse, error)
+	// Creates an Wireguard tunnel on the host.
+	CreateWireguardTunnel(ctx context.Context, in *CreateWireguardTunnelRequest, opts ...grpc.CallOption) (*CreateWireguardTunnelResponse, error)
+	UpdateWireguardTunnel(ctx context.Context, in *UpdateWireguardTunnelRequest, opts ...grpc.CallOption) (*UpdateWireguardTunnelResponse, error)
+}
+
+type nodeVPNControllerServiceClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewNodeVPNControllerServiceClient(cc grpc.ClientConnInterface) NodeVPNControllerServiceClient {
+	return &nodeVPNControllerServiceClient{cc}
+}
+
+func (c *nodeVPNControllerServiceClient) GetL2TPTunnel(ctx context.Context, in *GetL2TPTunnelRequest, opts ...grpc.CallOption) (*GetL2TPTunnelResponse, error) {
+	out := new(GetL2TPTunnelResponse)
+	err := c.cc.Invoke(ctx, "/v1alpha1.NodeVPNControllerService/GetL2TPTunnel", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *nodeVPNControllerServiceClient) GetAllL2TPTunnels(ctx context.Context, in *GetAllL2TPTunnelsRequest, opts ...grpc.CallOption) (*GetAllL2TPTunnelsResponse, error) {
+	out := new(GetAllL2TPTunnelsResponse)
+	err := c.cc.Invoke(ctx, "/v1alpha1.NodeVPNControllerService/GetAllL2TPTunnels", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *nodeVPNControllerServiceClient) DeleteL2TPTunnel(ctx context.Context, in *DeleteL2TPTunnelRequest, opts ...grpc.CallOption) (*DeleteL2TPTunnelResponse, error) {
+	out := new(DeleteL2TPTunnelResponse)
+	err := c.cc.Invoke(ctx, "/v1alpha1.NodeVPNControllerService/DeleteL2TPTunnel", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *nodeVPNControllerServiceClient) CreateL2TPTunnel(ctx context.Context, in *CreateL2TPTunnelRequest, opts ...grpc.CallOption) (*CreateL2TPTunnelResponse, error) {
+	out := new(CreateL2TPTunnelResponse)
+	err := c.cc.Invoke(ctx, "/v1alpha1.NodeVPNControllerService/CreateL2TPTunnel", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *nodeVPNControllerServiceClient) UpdateL2TPTunnel(ctx context.Context, in *UpdateL2TPTunnelRequest, opts ...grpc.CallOption) (*UpdateL2TPTunnelResponse, error) {
+	out := new(UpdateL2TPTunnelResponse)
+	err := c.cc.Invoke(ctx, "/v1alpha1.NodeVPNControllerService/UpdateL2TPTunnel", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *nodeVPNControllerServiceClient) GetIPSecTunnel(ctx context.Context, in *GetIPSecTunnelRequest, opts ...grpc.CallOption) (*GetIPSecTunnelResponse, error) {
+	out := new(GetIPSecTunnelResponse)
+	err := c.cc.Invoke(ctx, "/v1alpha1.NodeVPNControllerService/GetIPSecTunnel", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *nodeVPNControllerServiceClient) GetAllIPSecTunnels(ctx context.Context, in *GetAllIPSecTunnelsRequest, opts ...grpc.CallOption) (*GetAllIPSecTunnelsResponse, error) {
+	out := new(GetAllIPSecTunnelsResponse)
+	err := c.cc.Invoke(ctx, "/v1alpha1.NodeVPNControllerService/GetAllIPSecTunnels", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *nodeVPNControllerServiceClient) DeleteIPSecTunnel(ctx context.Context, in *DeleteIPSecTunnelRequest, opts ...grpc.CallOption) (*DeleteIPSecTunnelResponse, error) {
+	out := new(DeleteIPSecTunnelResponse)
+	err := c.cc.Invoke(ctx, "/v1alpha1.NodeVPNControllerService/DeleteIPSecTunnel", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *nodeVPNControllerServiceClient) CreateIPSecTunnel(ctx context.Context, in *CreateIPSecTunnelRequest, opts ...grpc.CallOption) (*CreateIPSecTunnelResponse, error) {
+	out := new(CreateIPSecTunnelResponse)
+	err := c.cc.Invoke(ctx, "/v1alpha1.NodeVPNControllerService/CreateIPSecTunnel", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *nodeVPNControllerServiceClient) UpdateIPSecTunnel(ctx context.Context, in *UpdateIPSecTunnelRequest, opts ...grpc.CallOption) (*UpdateIPSecTunnelResponse, error) {
+	out := new(UpdateIPSecTunnelResponse)
+	err := c.cc.Invoke(ctx, "/v1alpha1.NodeVPNControllerService/UpdateIPSecTunnel", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *nodeVPNControllerServiceClient) GetWireguardTunnel(ctx context.Context, in *GetWireguardTunnelRequest, opts ...grpc.CallOption) (*GetWireguardTunnelResponse, error) {
+	out := new(GetWireguardTunnelResponse)
+	err := c.cc.Invoke(ctx, "/v1alpha1.NodeVPNControllerService/GetWireguardTunnel", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *nodeVPNControllerServiceClient) GetAllWireguardTunnels(ctx context.Context, in *GetAllWireguardTunnelsRequest, opts ...grpc.CallOption) (*GetAllWireguardTunnelsResponse, error) {
+	out := new(GetAllWireguardTunnelsResponse)
+	err := c.cc.Invoke(ctx, "/v1alpha1.NodeVPNControllerService/GetAllWireguardTunnels", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *nodeVPNControllerServiceClient) DeleteWireguardTunnel(ctx context.Context, in *DeleteWireguardTunnelRequest, opts ...grpc.CallOption) (*DeleteWireguardTunnelResponse, error) {
+	out := new(DeleteWireguardTunnelResponse)
+	err := c.cc.Invoke(ctx, "/v1alpha1.NodeVPNControllerService/DeleteWireguardTunnel", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *nodeVPNControllerServiceClient) CreateWireguardTunnel(ctx context.Context, in *CreateWireguardTunnelRequest, opts ...grpc.CallOption) (*CreateWireguardTunnelResponse, error) {
+	out := new(CreateWireguardTunnelResponse)
+	err := c.cc.Invoke(ctx, "/v1alpha1.NodeVPNControllerService/CreateWireguardTunnel", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *nodeVPNControllerServiceClient) UpdateWireguardTunnel(ctx context.Context, in *UpdateWireguardTunnelRequest, opts ...grpc.CallOption) (*UpdateWireguardTunnelResponse, error) {
+	out := new(UpdateWireguardTunnelResponse)
+	err := c.cc.Invoke(ctx, "/v1alpha1.NodeVPNControllerService/UpdateWireguardTunnel", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// NodeVPNControllerServiceServer is the server API for NodeVPNControllerService service.
+// All implementations must embed UnimplementedNodeVPNControllerServiceServer
+// for forward compatibility
+type NodeVPNControllerServiceServer interface {
+	GetL2TPTunnel(context.Context, *GetL2TPTunnelRequest) (*GetL2TPTunnelResponse, error)
+	GetAllL2TPTunnels(context.Context, *GetAllL2TPTunnelsRequest) (*GetAllL2TPTunnelsResponse, error)
+	// Deletes an L2TP tunnel on the host.
+	DeleteL2TPTunnel(context.Context, *DeleteL2TPTunnelRequest) (*DeleteL2TPTunnelResponse, error)
+	// Creates an L2TP tunnel on the host.
+	CreateL2TPTunnel(context.Context, *CreateL2TPTunnelRequest) (*CreateL2TPTunnelResponse, error)
+	UpdateL2TPTunnel(context.Context, *UpdateL2TPTunnelRequest) (*UpdateL2TPTunnelResponse, error)
+	GetIPSecTunnel(context.Context, *GetIPSecTunnelRequest) (*GetIPSecTunnelResponse, error)
+	GetAllIPSecTunnels(context.Context, *GetAllIPSecTunnelsRequest) (*GetAllIPSecTunnelsResponse, error)
+	// Deletes an IPSec tunnel on the host.
+	DeleteIPSecTunnel(context.Context, *DeleteIPSecTunnelRequest) (*DeleteIPSecTunnelResponse, error)
+	// Creates an IPSec tunnel on the host.
+	CreateIPSecTunnel(context.Context, *CreateIPSecTunnelRequest) (*CreateIPSecTunnelResponse, error)
+	UpdateIPSecTunnel(context.Context, *UpdateIPSecTunnelRequest) (*UpdateIPSecTunnelResponse, error)
+	GetWireguardTunnel(context.Context, *GetWireguardTunnelRequest) (*GetWireguardTunnelResponse, error)
+	GetAllWireguardTunnels(context.Context, *GetAllWireguardTunnelsRequest) (*GetAllWireguardTunnelsResponse, error)
+	// Deletes an Wireguard tunnel on the host.
+	DeleteWireguardTunnel(context.Context, *DeleteWireguardTunnelRequest) (*DeleteWireguardTunnelResponse, error)
+	// Creates an Wireguard tunnel on the host.
+	CreateWireguardTunnel(context.Context, *CreateWireguardTunnelRequest) (*CreateWireguardTunnelResponse, error)
+	UpdateWireguardTunnel(context.Context, *UpdateWireguardTunnelRequest) (*UpdateWireguardTunnelResponse, error)
+	mustEmbedUnimplementedNodeVPNControllerServiceServer()
+}
+
+// UnimplementedNodeVPNControllerServiceServer must be embedded to have forward compatible implementations.
+type UnimplementedNodeVPNControllerServiceServer struct {
+}
+
+func (UnimplementedNodeVPNControllerServiceServer) GetL2TPTunnel(context.Context, *GetL2TPTunnelRequest) (*GetL2TPTunnelResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetL2TPTunnel not implemented")
+}
+func (UnimplementedNodeVPNControllerServiceServer) GetAllL2TPTunnels(context.Context, *GetAllL2TPTunnelsRequest) (*GetAllL2TPTunnelsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAllL2TPTunnels not implemented")
+}
+func (UnimplementedNodeVPNControllerServiceServer) DeleteL2TPTunnel(context.Context, *DeleteL2TPTunnelRequest) (*DeleteL2TPTunnelResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteL2TPTunnel not implemented")
+}
+func (UnimplementedNodeVPNControllerServiceServer) CreateL2TPTunnel(context.Context, *CreateL2TPTunnelRequest) (*CreateL2TPTunnelResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateL2TPTunnel not implemented")
+}
+func (UnimplementedNodeVPNControllerServiceServer) UpdateL2TPTunnel(context.Context, *UpdateL2TPTunnelRequest) (*UpdateL2TPTunnelResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateL2TPTunnel not implemented")
+}
+func (UnimplementedNodeVPNControllerServiceServer) GetIPSecTunnel(context.Context, *GetIPSecTunnelRequest) (*GetIPSecTunnelResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetIPSecTunnel not implemented")
+}
+func (UnimplementedNodeVPNControllerServiceServer) GetAllIPSecTunnels(context.Context, *GetAllIPSecTunnelsRequest) (*GetAllIPSecTunnelsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAllIPSecTunnels not implemented")
+}
+func (UnimplementedNodeVPNControllerServiceServer) DeleteIPSecTunnel(context.Context, *DeleteIPSecTunnelRequest) (*DeleteIPSecTunnelResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteIPSecTunnel not implemented")
+}
+func (UnimplementedNodeVPNControllerServiceServer) CreateIPSecTunnel(context.Context, *CreateIPSecTunnelRequest) (*CreateIPSecTunnelResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateIPSecTunnel not implemented")
+}
+func (UnimplementedNodeVPNControllerServiceServer) UpdateIPSecTunnel(context.Context, *UpdateIPSecTunnelRequest) (*UpdateIPSecTunnelResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateIPSecTunnel not implemented")
+}
+func (UnimplementedNodeVPNControllerServiceServer) GetWireguardTunnel(context.Context, *GetWireguardTunnelRequest) (*GetWireguardTunnelResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetWireguardTunnel not implemented")
+}
+func (UnimplementedNodeVPNControllerServiceServer) GetAllWireguardTunnels(context.Context, *GetAllWireguardTunnelsRequest) (*GetAllWireguardTunnelsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAllWireguardTunnels not implemented")
+}
+func (UnimplementedNodeVPNControllerServiceServer) DeleteWireguardTunnel(context.Context, *DeleteWireguardTunnelRequest) (*DeleteWireguardTunnelResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteWireguardTunnel not implemented")
+}
+func (UnimplementedNodeVPNControllerServiceServer) CreateWireguardTunnel(context.Context, *CreateWireguardTunnelRequest) (*CreateWireguardTunnelResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateWireguardTunnel not implemented")
+}
+func (UnimplementedNodeVPNControllerServiceServer) UpdateWireguardTunnel(context.Context, *UpdateWireguardTunnelRequest) (*UpdateWireguardTunnelResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateWireguardTunnel not implemented")
+}
+func (UnimplementedNodeVPNControllerServiceServer) mustEmbedUnimplementedNodeVPNControllerServiceServer() {
+}
+
+// UnsafeNodeVPNControllerServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to NodeVPNControllerServiceServer will
+// result in compilation errors.
+type UnsafeNodeVPNControllerServiceServer interface {
+	mustEmbedUnimplementedNodeVPNControllerServiceServer()
+}
+
+func RegisterNodeVPNControllerServiceServer(s grpc.ServiceRegistrar, srv NodeVPNControllerServiceServer) {
+	s.RegisterService(&NodeVPNControllerService_ServiceDesc, srv)
+}
+
+func _NodeVPNControllerService_GetL2TPTunnel_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetL2TPTunnelRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(NodeVPNControllerServiceServer).GetL2TPTunnel(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/v1alpha1.NodeVPNControllerService/GetL2TPTunnel",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(NodeVPNControllerServiceServer).GetL2TPTunnel(ctx, req.(*GetL2TPTunnelRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _NodeVPNControllerService_GetAllL2TPTunnels_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetAllL2TPTunnelsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(NodeVPNControllerServiceServer).GetAllL2TPTunnels(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/v1alpha1.NodeVPNControllerService/GetAllL2TPTunnels",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(NodeVPNControllerServiceServer).GetAllL2TPTunnels(ctx, req.(*GetAllL2TPTunnelsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _NodeVPNControllerService_DeleteL2TPTunnel_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteL2TPTunnelRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(NodeVPNControllerServiceServer).DeleteL2TPTunnel(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/v1alpha1.NodeVPNControllerService/DeleteL2TPTunnel",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(NodeVPNControllerServiceServer).DeleteL2TPTunnel(ctx, req.(*DeleteL2TPTunnelRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _NodeVPNControllerService_CreateL2TPTunnel_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateL2TPTunnelRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(NodeVPNControllerServiceServer).CreateL2TPTunnel(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/v1alpha1.NodeVPNControllerService/CreateL2TPTunnel",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(NodeVPNControllerServiceServer).CreateL2TPTunnel(ctx, req.(*CreateL2TPTunnelRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _NodeVPNControllerService_UpdateL2TPTunnel_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateL2TPTunnelRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(NodeVPNControllerServiceServer).UpdateL2TPTunnel(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/v1alpha1.NodeVPNControllerService/UpdateL2TPTunnel",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(NodeVPNControllerServiceServer).UpdateL2TPTunnel(ctx, req.(*UpdateL2TPTunnelRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _NodeVPNControllerService_GetIPSecTunnel_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetIPSecTunnelRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(NodeVPNControllerServiceServer).GetIPSecTunnel(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/v1alpha1.NodeVPNControllerService/GetIPSecTunnel",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(NodeVPNControllerServiceServer).GetIPSecTunnel(ctx, req.(*GetIPSecTunnelRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _NodeVPNControllerService_GetAllIPSecTunnels_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetAllIPSecTunnelsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(NodeVPNControllerServiceServer).GetAllIPSecTunnels(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/v1alpha1.NodeVPNControllerService/GetAllIPSecTunnels",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(NodeVPNControllerServiceServer).GetAllIPSecTunnels(ctx, req.(*GetAllIPSecTunnelsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _NodeVPNControllerService_DeleteIPSecTunnel_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteIPSecTunnelRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(NodeVPNControllerServiceServer).DeleteIPSecTunnel(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/v1alpha1.NodeVPNControllerService/DeleteIPSecTunnel",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(NodeVPNControllerServiceServer).DeleteIPSecTunnel(ctx, req.(*DeleteIPSecTunnelRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _NodeVPNControllerService_CreateIPSecTunnel_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateIPSecTunnelRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(NodeVPNControllerServiceServer).CreateIPSecTunnel(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/v1alpha1.NodeVPNControllerService/CreateIPSecTunnel",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(NodeVPNControllerServiceServer).CreateIPSecTunnel(ctx, req.(*CreateIPSecTunnelRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _NodeVPNControllerService_UpdateIPSecTunnel_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateIPSecTunnelRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(NodeVPNControllerServiceServer).UpdateIPSecTunnel(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/v1alpha1.NodeVPNControllerService/UpdateIPSecTunnel",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(NodeVPNControllerServiceServer).UpdateIPSecTunnel(ctx, req.(*UpdateIPSecTunnelRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _NodeVPNControllerService_GetWireguardTunnel_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetWireguardTunnelRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(NodeVPNControllerServiceServer).GetWireguardTunnel(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/v1alpha1.NodeVPNControllerService/GetWireguardTunnel",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(NodeVPNControllerServiceServer).GetWireguardTunnel(ctx, req.(*GetWireguardTunnelRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _NodeVPNControllerService_GetAllWireguardTunnels_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetAllWireguardTunnelsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(NodeVPNControllerServiceServer).GetAllWireguardTunnels(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/v1alpha1.NodeVPNControllerService/GetAllWireguardTunnels",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(NodeVPNControllerServiceServer).GetAllWireguardTunnels(ctx, req.(*GetAllWireguardTunnelsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _NodeVPNControllerService_DeleteWireguardTunnel_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteWireguardTunnelRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(NodeVPNControllerServiceServer).DeleteWireguardTunnel(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/v1alpha1.NodeVPNControllerService/DeleteWireguardTunnel",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(NodeVPNControllerServiceServer).DeleteWireguardTunnel(ctx, req.(*DeleteWireguardTunnelRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _NodeVPNControllerService_CreateWireguardTunnel_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateWireguardTunnelRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(NodeVPNControllerServiceServer).CreateWireguardTunnel(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/v1alpha1.NodeVPNControllerService/CreateWireguardTunnel",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(NodeVPNControllerServiceServer).CreateWireguardTunnel(ctx, req.(*CreateWireguardTunnelRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _NodeVPNControllerService_UpdateWireguardTunnel_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateWireguardTunnelRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(NodeVPNControllerServiceServer).UpdateWireguardTunnel(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/v1alpha1.NodeVPNControllerService/UpdateWireguardTunnel",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(NodeVPNControllerServiceServer).UpdateWireguardTunnel(ctx, req.(*UpdateWireguardTunnelRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// NodeVPNControllerService_ServiceDesc is the grpc.ServiceDesc for NodeVPNControllerService service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var NodeVPNControllerService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "v1alpha1.NodeVPNControllerService",
+	HandlerType: (*NodeVPNControllerServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "GetL2TPTunnel",
+			Handler:    _NodeVPNControllerService_GetL2TPTunnel_Handler,
+		},
+		{
+			MethodName: "GetAllL2TPTunnels",
+			Handler:    _NodeVPNControllerService_GetAllL2TPTunnels_Handler,
+		},
+		{
+			MethodName: "DeleteL2TPTunnel",
+			Handler:    _NodeVPNControllerService_DeleteL2TPTunnel_Handler,
+		},
+		{
+			MethodName: "CreateL2TPTunnel",
+			Handler:    _NodeVPNControllerService_CreateL2TPTunnel_Handler,
+		},
+		{
+			MethodName: "UpdateL2TPTunnel",
+			Handler:    _NodeVPNControllerService_UpdateL2TPTunnel_Handler,
+		},
+		{
+			MethodName: "GetIPSecTunnel",
+			Handler:    _NodeVPNControllerService_GetIPSecTunnel_Handler,
+		},
+		{
+			MethodName: "GetAllIPSecTunnels",
+			Handler:    _NodeVPNControllerService_GetAllIPSecTunnels_Handler,
+		},
+		{
+			MethodName: "DeleteIPSecTunnel",
+			Handler:    _NodeVPNControllerService_DeleteIPSecTunnel_Handler,
+		},
+		{
+			MethodName: "CreateIPSecTunnel",
+			Handler:    _NodeVPNControllerService_CreateIPSecTunnel_Handler,
+		},
+		{
+			MethodName: "UpdateIPSecTunnel",
+			Handler:    _NodeVPNControllerService_UpdateIPSecTunnel_Handler,
+		},
+		{
+			MethodName: "GetWireguardTunnel",
+			Handler:    _NodeVPNControllerService_GetWireguardTunnel_Handler,
+		},
+		{
+			MethodName: "GetAllWireguardTunnels",
+			Handler:    _NodeVPNControllerService_GetAllWireguardTunnels_Handler,
+		},
+		{
+			MethodName: "DeleteWireguardTunnel",
+			Handler:    _NodeVPNControllerService_DeleteWireguardTunnel_Handler,
+		},
+		{
+			MethodName: "CreateWireguardTunnel",
+			Handler:    _NodeVPNControllerService_CreateWireguardTunnel_Handler,
+		},
+		{
+			MethodName: "UpdateWireguardTunnel",
+			Handler:    _NodeVPNControllerService_UpdateWireguardTunnel_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "node_control.proto",
+}
