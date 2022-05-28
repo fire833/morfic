@@ -1,13 +1,13 @@
 {
   "openapi": "3.0.3",
   "info": {
-    "title": "vRoute",
+    "title": "morfic",
     "version": "0.1.0",
     "description": "A user/kernel space network control plane.",
     "contact": {
       "email": "kttpsy@gmail.com",
       "name": "Kendall Tauser",
-      "url": "https://github.com/fire833/vroute"
+      "url": "https://github.com/fire833/morfic"
     },
     "license": {
       "name": "GPL V2.0",
@@ -15,47 +15,47 @@
     }
   },
   "paths": {
-    "/apis/services.vroute.io/": {
+    "/apis/services.morfic.io/": {
       "summary": "API Group for handling node service management.",
-      "description": "services.vroute.io is utilized for managing services that are run on the control plane node in conjunction with the vroute control plane itself."
+      "description": "services.morfic.io is utilized for managing services that are run on the control plane node in conjunction with the morfic control plane itself."
     },
-    "/apis/dns.vroute.io/": {
+    "/apis/dns.morfic.io/": {
       "summary": "API Group for handling DNS management.",
-      "description": "dns.vroute.io is utilized for managing DNS hostname/IP combinations that are managed by the control plane and updated via various Dynamic DNS providers along with local DNS servers."
+      "description": "dns.morfic.io is utilized for managing DNS hostname/IP combinations that are managed by the control plane and updated via various Dynamic DNS providers along with local DNS servers."
     },
-    "/apis/addresses.vroute.io/": {
+    "/apis/addresses.morfic.io/": {
       "summary": "API Group for handling host addresses.",
-      "description": "addresses.vroute.io is utilized for managing addresses for links that are under the management domain of the vroute control plane. Includes both IPv4, and IPv6 link addresses."
+      "description": "addresses.morfic.io is utilized for managing addresses for links that are under the management domain of the morfic control plane. Includes both IPv4, and IPv6 link addresses."
     },
-    "/apis/interfaces.vroute.io/": {
+    "/apis/interfaces.morfic.io/": {
       "summary": "API Group for handling host links.",
-      "description": "interfaces.vroute.io is utilized for managing links that are under the management domain of the vroute control plane. This includes links that map to both physical and virtual devices in the kernel."
+      "description": "interfaces.morfic.io is utilized for managing links that are under the management domain of the morfic control plane. This includes links that map to both physical and virtual devices in the kernel."
     },
-    "/apis/routes.vroute.io/": {
+    "/apis/routes.morfic.io/": {
       "summary": "API Group for handling host routes.",
-      "description": "routes.vroute.io is utilized for managing routes that that are under the management domain of the vroute control plane. This includes routes from multiple kernel routing tables."
+      "description": "routes.morfic.io is utilized for managing routes that that are under the management domain of the morfic control plane. This includes routes from multiple kernel routing tables."
     },
-    "/apis/firewall.vroute.io/": {
+    "/apis/firewall.morfic.io/": {
       "summary": "API Group for handling host firewall rules",
-      "description": "firewall.vroute.io is utilized for managing firewall rules that are under the management domain of the vroute control plane. The API group works with the netfilter and nftables subsystem for managing packet mangling, filtering, and dropping."
+      "description": "firewall.morfic.io is utilized for managing firewall rules that are under the management domain of the morfic control plane. The API group works with the netfilter and nftables subsystem for managing packet mangling, filtering, and dropping."
     },
-    "/apis/sys.vroute.io/": {
+    "/apis/sys.morfic.io/": {
       "summary": "API Group for miscellaneous node control operations.",
-      "description": "sys.vroute.io is utilized for managing miscellaneous aspects of the hardware that the vroute control plane sits on, including sysctls, diagnostics, and other privileged/system operations."
+      "description": "sys.morfic.io is utilized for managing miscellaneous aspects of the hardware that the morfic control plane sits on, including sysctls, diagnostics, and other privileged/system operations."
     },
-    "/apis/authentication.vroute.io/": {
-      "summary": "API Group for managing vroute authentication",
-      "description": "authentication.vroute.io is utilized for managing authentication, authorization, and accounting for management/access operations upon the vroute API."
+    "/apis/authentication.morfic.io/": {
+      "summary": "API Group for managing morfic authentication",
+      "description": "authentication.morfic.io is utilized for managing authentication, authorization, and accounting for management/access operations upon the morfic API."
     },
-    "/apis/vpn.vroute.io/": {
+    "/apis/vpn.morfic.io/": {
       "summary": "API Group for managing VPN configurations",
-      "description": "vpn.vroute.io is utilized for managing vpn tunnels and configuration that are applied to the host on the vroute control plane. The current supported VPN protocols are Wireguard, L2TP, and OpenVPN (with addon service installed)."
+      "description": "vpn.morfic.io is utilized for managing vpn tunnels and configuration that are applied to the host on the morfic control plane. The current supported VPN protocols are Wireguard, L2TP, and OpenVPN (with addon service installed)."
     },
-    "/apis/nat.vroute.io/": {
+    "/apis/nat.morfic.io/": {
       "summary": "API Group to manage NAT configurations.",
-      "description": "nat.vroute.io is utilized for managing NAT configurations for packet flows within the management domain of the vroute control plane. This includes 1:1, DNAT, and PAT."
+      "description": "nat.morfic.io is utilized for managing NAT configurations for packet flows within the management domain of the morfic control plane. This includes 1:1, DNAT, and PAT."
     },
-    "/apis/sys.vroute.io/sysctls/{id}": {
+    "/apis/sys.morfic.io/sysctls/{id}": {
       "summary": "Manage sysctls on the host hardware.",
       "get": {
         "summary": "Gets the status of a sysctl on the host. Returns the raw value as a string.",
@@ -78,10 +78,10 @@
         }
       }
     },
-    "/apis/services.vroute.io/v1": {
+    "/apis/services.morfic.io/v1": {
       "summary": "v1 of the services API."
     },
-    "/apis/vpn.vroute.io/wireguard/": {
+    "/apis/vpn.morfic.io/wireguard/": {
       "summary": "Endpoints to manage Wireguard VPN configurations/state.",
       "get": {
         "summary": "Gets the status of all L2TP tunnels that are currently configured on the host.",
@@ -97,7 +97,7 @@
         }
       }
     },
-    "/apis/vpn.vroute.io/l2tp/": {
+    "/apis/vpn.morfic.io/l2tp/": {
       "summary": "Endpoints to manage L2TP VPN configurations/state.",
       "get": {
         "summary": "Gets the status of all L2TP tunnels that are currently configured on the host.",
@@ -112,7 +112,7 @@
         }
       }
     },
-    "/apis/vpn.vroute.io/openvpn/": {
+    "/apis/vpn.morfic.io/openvpn/": {
       "summary": "Endpoints to manage OpenVPN configurations/state (only if OpenVPN service add-on is loaded into control plane)."
     }
   },
