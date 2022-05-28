@@ -19,13 +19,11 @@
 package validators
 
 import (
+	crand "crypto/rand"
 	"fmt"
 	"math/big"
 	"math/rand"
 	"net"
-
-	crand "crypto/rand"
-
 	"testing"
 
 	api "github.com/fire833/morfic/pkg/apis/ipcapi/v1alpha1"
@@ -192,5 +190,86 @@ func TestValidateMACAddress(t *testing.T) {
 			t.Fail()
 			t.Logf("labaled invalid mac as an valid mac.")
 		}
+	}
+}
+
+func TestValidateSubnetMask(t *testing.T) {
+	type args struct {
+		in *api.IPMask
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantErr bool
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if err := ValidateSubnetMask(tt.args.in); (err != nil) != tt.wantErr {
+				t.Errorf("ValidateSubnetMask() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}
+
+func TestValidateIPAddressAndExternalType(t *testing.T) {
+	type args struct {
+		in *api.IPAddress
+		t  api.IPType
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantErr bool
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if err := ValidateIPAddressAndExternalType(tt.args.in, tt.args.t); (err != nil) != tt.wantErr {
+				t.Errorf("ValidateIPAddressAndExternalType() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}
+
+func TestValidateLinkAddress(t *testing.T) {
+	type args struct {
+		in *api.LinkAddress
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantErr bool
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if err := ValidateLinkAddress(tt.args.in); (err != nil) != tt.wantErr {
+				t.Errorf("ValidateLinkAddress() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}
+
+func TestValidateIPCIDR(t *testing.T) {
+	type args struct {
+		in *api.IPCIDR
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantErr bool
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if err := ValidateIPCIDR(tt.args.in); (err != nil) != tt.wantErr {
+				t.Errorf("ValidateIPCIDR() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
 	}
 }

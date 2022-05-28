@@ -67,6 +67,7 @@ func BeginNodeServer(cert *tls.Certificate) error {
 
 	s.RegisterService(&v1alpha1.NodeFirewallControllerService_ServiceDesc, handlers)
 	s.RegisterService(&v1alpha1.NodeControllerService_ServiceDesc, handlers)
+	s.RegisterService(&v1alpha1.NodeVPNControllerService_ServiceDesc, handlers)
 
 	NodeControllerServer = s
 	// This will basically be the last main function for the process.

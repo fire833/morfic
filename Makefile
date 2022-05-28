@@ -35,7 +35,7 @@ binary:
 .PHONY: test
 test:
 	@echo "Testing morfic packages..."
-	${GO} test -v ./...
+	${GO} test -v ./pkg/...
 
 .PHONY: vet
 vet:

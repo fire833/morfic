@@ -16,14 +16,30 @@
 *	51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package netlink
+package validators
 
-import "github.com/fire833/morfic/pkg/apis/ipcapi/v1alpha1"
+import (
+	"testing"
 
-// NetlinkNodeServer is the handlers that satisfy the
-// NodeControllerSeriver and NodeFirewallControllerService interfaces.
-type NetlinkNodeServer struct {
-	v1alpha1.UnimplementedNodeControllerServiceServer
-	v1alpha1.UnimplementedNodeFirewallControllerServiceServer
-	v1alpha1.UnimplementedNodeVPNControllerServiceServer
+	api "github.com/fire833/morfic/pkg/apis/ipcapi/v1alpha1"
+)
+
+func TestValidateRoute(t *testing.T) {
+	type args struct {
+		in *api.Route
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantErr bool
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if err := ValidateRoute(tt.args.in); (err != nil) != tt.wantErr {
+				t.Errorf("ValidateRoute() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
 }
