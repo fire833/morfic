@@ -25,7 +25,7 @@ node:
 	@echo "Rebuilding node control IPC API..."
 	@${PROTOC} --go_out=. --go-grpc_out=. node_control.proto
 	@${SED} -i 's/package __/package v1alpha1/g' node_control_grpc.pb.go
-	@${SED} -i 's/package _/package v1alpha1/g' node_control.pb.go
+	@${SED} -i 's/package __/package v1alpha1/g' node_control.pb.go
 	@echo "Success!"
 
 .PHONY: service
@@ -36,7 +36,6 @@ service: 	setup
 
 .PHONY: setup
 setup:
-	
 	@echo "Installing protoc and grpc plugin..."
 	${GO} install google.golang.org/protobuf/cmd/protoc-gen-go@latest
 	${GO} install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
