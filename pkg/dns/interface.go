@@ -18,6 +18,18 @@
 
 package dns
 
+type DNSType string
+
+const (
+	A     DNSType = "A"
+	AAAA  DNSType = "AAAA"
+	CNAME DNSType = "CNAME"
+	MX    DNSType = "MX"
+	TXT   DNSType = "TXT"
+	URI   DNSType = "URI"
+	NS    DNSType = "NS"
+)
+
 /*
 	DNSProvider is an interface that can be utilized by the control plane to
 	configure/manage DNS records on an authoritative DNS server.
@@ -46,8 +58,8 @@ type DNSProvider interface {
 }
 
 type Record struct {
-	Type  string `json:"type" yaml:"type"`
-	Host  string `json:"host" yaml:"host"`
-	Value string `json:"value" yaml:"value"`
-	TTL   uint   `json:"ttl" yaml:"ttl"`
+	Type  DNSType `json:"type" yaml:"type"`
+	Host  string  `json:"host" yaml:"host"`
+	Value string  `json:"value" yaml:"value"`
+	TTL   uint    `json:"ttl" yaml:"ttl"`
 }
