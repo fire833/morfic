@@ -19,7 +19,7 @@
 echo "Updating API clients..."
 
 client-gen -i \
-"github.com/fire833/morfic/pkg/apis/addresses/v1alpha1,\
+github.com/fire833/morfic/pkg/apis/addresses/v1alpha1,\
 github.com/fire833/morfic/pkg/apis/authentication/v1,\
 github.com/fire833/morfic/pkg/apis/certificates/v1alpha1,\
 github.com/fire833/morfic/pkg/apis/config/v1,\
@@ -44,8 +44,8 @@ github.com/fire833/morfic/pkg/apis/nat,\
 github.com/fire833/morfic/pkg/apis/neighbors,\
 github.com/fire833/morfic/pkg/apis/routes,\
 github.com/fire833/morfic/pkg/apis/services,\
-github.com/fire833/morfic/pkg/apis/vpn" \
--h boilerplate.go.txt -o "../vendor" -p "github.com/fire833/client-go/morfic" # -n clientset
+github.com/fire833/morfic/pkg/apis/vpn \
+-h boilerplate.go.txt -o ../vendor -p github.com/fire833/client-go/morfic # -n clientset
 
 # mv ../pkg/client/clientset/clientset/* ../pkg/client/clientset
 
