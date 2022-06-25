@@ -20,7 +20,6 @@ go 1.17
 require (
 	github.com/BurntSushi/toml v1.0.0
 	github.com/fasthttp/router v1.4.6
-	github.com/golang/protobuf v1.5.2
 	github.com/jsimonetti/rtnetlink v1.1.0
 	github.com/lorenzosaino/go-sysctl v0.2.0
 	github.com/mdlayher/netlink v1.6.0
@@ -39,6 +38,7 @@ require (
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da // indirect
+	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/googleapis/gnostic v0.5.5 // indirect
 	github.com/vishvananda/netns v0.0.0-20191106174202-0a2b9b5464df // indirect
 	golang.org/x/oauth2 v0.0.0-20211104180415-d3ed0bb246c8 // indirect
@@ -81,7 +81,7 @@ require (
 	golang.org/x/tools v0.1.9 // indirect
 	golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1 // indirect
 	google.golang.org/genproto v0.0.0-20220308174144-ae0e22291548 // indirect
-	google.golang.org/protobuf v1.27.1 // indirect
+	google.golang.org/protobuf v1.27.1
 	gopkg.in/inf.v0 v0.9.1 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	honnef.co/go/tools v0.2.2 // indirect
