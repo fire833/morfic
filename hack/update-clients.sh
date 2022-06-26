@@ -45,7 +45,7 @@ github.com/fire833/morfic/pkg/apis/neighbors,\
 github.com/fire833/morfic/pkg/apis/routes,\
 github.com/fire833/morfic/pkg/apis/services,\
 github.com/fire833/morfic/pkg/apis/vpn \
--h boilerplate.go.txt -o ../vendor -p github.com/fire833/client-go/morfic # -n clientset
+-h boilerplate.go.txt -o ../vendor -p github.com/fire833/morfic/pkg/client -n ../pkg/client/clientset --fake-clientset
 
 # mv ../pkg/client/clientset/clientset/* ../pkg/client/clientset
 
