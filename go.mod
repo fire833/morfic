@@ -18,7 +18,7 @@ module github.com/fire833/morfic
 go 1.17
 
 require (
-	github.com/BurntSushi/toml v1.0.0
+	github.com/BurntSushi/toml v1.1.0
 	github.com/fasthttp/router v1.4.6
 	github.com/jsimonetti/rtnetlink v1.1.0
 	github.com/lorenzosaino/go-sysctl v0.2.0
@@ -26,7 +26,7 @@ require (
 	github.com/spf13/cobra v1.3.0
 	github.com/valyala/fasthttp v1.34.0
 	golang.org/x/sys v0.0.0-20220307203707-22a9840ba4d7
-	google.golang.org/grpc v1.44.0
+	google.golang.org/grpc v1.47.0
 	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b
 	k8s.io/api v0.23.5
 	k8s.io/apimachinery v0.23.5
