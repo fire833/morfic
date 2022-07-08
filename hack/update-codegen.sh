@@ -21,16 +21,26 @@
 
 # # export GOPATH=$(go env GOPATH)
 
+declare apiGroups="addresses/v1alpha1,authentication/v1,certificates/v1alpha1,config/v1,dns/v1alpha1,firewall/v1alpha1,interfaces/v1,metrics/v1alpha1,nat/v1alpha1,neighbors/v1alpha1,routes/v1,services/v1alpha1,vpn/v1alpha1"
+
+# ./update-deepcopy.sh
+
+# ./update-clients.sh $apiGroups
+
+# ./update-listers.sh $apiGroups
+
+# ./update-informers.sh $apiGroups
+
 GOPATH="${PWD}/../pkg" ./generate-internal-groups.sh \
 all \
 github.com/fire833/morfic/pkg/client github.com/fire833/morfic/pkg/apis github.com/fire833/morfic/pkg/apis \
 "addresses:v1alpha1 authentication:v1 certificates:v1alpha1 config:v1 dns:v1alpha1 firewall:v1alpha1 interfaces:v1 metrics:v1alpha1 nat:v1alpha1 neighbors:v1alpha1 routes:v1 services:v1alpha1 vpn:v1alpha1" \
 --go-header-file boilerplate.go.txt
 
-GOPATH="${PWD}../pkg" ./generate-groups.sh \
-all \
-github.com/fire833/morfic/pkg/client github.com/fire833/morfic/pkg/apis \
-"addresses:v1alpha1 authentication:v1 certificates:v1alpha1 config:v1 dns:v1alpha1 firewall:v1alpha1 interfaces:v1 metrics:v1alpha1 nat:v1alpha1 neighbors:v1alpha1 routes:v1 services:v1alpha1 vpn:v1alpha1" \
---go-header-file boilerplate.go.txt
+# GOPATH="${PWD}/../pkg" ./generate-groups.sh \
+# all \
+# github.com/fire833/morfic/pkg/client github.com/fire833/morfic/pkg/apis \
+# "addresses:v1alpha1 authentication:v1 certificates:v1alpha1 config:v1 dns:v1alpha1 firewall:v1alpha1 interfaces:v1 metrics:v1alpha1 nat:v1alpha1 neighbors:v1alpha1 routes:v1 services:v1alpha1 vpn:v1alpha1" \
+# --go-header-file boilerplate.go.txt
 
 # # wait

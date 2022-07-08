@@ -47,6 +47,4 @@ github.com/fire833/morfic/pkg/apis/services,\
 github.com/fire833/morfic/pkg/apis/vpn \
 -h boilerplate.go.txt -o ../vendor -p github.com/fire833/morfic/pkg/client -n ../pkg/client/clientset --fake-clientset
 
-# mv ../pkg/client/clientset/clientset/* ../pkg/client/clientset
-
-# rm -rf ../pkg/client/clientset/clientset
+# client-gen --input "${1}" -h boilerplate.go.txt -o ../pkg/client -p clientset -n morfic --fake-clientset
