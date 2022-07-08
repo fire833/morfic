@@ -18,7 +18,7 @@ module github.com/fire833/morfic
 go 1.17
 
 require (
-	github.com/BurntSushi/toml v1.0.0
+	github.com/BurntSushi/toml v1.1.0
 	github.com/fasthttp/router v1.4.6
 	github.com/jsimonetti/rtnetlink v1.1.0
 	github.com/lorenzosaino/go-sysctl v0.2.0
