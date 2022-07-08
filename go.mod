@@ -21,11 +21,11 @@ require (
 	github.com/BurntSushi/toml v1.1.0
 	github.com/fasthttp/router v1.4.6
 	github.com/jsimonetti/rtnetlink v1.1.0
-	github.com/lorenzosaino/go-sysctl v0.2.0
+	github.com/lorenzosaino/go-sysctl v0.3.1
 	github.com/mdlayher/netlink v1.6.0
 	github.com/spf13/cobra v1.3.0
 	github.com/valyala/fasthttp v1.38.0
-	golang.org/x/sys v0.0.0-20220307203707-22a9840ba4d7
+	golang.org/x/sys v0.0.0-20220627191245-f75cf1eec38b
 	google.golang.org/grpc v1.47.0
 	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b
 	k8s.io/api v0.24.2
@@ -44,6 +44,7 @@ require (
 	github.com/munnerz/goautoneg v0.0.0-20191010083416-a7dc8b61c822 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/vishvananda/netns v0.0.0-20191106174202-0a2b9b5464df // indirect
+	golang.org/x/exp/typeparams v0.0.0-20220613132600-b0d781184e0d // indirect
 	golang.org/x/oauth2 v0.0.0-20211104180415-d3ed0bb246c8 // indirect
 	golang.org/x/term v0.0.0-20210927222741-03fcf44c2211 // indirect
 	golang.org/x/time v0.0.0-20220210224613-90d013bbcef8 // indirect
@@ -61,7 +62,7 @@ require (
 	github.com/go-openapi/jsonreference v0.19.5 // indirect
 	github.com/go-openapi/swag v0.19.14 // indirect
 	github.com/gogo/protobuf v1.3.2 // indirect
-	github.com/google/go-cmp v0.5.7 // indirect
+	github.com/google/go-cmp v0.5.8 // indirect
 	github.com/google/gofuzz v1.2.0 // indirect
 	github.com/inconshreveable/mousetrap v1.0.0 // indirect
 	github.com/josharian/intern v1.0.0 // indirect
@@ -77,17 +78,16 @@ require (
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/vishvananda/netlink v1.1.0
 	golang.org/x/lint v0.0.0-20210508222113-6edffad5e616 // indirect
-	golang.org/x/mod v0.6.0-dev.0.20220106191415-9b9b3d81d5e3 // indirect
+	golang.org/x/mod v0.6.0-dev.0.20220419223038-86c51ed26bb4 // indirect
 	golang.org/x/net v0.0.0-20220225172249-27dd8689420f // indirect
 	golang.org/x/sync v0.0.0-20210220032951-036812b2e83c // indirect
 	golang.org/x/text v0.3.7 // indirect
-	golang.org/x/tools v0.1.10-0.20220218145154-897bd77cd717 // indirect
-	golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1 // indirect
+	golang.org/x/tools v0.1.11 // indirect
 	google.golang.org/genproto v0.0.0-20220308174144-ae0e22291548 // indirect
 	google.golang.org/protobuf v1.28.0
 	gopkg.in/inf.v0 v0.9.1 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
-	honnef.co/go/tools v0.2.2 // indirect
+	honnef.co/go/tools v0.3.2 // indirect
 	k8s.io/gengo v0.0.0-20211129171323-c02415ce4185 // indirect
 	k8s.io/klog/v2 v2.60.1 // indirect
 	k8s.io/kube-openapi v0.0.0-20220328201542-3ee0da9b0b42
