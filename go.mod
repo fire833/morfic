@@ -24,7 +24,7 @@ require (
 	github.com/lorenzosaino/go-sysctl v0.2.0
 	github.com/mdlayher/netlink v1.6.0
 	github.com/spf13/cobra v1.3.0
-	github.com/valyala/fasthttp v1.34.0
+	github.com/valyala/fasthttp v1.38.0
 	golang.org/x/sys v0.0.0-20220307203707-22a9840ba4d7
 	google.golang.org/grpc v1.47.0
 	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b
