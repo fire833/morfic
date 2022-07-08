@@ -17,3 +17,23 @@
  */
 
 package install
+
+import (
+	"github.com/fire833/morfic/pkg/api/scheme"
+	"github.com/fire833/morfic/pkg/apis/interfaces"
+	v1 "github.com/fire833/morfic/pkg/apis/interfaces/v1"
+	"k8s.io/apimachinery/pkg/runtime"
+
+	utilruntime "k8s.io/apimachinery/pkg/util/runtime"
+)
+
+func init() {
+	Install(scheme.Scheme)
+}
+
+// Install registers the API group and adds types to a scheme
+func Install(scheme *runtime.Scheme) {
+	utilruntime.Must(interfaces.AddToScheme(scheme))
+	utilruntime.Must(v1.AddToScheme(scheme))
+	utilruntime.Must(scheme.SetVersionPriority(v1.SchemeGroupVersion))
+}
