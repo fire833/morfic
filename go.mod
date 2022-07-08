@@ -28,9 +28,9 @@ require (
 	golang.org/x/sys v0.0.0-20220307203707-22a9840ba4d7
 	google.golang.org/grpc v1.44.0
 	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b
-	k8s.io/api v0.23.5
-	k8s.io/apimachinery v0.23.5
-	k8s.io/client-go v0.23.5
+	k8s.io/api v0.24.2
+	k8s.io/apimachinery v0.24.2
+	k8s.io/client-go v0.24.2
 	k8s.io/code-generator v0.24.2
 	k8s.io/cri-api v0.23.4
 )
@@ -41,12 +41,12 @@ require (
 	github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/google/gnostic v0.5.7-v3refs // indirect
-	github.com/googleapis/gnostic v0.5.5 // indirect
+	github.com/munnerz/goautoneg v0.0.0-20191010083416-a7dc8b61c822 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/vishvananda/netns v0.0.0-20191106174202-0a2b9b5464df // indirect
 	golang.org/x/oauth2 v0.0.0-20211104180415-d3ed0bb246c8 // indirect
 	golang.org/x/term v0.0.0-20210927222741-03fcf44c2211 // indirect
-	golang.org/x/time v0.0.0-20210723032227-1f47c861a9ac // indirect
+	golang.org/x/time v0.0.0-20220210224613-90d013bbcef8 // indirect
 	google.golang.org/appengine v1.6.7 // indirect
 	sigs.k8s.io/yaml v1.2.0 // indirect
 )
