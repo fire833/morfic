@@ -28,9 +28,9 @@ require (
 	golang.org/x/sys v0.0.0-20220708085239-5a0f0661e09d
 	google.golang.org/grpc v1.47.0
 	gopkg.in/yaml.v3 v3.0.1
-	k8s.io/api v0.24.2
-	k8s.io/apimachinery v0.24.2
-	k8s.io/client-go v0.24.2
+	k8s.io/api v0.24.3
+	k8s.io/apimachinery v0.24.3
+	k8s.io/client-go v0.24.3
 	k8s.io/code-generator v0.24.2
 	k8s.io/cri-api v0.24.2
 )
