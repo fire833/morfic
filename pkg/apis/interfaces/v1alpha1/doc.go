@@ -18,4 +18,4 @@
 
 // +groupName=interfaces.morfic.io
 
-package v1
+package v1alpha1

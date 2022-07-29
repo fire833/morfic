@@ -18,8 +18,69 @@
 
 package validation
 
-import "testing"
+import (
+	"reflect"
+	"testing"
 
-func TestInterfaceList(t *testing.T) {
+	interfaces "github.com/fire833/morfic/pkg/apis/interfaces"
+)
 
+func TestValidateLinkList(t *testing.T) {
+	type args struct {
+		in *interfaces.LinkList
+	}
+	tests := []struct {
+		name string
+		args args
+		want []error
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := ValidateLinkList(tt.args.in); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("ValidateLinkList() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestValidateLink(t *testing.T) {
+	type args struct {
+		in *interfaces.Link
+	}
+	tests := []struct {
+		name string
+		args args
+		want []error
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := ValidateLink(tt.args.in); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("ValidateLink() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestValidateLinkSpec(t *testing.T) {
+	type args struct {
+		in *interfaces.LinkSpec
+	}
+	tests := []struct {
+		name string
+		args args
+		want []error
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := ValidateLinkSpec(tt.args.in); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("ValidateLinkSpec() = %v, want %v", got, tt.want)
+			}
+		})
+	}
 }

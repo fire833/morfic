@@ -16,6 +16,6 @@
 *	51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-// +groupName=authentication.morfic.io
+// +groupName=config.morfic.io
 
-package v1
+package v1alpha1

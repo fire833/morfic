@@ -21,7 +21,7 @@ package install
 import (
 	"github.com/fire833/morfic/pkg/api/scheme"
 	"github.com/fire833/morfic/pkg/apis/routes"
-	v1 "github.com/fire833/morfic/pkg/apis/routes/v1"
+	v1 "github.com/fire833/morfic/pkg/apis/routes/v1alpha1"
 	"k8s.io/apimachinery/pkg/runtime"
 
 	utilruntime "k8s.io/apimachinery/pkg/util/runtime"
