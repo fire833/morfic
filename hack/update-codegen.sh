@@ -21,7 +21,7 @@
 
 # # export GOPATH=$(go env GOPATH)
 
-declare apiGroups="addresses/v1alpha1,authentication/v1,certificates/v1alpha1,config/v1,dns/v1alpha1,firewall/v1alpha1,interfaces/v1,metrics/v1alpha1,nat/v1alpha1,neighbors/v1alpha1,routes/v1,services/v1alpha1,vpn/v1alpha1"
+declare apiGroups="addresses/v1alpha1,authentication/v1alpha1,certificates/v1alpha1,config/v1alpha1,dns/v1alpha1,firewall/v1alpha1,interfaces/v1alpha1,metrics/v1alpha1,nat/v1alpha1,neighbors/v1alpha1,routes/v1alpha1,services/v1alpha1,vpn/v1alpha1"
 
 # ./update-deepcopy.sh
 
@@ -34,8 +34,11 @@ declare apiGroups="addresses/v1alpha1,authentication/v1,certificates/v1alpha1,co
 GOPATH="${PWD}/../pkg" ./generate-internal-groups.sh \
 all \
 github.com/fire833/morfic/pkg/client github.com/fire833/morfic/pkg/apis github.com/fire833/morfic/pkg/apis \
-"addresses:v1alpha1 authentication:v1 certificates:v1alpha1 config:v1 dns:v1alpha1 firewall:v1alpha1 interfaces:v1 metrics:v1alpha1 nat:v1alpha1 neighbors:v1alpha1 routes:v1 services:v1alpha1 vpn:v1alpha1" \
+"addresses:v1alpha1 authentication:v1alpha1 certificates:v1alpha1 config:v1alpha1 dns:v1alpha1 firewall:v1alpha1 interfaces:v1alpha1 metrics:v1alpha1 nat:v1alpha1 neighbors:v1alpha1 routes:v1alpha1 services:v1alpha1 vpn:v1alpha1" \
 --go-header-file boilerplate.go.txt
+
+# This is such a hack, but to clean up, move the packages to pkg/client.
+
 
 # GOPATH="${PWD}/../pkg" ./generate-groups.sh \
 # all \
