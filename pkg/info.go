@@ -18,7 +18,10 @@
 
 package pkg
 
-import "runtime"
+import (
+	"fmt"
+	"runtime"
+)
 
 var (
 	Version   string = "unknown"         // String to pass in the version to the binary at compiletime.
@@ -29,3 +32,16 @@ var (
 	Arch      string = runtime.GOARCH    // architecture for this binary
 	License   string = "GPL V2.0"        // license for this project
 )
+
+func NewVersionString(componentName string) string {
+	return fmt.Sprintf("%s - Version: %s\nCommit: %s\nGo Build: %s\nBuild Date: %sOS: %s\nArchitecture: %s\nLicense: %s\n\n",
+		componentName,
+		Version,
+		Commit,
+		Go,
+		BuildTime,
+		Os,
+		Arch,
+		License,
+	)
+}
