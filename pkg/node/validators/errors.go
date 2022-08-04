@@ -18,7 +18,7 @@
 
 package validators
 
-import api "github.com/fire833/morfic/pkg/apis/ipcapi/v1alpha1"
+import api "github.com/fire833/morfic/pkg/ipcapi/v1alpha1"
 
 // A custom error for validators to use that still conforms to the error interface.
 type ValidatorStatus struct {

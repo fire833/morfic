@@ -21,7 +21,7 @@ package validators
 import (
 	"testing"
 
-	api "github.com/fire833/morfic/pkg/apis/ipcapi/v1alpha1"
+	api "github.com/fire833/morfic/pkg/ipcapi/v1alpha1"
 )
 
 func TestValidateNeighbor(t *testing.T) {

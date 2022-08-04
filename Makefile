@@ -32,6 +32,13 @@ binary:
 	GOOS=linux GOARCH=arm ${GO} build -o bin/morfic-linux-arm -ldflags "-X 'main.version=${VERSION}' -X 'main.commit=${COMMIT}' -X 'main.buildTime=${DATE}'" cmd/morfic/main.go 
 	@echo "Success!"
 
+.PHONY: codegen
+codegen:	ipcapigen
+
+.PHONY: ipcapigen
+ipcapigen:
+	make -C pkg/ipcapi/v1alpha1
+
 .PHONY: test
 test:
 	@echo "Testing morfic packages..."

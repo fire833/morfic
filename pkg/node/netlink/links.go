@@ -23,7 +23,7 @@ import (
 	"errors"
 	"net"
 
-	api "github.com/fire833/morfic/pkg/apis/ipcapi/v1alpha1"
+	api "github.com/fire833/morfic/pkg/ipcapi/v1alpha1"
 	"github.com/fire833/morfic/pkg/node/converters"
 	"github.com/fire833/morfic/pkg/node/locks"
 	"github.com/fire833/morfic/pkg/node/validators"

@@ -21,7 +21,7 @@ package netlink
 import (
 	"context"
 
-	api "github.com/fire833/morfic/pkg/apis/ipcapi/v1alpha1"
+	api "github.com/fire833/morfic/pkg/ipcapi/v1alpha1"
 )
 
 func (s *NetlinkNodeServer) GetNeighbor(ctx context.Context, req *api.GetNeighborRequest) (resp *api.GetNeighborResponse, err error) {

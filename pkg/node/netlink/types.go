@@ -18,7 +18,7 @@
 
 package netlink
 
-import "github.com/fire833/morfic/pkg/apis/ipcapi/v1alpha1"
+import "github.com/fire833/morfic/pkg/ipcapi/v1alpha1"
 
 // NetlinkNodeServer is the handlers that satisfy the
 // NodeControllerSeriver and NodeFirewallControllerService interfaces.

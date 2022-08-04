@@ -21,7 +21,7 @@ package converters
 import (
 	"net"
 
-	api "github.com/fire833/morfic/pkg/apis/ipcapi/v1alpha1"
+	api "github.com/fire833/morfic/pkg/ipcapi/v1alpha1"
 	"github.com/jsimonetti/rtnetlink"
 	"github.com/vishvananda/netlink"
 	"golang.org/x/sys/unix"

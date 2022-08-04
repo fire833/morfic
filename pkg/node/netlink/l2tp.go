@@ -21,7 +21,7 @@ package netlink
 import (
 	"context"
 
-	api "github.com/fire833/morfic/pkg/apis/ipcapi/v1alpha1"
+	api "github.com/fire833/morfic/pkg/ipcapi/v1alpha1"
 )
 
 func GetL2TPTunnel(ctx context.Context, req *api.GetL2TPTunnelRequest) (resp *api.GetL2TPTunnelResponse, err error) {

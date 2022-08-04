@@ -21,7 +21,7 @@ package netlink
 import (
 	"context"
 
-	api "github.com/fire833/morfic/pkg/apis/ipcapi/v1alpha1"
+	api "github.com/fire833/morfic/pkg/ipcapi/v1alpha1"
 )
 
 func GetIPSecTunnel(ctx context.Context, req *api.GetIPSecTunnelRequest) (resp *api.GetIPSecTunnelResponse, err error) {

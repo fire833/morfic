@@ -23,7 +23,7 @@ import (
 	"log"
 	"time"
 
-	ipcapi "github.com/fire833/morfic/pkg/apis/ipcapi/v1alpha1"
+	ipcapi "github.com/fire833/morfic/pkg/ipcapi/v1alpha1"
 	"google.golang.org/grpc"
 )
 

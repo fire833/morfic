@@ -24,7 +24,7 @@ import (
 	"math/rand"
 	"testing"
 
-	"github.com/fire833/morfic/pkg/apis/ipcapi/v1alpha1"
+	"github.com/fire833/morfic/pkg/ipcapi/v1alpha1"
 )
 
 func init() {
