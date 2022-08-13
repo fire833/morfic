@@ -24,17 +24,11 @@ import (
 	"fmt"
 	"net/http"
 
-	addressesinternalversion "github.com/fire833/morfic/pkg/client/clientset/internalversion/typed/addresses/internalversion"
 	authenticationinternalversion "github.com/fire833/morfic/pkg/client/clientset/internalversion/typed/authentication/internalversion"
 	certificatesinternalversion "github.com/fire833/morfic/pkg/client/clientset/internalversion/typed/certificates/internalversion"
-	configinternalversion "github.com/fire833/morfic/pkg/client/clientset/internalversion/typed/config/internalversion"
 	dnsinternalversion "github.com/fire833/morfic/pkg/client/clientset/internalversion/typed/dns/internalversion"
 	firewallinternalversion "github.com/fire833/morfic/pkg/client/clientset/internalversion/typed/firewall/internalversion"
-	interfacesinternalversion "github.com/fire833/morfic/pkg/client/clientset/internalversion/typed/interfaces/internalversion"
-	metricsinternalversion "github.com/fire833/morfic/pkg/client/clientset/internalversion/typed/metrics/internalversion"
-	natinternalversion "github.com/fire833/morfic/pkg/client/clientset/internalversion/typed/nat/internalversion"
-	neighborsinternalversion "github.com/fire833/morfic/pkg/client/clientset/internalversion/typed/neighbors/internalversion"
-	routesinternalversion "github.com/fire833/morfic/pkg/client/clientset/internalversion/typed/routes/internalversion"
+	netinternalversion "github.com/fire833/morfic/pkg/client/clientset/internalversion/typed/net/internalversion"
 	servicesinternalversion "github.com/fire833/morfic/pkg/client/clientset/internalversion/typed/services/internalversion"
 	vpninternalversion "github.com/fire833/morfic/pkg/client/clientset/internalversion/typed/vpn/internalversion"
 	discovery "k8s.io/client-go/discovery"
@@ -44,17 +38,11 @@ import (
 
 type Interface interface {
 	Discovery() discovery.DiscoveryInterface
-	Addresses() addressesinternalversion.AddressesInterface
 	Authentication() authenticationinternalversion.AuthenticationInterface
 	Certificates() certificatesinternalversion.CertificatesInterface
-	Config() configinternalversion.ConfigInterface
 	Dns() dnsinternalversion.DnsInterface
 	Firewall() firewallinternalversion.FirewallInterface
-	Interfaces() interfacesinternalversion.InterfacesInterface
-	Metrics() metricsinternalversion.MetricsInterface
-	Nat() natinternalversion.NatInterface
-	Neighbors() neighborsinternalversion.NeighborsInterface
-	Routes() routesinternalversion.RoutesInterface
+	Net() netinternalversion.NetInterface
 	Services() servicesinternalversion.ServicesInterface
 	Vpn() vpninternalversion.VpnInterface
 }
@@ -63,24 +51,13 @@ type Interface interface {
 // version included in a Clientset.
 type Clientset struct {
 	*discovery.DiscoveryClient
-	addresses      *addressesinternalversion.AddressesClient
 	authentication *authenticationinternalversion.AuthenticationClient
 	certificates   *certificatesinternalversion.CertificatesClient
-	config         *configinternalversion.ConfigClient
 	dns            *dnsinternalversion.DnsClient
 	firewall       *firewallinternalversion.FirewallClient
-	interfaces     *interfacesinternalversion.InterfacesClient
-	metrics        *metricsinternalversion.MetricsClient
-	nat            *natinternalversion.NatClient
-	neighbors      *neighborsinternalversion.NeighborsClient
-	routes         *routesinternalversion.RoutesClient
+	net            *netinternalversion.NetClient
 	services       *servicesinternalversion.ServicesClient
 	vpn            *vpninternalversion.VpnClient
-}
-
-// Addresses retrieves the AddressesClient
-func (c *Clientset) Addresses() addressesinternalversion.AddressesInterface {
-	return c.addresses
 }
 
 // Authentication retrieves the AuthenticationClient
@@ -93,11 +70,6 @@ func (c *Clientset) Certificates() certificatesinternalversion.CertificatesInter
 	return c.certificates
 }
 
-// Config retrieves the ConfigClient
-func (c *Clientset) Config() configinternalversion.ConfigInterface {
-	return c.config
-}
-
 // Dns retrieves the DnsClient
 func (c *Clientset) Dns() dnsinternalversion.DnsInterface {
 	return c.dns
@@ -108,29 +80,9 @@ func (c *Clientset) Firewall() firewallinternalversion.FirewallInterface {
 	return c.firewall
 }
 
-// Interfaces retrieves the InterfacesClient
-func (c *Clientset) Interfaces() interfacesinternalversion.InterfacesInterface {
-	return c.interfaces
-}
-
-// Metrics retrieves the MetricsClient
-func (c *Clientset) Metrics() metricsinternalversion.MetricsInterface {
-	return c.metrics
-}
-
-// Nat retrieves the NatClient
-func (c *Clientset) Nat() natinternalversion.NatInterface {
-	return c.nat
-}
-
-// Neighbors retrieves the NeighborsClient
-func (c *Clientset) Neighbors() neighborsinternalversion.NeighborsInterface {
-	return c.neighbors
-}
-
-// Routes retrieves the RoutesClient
-func (c *Clientset) Routes() routesinternalversion.RoutesInterface {
-	return c.routes
+// Net retrieves the NetClient
+func (c *Clientset) Net() netinternalversion.NetInterface {
+	return c.net
 }
 
 // Services retrieves the ServicesClient
@@ -187,19 +139,11 @@ func NewForConfigAndClient(c *rest.Config, httpClient *http.Client) (*Clientset,
 
 	var cs Clientset
 	var err error
-	cs.addresses, err = addressesinternalversion.NewForConfigAndClient(&configShallowCopy, httpClient)
-	if err != nil {
-		return nil, err
-	}
 	cs.authentication, err = authenticationinternalversion.NewForConfigAndClient(&configShallowCopy, httpClient)
 	if err != nil {
 		return nil, err
 	}
 	cs.certificates, err = certificatesinternalversion.NewForConfigAndClient(&configShallowCopy, httpClient)
-	if err != nil {
-		return nil, err
-	}
-	cs.config, err = configinternalversion.NewForConfigAndClient(&configShallowCopy, httpClient)
 	if err != nil {
 		return nil, err
 	}
@@ -211,23 +155,7 @@ func NewForConfigAndClient(c *rest.Config, httpClient *http.Client) (*Clientset,
 	if err != nil {
 		return nil, err
 	}
-	cs.interfaces, err = interfacesinternalversion.NewForConfigAndClient(&configShallowCopy, httpClient)
-	if err != nil {
-		return nil, err
-	}
-	cs.metrics, err = metricsinternalversion.NewForConfigAndClient(&configShallowCopy, httpClient)
-	if err != nil {
-		return nil, err
-	}
-	cs.nat, err = natinternalversion.NewForConfigAndClient(&configShallowCopy, httpClient)
-	if err != nil {
-		return nil, err
-	}
-	cs.neighbors, err = neighborsinternalversion.NewForConfigAndClient(&configShallowCopy, httpClient)
-	if err != nil {
-		return nil, err
-	}
-	cs.routes, err = routesinternalversion.NewForConfigAndClient(&configShallowCopy, httpClient)
+	cs.net, err = netinternalversion.NewForConfigAndClient(&configShallowCopy, httpClient)
 	if err != nil {
 		return nil, err
 	}
@@ -260,17 +188,11 @@ func NewForConfigOrDie(c *rest.Config) *Clientset {
 // New creates a new Clientset for the given RESTClient.
 func New(c rest.Interface) *Clientset {
 	var cs Clientset
-	cs.addresses = addressesinternalversion.New(c)
 	cs.authentication = authenticationinternalversion.New(c)
 	cs.certificates = certificatesinternalversion.New(c)
-	cs.config = configinternalversion.New(c)
 	cs.dns = dnsinternalversion.New(c)
 	cs.firewall = firewallinternalversion.New(c)
-	cs.interfaces = interfacesinternalversion.New(c)
-	cs.metrics = metricsinternalversion.New(c)
-	cs.nat = natinternalversion.New(c)
-	cs.neighbors = neighborsinternalversion.New(c)
-	cs.routes = routesinternalversion.New(c)
+	cs.net = netinternalversion.New(c)
 	cs.services = servicesinternalversion.New(c)
 	cs.vpn = vpninternalversion.New(c)
 

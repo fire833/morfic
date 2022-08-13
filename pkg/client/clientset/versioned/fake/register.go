@@ -21,17 +21,11 @@
 package fake
 
 import (
-	addressesv1alpha1 "github.com/fire833/morfic/pkg/apis/addresses/v1alpha1"
 	authenticationv1alpha1 "github.com/fire833/morfic/pkg/apis/authentication/v1alpha1"
 	certificatesv1alpha1 "github.com/fire833/morfic/pkg/apis/certificates/v1alpha1"
-	configv1alpha1 "github.com/fire833/morfic/pkg/apis/config/v1alpha1"
 	dnsv1alpha1 "github.com/fire833/morfic/pkg/apis/dns/v1alpha1"
 	firewallv1alpha1 "github.com/fire833/morfic/pkg/apis/firewall/v1alpha1"
-	interfacesv1alpha1 "github.com/fire833/morfic/pkg/apis/interfaces/v1alpha1"
-	metricsv1alpha1 "github.com/fire833/morfic/pkg/apis/metrics/v1alpha1"
-	natv1alpha1 "github.com/fire833/morfic/pkg/apis/nat/v1alpha1"
-	neighborsv1alpha1 "github.com/fire833/morfic/pkg/apis/neighbors/v1alpha1"
-	routesv1alpha1 "github.com/fire833/morfic/pkg/apis/routes/v1alpha1"
+	netv1alpha1 "github.com/fire833/morfic/pkg/apis/net/v1alpha1"
 	servicesv1alpha1 "github.com/fire833/morfic/pkg/apis/services/v1alpha1"
 	vpnv1alpha1 "github.com/fire833/morfic/pkg/apis/vpn/v1alpha1"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -45,17 +39,11 @@ var scheme = runtime.NewScheme()
 var codecs = serializer.NewCodecFactory(scheme)
 
 var localSchemeBuilder = runtime.SchemeBuilder{
-	addressesv1alpha1.AddToScheme,
 	authenticationv1alpha1.AddToScheme,
 	certificatesv1alpha1.AddToScheme,
-	configv1alpha1.AddToScheme,
 	dnsv1alpha1.AddToScheme,
 	firewallv1alpha1.AddToScheme,
-	interfacesv1alpha1.AddToScheme,
-	metricsv1alpha1.AddToScheme,
-	natv1alpha1.AddToScheme,
-	neighborsv1alpha1.AddToScheme,
-	routesv1alpha1.AddToScheme,
+	netv1alpha1.AddToScheme,
 	servicesv1alpha1.AddToScheme,
 	vpnv1alpha1.AddToScheme,
 }

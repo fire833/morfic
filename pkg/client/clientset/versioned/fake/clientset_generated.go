@@ -22,28 +22,16 @@ package fake
 
 import (
 	clientset "github.com/fire833/morfic/pkg/client/clientset/versioned"
-	addressesv1alpha1 "github.com/fire833/morfic/pkg/client/clientset/versioned/typed/addresses/v1alpha1"
-	fakeaddressesv1alpha1 "github.com/fire833/morfic/pkg/client/clientset/versioned/typed/addresses/v1alpha1/fake"
 	authenticationv1alpha1 "github.com/fire833/morfic/pkg/client/clientset/versioned/typed/authentication/v1alpha1"
 	fakeauthenticationv1alpha1 "github.com/fire833/morfic/pkg/client/clientset/versioned/typed/authentication/v1alpha1/fake"
 	certificatesv1alpha1 "github.com/fire833/morfic/pkg/client/clientset/versioned/typed/certificates/v1alpha1"
 	fakecertificatesv1alpha1 "github.com/fire833/morfic/pkg/client/clientset/versioned/typed/certificates/v1alpha1/fake"
-	configv1alpha1 "github.com/fire833/morfic/pkg/client/clientset/versioned/typed/config/v1alpha1"
-	fakeconfigv1alpha1 "github.com/fire833/morfic/pkg/client/clientset/versioned/typed/config/v1alpha1/fake"
 	dnsv1alpha1 "github.com/fire833/morfic/pkg/client/clientset/versioned/typed/dns/v1alpha1"
 	fakednsv1alpha1 "github.com/fire833/morfic/pkg/client/clientset/versioned/typed/dns/v1alpha1/fake"
 	firewallv1alpha1 "github.com/fire833/morfic/pkg/client/clientset/versioned/typed/firewall/v1alpha1"
 	fakefirewallv1alpha1 "github.com/fire833/morfic/pkg/client/clientset/versioned/typed/firewall/v1alpha1/fake"
-	interfacesv1alpha1 "github.com/fire833/morfic/pkg/client/clientset/versioned/typed/interfaces/v1alpha1"
-	fakeinterfacesv1alpha1 "github.com/fire833/morfic/pkg/client/clientset/versioned/typed/interfaces/v1alpha1/fake"
-	metricsv1alpha1 "github.com/fire833/morfic/pkg/client/clientset/versioned/typed/metrics/v1alpha1"
-	fakemetricsv1alpha1 "github.com/fire833/morfic/pkg/client/clientset/versioned/typed/metrics/v1alpha1/fake"
-	natv1alpha1 "github.com/fire833/morfic/pkg/client/clientset/versioned/typed/nat/v1alpha1"
-	fakenatv1alpha1 "github.com/fire833/morfic/pkg/client/clientset/versioned/typed/nat/v1alpha1/fake"
-	neighborsv1alpha1 "github.com/fire833/morfic/pkg/client/clientset/versioned/typed/neighbors/v1alpha1"
-	fakeneighborsv1alpha1 "github.com/fire833/morfic/pkg/client/clientset/versioned/typed/neighbors/v1alpha1/fake"
-	routesv1alpha1 "github.com/fire833/morfic/pkg/client/clientset/versioned/typed/routes/v1alpha1"
-	fakeroutesv1alpha1 "github.com/fire833/morfic/pkg/client/clientset/versioned/typed/routes/v1alpha1/fake"
+	netv1alpha1 "github.com/fire833/morfic/pkg/client/clientset/versioned/typed/net/v1alpha1"
+	fakenetv1alpha1 "github.com/fire833/morfic/pkg/client/clientset/versioned/typed/net/v1alpha1/fake"
 	servicesv1alpha1 "github.com/fire833/morfic/pkg/client/clientset/versioned/typed/services/v1alpha1"
 	fakeservicesv1alpha1 "github.com/fire833/morfic/pkg/client/clientset/versioned/typed/services/v1alpha1/fake"
 	vpnv1alpha1 "github.com/fire833/morfic/pkg/client/clientset/versioned/typed/vpn/v1alpha1"
@@ -105,11 +93,6 @@ var (
 	_ testing.FakeClient  = &Clientset{}
 )
 
-// AddressesV1alpha1 retrieves the AddressesV1alpha1Client
-func (c *Clientset) AddressesV1alpha1() addressesv1alpha1.AddressesV1alpha1Interface {
-	return &fakeaddressesv1alpha1.FakeAddressesV1alpha1{Fake: &c.Fake}
-}
-
 // AuthenticationV1alpha1 retrieves the AuthenticationV1alpha1Client
 func (c *Clientset) AuthenticationV1alpha1() authenticationv1alpha1.AuthenticationV1alpha1Interface {
 	return &fakeauthenticationv1alpha1.FakeAuthenticationV1alpha1{Fake: &c.Fake}
@@ -118,11 +101,6 @@ func (c *Clientset) AuthenticationV1alpha1() authenticationv1alpha1.Authenticati
 // CertificatesV1alpha1 retrieves the CertificatesV1alpha1Client
 func (c *Clientset) CertificatesV1alpha1() certificatesv1alpha1.CertificatesV1alpha1Interface {
 	return &fakecertificatesv1alpha1.FakeCertificatesV1alpha1{Fake: &c.Fake}
-}
-
-// ConfigV1alpha1 retrieves the ConfigV1alpha1Client
-func (c *Clientset) ConfigV1alpha1() configv1alpha1.ConfigV1alpha1Interface {
-	return &fakeconfigv1alpha1.FakeConfigV1alpha1{Fake: &c.Fake}
 }
 
 // DnsV1alpha1 retrieves the DnsV1alpha1Client
@@ -135,29 +113,9 @@ func (c *Clientset) FirewallV1alpha1() firewallv1alpha1.FirewallV1alpha1Interfac
 	return &fakefirewallv1alpha1.FakeFirewallV1alpha1{Fake: &c.Fake}
 }
 
-// InterfacesV1alpha1 retrieves the InterfacesV1alpha1Client
-func (c *Clientset) InterfacesV1alpha1() interfacesv1alpha1.InterfacesV1alpha1Interface {
-	return &fakeinterfacesv1alpha1.FakeInterfacesV1alpha1{Fake: &c.Fake}
-}
-
-// MetricsV1alpha1 retrieves the MetricsV1alpha1Client
-func (c *Clientset) MetricsV1alpha1() metricsv1alpha1.MetricsV1alpha1Interface {
-	return &fakemetricsv1alpha1.FakeMetricsV1alpha1{Fake: &c.Fake}
-}
-
-// NatV1alpha1 retrieves the NatV1alpha1Client
-func (c *Clientset) NatV1alpha1() natv1alpha1.NatV1alpha1Interface {
-	return &fakenatv1alpha1.FakeNatV1alpha1{Fake: &c.Fake}
-}
-
-// NeighborsV1alpha1 retrieves the NeighborsV1alpha1Client
-func (c *Clientset) NeighborsV1alpha1() neighborsv1alpha1.NeighborsV1alpha1Interface {
-	return &fakeneighborsv1alpha1.FakeNeighborsV1alpha1{Fake: &c.Fake}
-}
-
-// RoutesV1alpha1 retrieves the RoutesV1alpha1Client
-func (c *Clientset) RoutesV1alpha1() routesv1alpha1.RoutesV1alpha1Interface {
-	return &fakeroutesv1alpha1.FakeRoutesV1alpha1{Fake: &c.Fake}
+// NetV1alpha1 retrieves the NetV1alpha1Client
+func (c *Clientset) NetV1alpha1() netv1alpha1.NetV1alpha1Interface {
+	return &fakenetv1alpha1.FakeNetV1alpha1{Fake: &c.Fake}
 }
 
 // ServicesV1alpha1 retrieves the ServicesV1alpha1Client

@@ -21,17 +21,11 @@
 package scheme
 
 import (
-	addresses "github.com/fire833/morfic/pkg/apis/addresses/install"
 	authentication "github.com/fire833/morfic/pkg/apis/authentication/install"
 	certificates "github.com/fire833/morfic/pkg/apis/certificates/install"
-	config "github.com/fire833/morfic/pkg/apis/config/install"
 	dns "github.com/fire833/morfic/pkg/apis/dns/install"
 	firewall "github.com/fire833/morfic/pkg/apis/firewall/install"
-	interfaces "github.com/fire833/morfic/pkg/apis/interfaces/install"
-	metrics "github.com/fire833/morfic/pkg/apis/metrics/install"
-	nat "github.com/fire833/morfic/pkg/apis/nat/install"
-	neighbors "github.com/fire833/morfic/pkg/apis/neighbors/install"
-	routes "github.com/fire833/morfic/pkg/apis/routes/install"
+	net "github.com/fire833/morfic/pkg/apis/net/install"
 	services "github.com/fire833/morfic/pkg/apis/services/install"
 	vpn "github.com/fire833/morfic/pkg/apis/vpn/install"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -51,17 +45,11 @@ func init() {
 
 // Install registers the API group and adds types to a scheme
 func Install(scheme *runtime.Scheme) {
-	addresses.Install(scheme)
 	authentication.Install(scheme)
 	certificates.Install(scheme)
-	config.Install(scheme)
 	dns.Install(scheme)
 	firewall.Install(scheme)
-	interfaces.Install(scheme)
-	metrics.Install(scheme)
-	nat.Install(scheme)
-	neighbors.Install(scheme)
-	routes.Install(scheme)
+	net.Install(scheme)
 	services.Install(scheme)
 	vpn.Install(scheme)
 }

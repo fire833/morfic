@@ -22,28 +22,16 @@ package fake
 
 import (
 	clientset "github.com/fire833/morfic/pkg/client/clientset/internalversion"
-	addressesinternalversion "github.com/fire833/morfic/pkg/client/clientset/internalversion/typed/addresses/internalversion"
-	fakeaddressesinternalversion "github.com/fire833/morfic/pkg/client/clientset/internalversion/typed/addresses/internalversion/fake"
 	authenticationinternalversion "github.com/fire833/morfic/pkg/client/clientset/internalversion/typed/authentication/internalversion"
 	fakeauthenticationinternalversion "github.com/fire833/morfic/pkg/client/clientset/internalversion/typed/authentication/internalversion/fake"
 	certificatesinternalversion "github.com/fire833/morfic/pkg/client/clientset/internalversion/typed/certificates/internalversion"
 	fakecertificatesinternalversion "github.com/fire833/morfic/pkg/client/clientset/internalversion/typed/certificates/internalversion/fake"
-	configinternalversion "github.com/fire833/morfic/pkg/client/clientset/internalversion/typed/config/internalversion"
-	fakeconfiginternalversion "github.com/fire833/morfic/pkg/client/clientset/internalversion/typed/config/internalversion/fake"
 	dnsinternalversion "github.com/fire833/morfic/pkg/client/clientset/internalversion/typed/dns/internalversion"
 	fakednsinternalversion "github.com/fire833/morfic/pkg/client/clientset/internalversion/typed/dns/internalversion/fake"
 	firewallinternalversion "github.com/fire833/morfic/pkg/client/clientset/internalversion/typed/firewall/internalversion"
 	fakefirewallinternalversion "github.com/fire833/morfic/pkg/client/clientset/internalversion/typed/firewall/internalversion/fake"
-	interfacesinternalversion "github.com/fire833/morfic/pkg/client/clientset/internalversion/typed/interfaces/internalversion"
-	fakeinterfacesinternalversion "github.com/fire833/morfic/pkg/client/clientset/internalversion/typed/interfaces/internalversion/fake"
-	metricsinternalversion "github.com/fire833/morfic/pkg/client/clientset/internalversion/typed/metrics/internalversion"
-	fakemetricsinternalversion "github.com/fire833/morfic/pkg/client/clientset/internalversion/typed/metrics/internalversion/fake"
-	natinternalversion "github.com/fire833/morfic/pkg/client/clientset/internalversion/typed/nat/internalversion"
-	fakenatinternalversion "github.com/fire833/morfic/pkg/client/clientset/internalversion/typed/nat/internalversion/fake"
-	neighborsinternalversion "github.com/fire833/morfic/pkg/client/clientset/internalversion/typed/neighbors/internalversion"
-	fakeneighborsinternalversion "github.com/fire833/morfic/pkg/client/clientset/internalversion/typed/neighbors/internalversion/fake"
-	routesinternalversion "github.com/fire833/morfic/pkg/client/clientset/internalversion/typed/routes/internalversion"
-	fakeroutesinternalversion "github.com/fire833/morfic/pkg/client/clientset/internalversion/typed/routes/internalversion/fake"
+	netinternalversion "github.com/fire833/morfic/pkg/client/clientset/internalversion/typed/net/internalversion"
+	fakenetinternalversion "github.com/fire833/morfic/pkg/client/clientset/internalversion/typed/net/internalversion/fake"
 	servicesinternalversion "github.com/fire833/morfic/pkg/client/clientset/internalversion/typed/services/internalversion"
 	fakeservicesinternalversion "github.com/fire833/morfic/pkg/client/clientset/internalversion/typed/services/internalversion/fake"
 	vpninternalversion "github.com/fire833/morfic/pkg/client/clientset/internalversion/typed/vpn/internalversion"
@@ -105,11 +93,6 @@ var (
 	_ testing.FakeClient  = &Clientset{}
 )
 
-// Addresses retrieves the AddressesClient
-func (c *Clientset) Addresses() addressesinternalversion.AddressesInterface {
-	return &fakeaddressesinternalversion.FakeAddresses{Fake: &c.Fake}
-}
-
 // Authentication retrieves the AuthenticationClient
 func (c *Clientset) Authentication() authenticationinternalversion.AuthenticationInterface {
 	return &fakeauthenticationinternalversion.FakeAuthentication{Fake: &c.Fake}
@@ -118,11 +101,6 @@ func (c *Clientset) Authentication() authenticationinternalversion.Authenticatio
 // Certificates retrieves the CertificatesClient
 func (c *Clientset) Certificates() certificatesinternalversion.CertificatesInterface {
 	return &fakecertificatesinternalversion.FakeCertificates{Fake: &c.Fake}
-}
-
-// Config retrieves the ConfigClient
-func (c *Clientset) Config() configinternalversion.ConfigInterface {
-	return &fakeconfiginternalversion.FakeConfig{Fake: &c.Fake}
 }
 
 // Dns retrieves the DnsClient
@@ -135,29 +113,9 @@ func (c *Clientset) Firewall() firewallinternalversion.FirewallInterface {
 	return &fakefirewallinternalversion.FakeFirewall{Fake: &c.Fake}
 }
 
-// Interfaces retrieves the InterfacesClient
-func (c *Clientset) Interfaces() interfacesinternalversion.InterfacesInterface {
-	return &fakeinterfacesinternalversion.FakeInterfaces{Fake: &c.Fake}
-}
-
-// Metrics retrieves the MetricsClient
-func (c *Clientset) Metrics() metricsinternalversion.MetricsInterface {
-	return &fakemetricsinternalversion.FakeMetrics{Fake: &c.Fake}
-}
-
-// Nat retrieves the NatClient
-func (c *Clientset) Nat() natinternalversion.NatInterface {
-	return &fakenatinternalversion.FakeNat{Fake: &c.Fake}
-}
-
-// Neighbors retrieves the NeighborsClient
-func (c *Clientset) Neighbors() neighborsinternalversion.NeighborsInterface {
-	return &fakeneighborsinternalversion.FakeNeighbors{Fake: &c.Fake}
-}
-
-// Routes retrieves the RoutesClient
-func (c *Clientset) Routes() routesinternalversion.RoutesInterface {
-	return &fakeroutesinternalversion.FakeRoutes{Fake: &c.Fake}
+// Net retrieves the NetClient
+func (c *Clientset) Net() netinternalversion.NetInterface {
+	return &fakenetinternalversion.FakeNet{Fake: &c.Fake}
 }
 
 // Services retrieves the ServicesClient

@@ -24,17 +24,11 @@ import (
 	"fmt"
 	"net/http"
 
-	addressesv1alpha1 "github.com/fire833/morfic/pkg/client/clientset/versioned/typed/addresses/v1alpha1"
 	authenticationv1alpha1 "github.com/fire833/morfic/pkg/client/clientset/versioned/typed/authentication/v1alpha1"
 	certificatesv1alpha1 "github.com/fire833/morfic/pkg/client/clientset/versioned/typed/certificates/v1alpha1"
-	configv1alpha1 "github.com/fire833/morfic/pkg/client/clientset/versioned/typed/config/v1alpha1"
 	dnsv1alpha1 "github.com/fire833/morfic/pkg/client/clientset/versioned/typed/dns/v1alpha1"
 	firewallv1alpha1 "github.com/fire833/morfic/pkg/client/clientset/versioned/typed/firewall/v1alpha1"
-	interfacesv1alpha1 "github.com/fire833/morfic/pkg/client/clientset/versioned/typed/interfaces/v1alpha1"
-	metricsv1alpha1 "github.com/fire833/morfic/pkg/client/clientset/versioned/typed/metrics/v1alpha1"
-	natv1alpha1 "github.com/fire833/morfic/pkg/client/clientset/versioned/typed/nat/v1alpha1"
-	neighborsv1alpha1 "github.com/fire833/morfic/pkg/client/clientset/versioned/typed/neighbors/v1alpha1"
-	routesv1alpha1 "github.com/fire833/morfic/pkg/client/clientset/versioned/typed/routes/v1alpha1"
+	netv1alpha1 "github.com/fire833/morfic/pkg/client/clientset/versioned/typed/net/v1alpha1"
 	servicesv1alpha1 "github.com/fire833/morfic/pkg/client/clientset/versioned/typed/services/v1alpha1"
 	vpnv1alpha1 "github.com/fire833/morfic/pkg/client/clientset/versioned/typed/vpn/v1alpha1"
 	discovery "k8s.io/client-go/discovery"
@@ -44,17 +38,11 @@ import (
 
 type Interface interface {
 	Discovery() discovery.DiscoveryInterface
-	AddressesV1alpha1() addressesv1alpha1.AddressesV1alpha1Interface
 	AuthenticationV1alpha1() authenticationv1alpha1.AuthenticationV1alpha1Interface
 	CertificatesV1alpha1() certificatesv1alpha1.CertificatesV1alpha1Interface
-	ConfigV1alpha1() configv1alpha1.ConfigV1alpha1Interface
 	DnsV1alpha1() dnsv1alpha1.DnsV1alpha1Interface
 	FirewallV1alpha1() firewallv1alpha1.FirewallV1alpha1Interface
-	InterfacesV1alpha1() interfacesv1alpha1.InterfacesV1alpha1Interface
-	MetricsV1alpha1() metricsv1alpha1.MetricsV1alpha1Interface
-	NatV1alpha1() natv1alpha1.NatV1alpha1Interface
-	NeighborsV1alpha1() neighborsv1alpha1.NeighborsV1alpha1Interface
-	RoutesV1alpha1() routesv1alpha1.RoutesV1alpha1Interface
+	NetV1alpha1() netv1alpha1.NetV1alpha1Interface
 	ServicesV1alpha1() servicesv1alpha1.ServicesV1alpha1Interface
 	VpnV1alpha1() vpnv1alpha1.VpnV1alpha1Interface
 }
@@ -63,24 +51,13 @@ type Interface interface {
 // version included in a Clientset.
 type Clientset struct {
 	*discovery.DiscoveryClient
-	addressesV1alpha1      *addressesv1alpha1.AddressesV1alpha1Client
 	authenticationV1alpha1 *authenticationv1alpha1.AuthenticationV1alpha1Client
 	certificatesV1alpha1   *certificatesv1alpha1.CertificatesV1alpha1Client
-	configV1alpha1         *configv1alpha1.ConfigV1alpha1Client
 	dnsV1alpha1            *dnsv1alpha1.DnsV1alpha1Client
 	firewallV1alpha1       *firewallv1alpha1.FirewallV1alpha1Client
-	interfacesV1alpha1     *interfacesv1alpha1.InterfacesV1alpha1Client
-	metricsV1alpha1        *metricsv1alpha1.MetricsV1alpha1Client
-	natV1alpha1            *natv1alpha1.NatV1alpha1Client
-	neighborsV1alpha1      *neighborsv1alpha1.NeighborsV1alpha1Client
-	routesV1alpha1         *routesv1alpha1.RoutesV1alpha1Client
+	netV1alpha1            *netv1alpha1.NetV1alpha1Client
 	servicesV1alpha1       *servicesv1alpha1.ServicesV1alpha1Client
 	vpnV1alpha1            *vpnv1alpha1.VpnV1alpha1Client
-}
-
-// AddressesV1alpha1 retrieves the AddressesV1alpha1Client
-func (c *Clientset) AddressesV1alpha1() addressesv1alpha1.AddressesV1alpha1Interface {
-	return c.addressesV1alpha1
 }
 
 // AuthenticationV1alpha1 retrieves the AuthenticationV1alpha1Client
@@ -93,11 +70,6 @@ func (c *Clientset) CertificatesV1alpha1() certificatesv1alpha1.CertificatesV1al
 	return c.certificatesV1alpha1
 }
 
-// ConfigV1alpha1 retrieves the ConfigV1alpha1Client
-func (c *Clientset) ConfigV1alpha1() configv1alpha1.ConfigV1alpha1Interface {
-	return c.configV1alpha1
-}
-
 // DnsV1alpha1 retrieves the DnsV1alpha1Client
 func (c *Clientset) DnsV1alpha1() dnsv1alpha1.DnsV1alpha1Interface {
 	return c.dnsV1alpha1
@@ -108,29 +80,9 @@ func (c *Clientset) FirewallV1alpha1() firewallv1alpha1.FirewallV1alpha1Interfac
 	return c.firewallV1alpha1
 }
 
-// InterfacesV1alpha1 retrieves the InterfacesV1alpha1Client
-func (c *Clientset) InterfacesV1alpha1() interfacesv1alpha1.InterfacesV1alpha1Interface {
-	return c.interfacesV1alpha1
-}
-
-// MetricsV1alpha1 retrieves the MetricsV1alpha1Client
-func (c *Clientset) MetricsV1alpha1() metricsv1alpha1.MetricsV1alpha1Interface {
-	return c.metricsV1alpha1
-}
-
-// NatV1alpha1 retrieves the NatV1alpha1Client
-func (c *Clientset) NatV1alpha1() natv1alpha1.NatV1alpha1Interface {
-	return c.natV1alpha1
-}
-
-// NeighborsV1alpha1 retrieves the NeighborsV1alpha1Client
-func (c *Clientset) NeighborsV1alpha1() neighborsv1alpha1.NeighborsV1alpha1Interface {
-	return c.neighborsV1alpha1
-}
-
-// RoutesV1alpha1 retrieves the RoutesV1alpha1Client
-func (c *Clientset) RoutesV1alpha1() routesv1alpha1.RoutesV1alpha1Interface {
-	return c.routesV1alpha1
+// NetV1alpha1 retrieves the NetV1alpha1Client
+func (c *Clientset) NetV1alpha1() netv1alpha1.NetV1alpha1Interface {
+	return c.netV1alpha1
 }
 
 // ServicesV1alpha1 retrieves the ServicesV1alpha1Client
@@ -187,19 +139,11 @@ func NewForConfigAndClient(c *rest.Config, httpClient *http.Client) (*Clientset,
 
 	var cs Clientset
 	var err error
-	cs.addressesV1alpha1, err = addressesv1alpha1.NewForConfigAndClient(&configShallowCopy, httpClient)
-	if err != nil {
-		return nil, err
-	}
 	cs.authenticationV1alpha1, err = authenticationv1alpha1.NewForConfigAndClient(&configShallowCopy, httpClient)
 	if err != nil {
 		return nil, err
 	}
 	cs.certificatesV1alpha1, err = certificatesv1alpha1.NewForConfigAndClient(&configShallowCopy, httpClient)
-	if err != nil {
-		return nil, err
-	}
-	cs.configV1alpha1, err = configv1alpha1.NewForConfigAndClient(&configShallowCopy, httpClient)
 	if err != nil {
 		return nil, err
 	}
@@ -211,23 +155,7 @@ func NewForConfigAndClient(c *rest.Config, httpClient *http.Client) (*Clientset,
 	if err != nil {
 		return nil, err
 	}
-	cs.interfacesV1alpha1, err = interfacesv1alpha1.NewForConfigAndClient(&configShallowCopy, httpClient)
-	if err != nil {
-		return nil, err
-	}
-	cs.metricsV1alpha1, err = metricsv1alpha1.NewForConfigAndClient(&configShallowCopy, httpClient)
-	if err != nil {
-		return nil, err
-	}
-	cs.natV1alpha1, err = natv1alpha1.NewForConfigAndClient(&configShallowCopy, httpClient)
-	if err != nil {
-		return nil, err
-	}
-	cs.neighborsV1alpha1, err = neighborsv1alpha1.NewForConfigAndClient(&configShallowCopy, httpClient)
-	if err != nil {
-		return nil, err
-	}
-	cs.routesV1alpha1, err = routesv1alpha1.NewForConfigAndClient(&configShallowCopy, httpClient)
+	cs.netV1alpha1, err = netv1alpha1.NewForConfigAndClient(&configShallowCopy, httpClient)
 	if err != nil {
 		return nil, err
 	}
@@ -260,17 +188,11 @@ func NewForConfigOrDie(c *rest.Config) *Clientset {
 // New creates a new Clientset for the given RESTClient.
 func New(c rest.Interface) *Clientset {
 	var cs Clientset
-	cs.addressesV1alpha1 = addressesv1alpha1.New(c)
 	cs.authenticationV1alpha1 = authenticationv1alpha1.New(c)
 	cs.certificatesV1alpha1 = certificatesv1alpha1.New(c)
-	cs.configV1alpha1 = configv1alpha1.New(c)
 	cs.dnsV1alpha1 = dnsv1alpha1.New(c)
 	cs.firewallV1alpha1 = firewallv1alpha1.New(c)
-	cs.interfacesV1alpha1 = interfacesv1alpha1.New(c)
-	cs.metricsV1alpha1 = metricsv1alpha1.New(c)
-	cs.natV1alpha1 = natv1alpha1.New(c)
-	cs.neighborsV1alpha1 = neighborsv1alpha1.New(c)
-	cs.routesV1alpha1 = routesv1alpha1.New(c)
+	cs.netV1alpha1 = netv1alpha1.New(c)
 	cs.servicesV1alpha1 = servicesv1alpha1.New(c)
 	cs.vpnV1alpha1 = vpnv1alpha1.New(c)
 

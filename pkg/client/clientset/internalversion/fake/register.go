@@ -21,17 +21,11 @@
 package fake
 
 import (
-	addressesinternalversion "github.com/fire833/morfic/pkg/apis/addresses"
 	authenticationinternalversion "github.com/fire833/morfic/pkg/apis/authentication"
 	certificatesinternalversion "github.com/fire833/morfic/pkg/apis/certificates"
-	configinternalversion "github.com/fire833/morfic/pkg/apis/config"
 	dnsinternalversion "github.com/fire833/morfic/pkg/apis/dns"
 	firewallinternalversion "github.com/fire833/morfic/pkg/apis/firewall"
-	interfacesinternalversion "github.com/fire833/morfic/pkg/apis/interfaces"
-	metricsinternalversion "github.com/fire833/morfic/pkg/apis/metrics"
-	natinternalversion "github.com/fire833/morfic/pkg/apis/nat"
-	neighborsinternalversion "github.com/fire833/morfic/pkg/apis/neighbors"
-	routesinternalversion "github.com/fire833/morfic/pkg/apis/routes"
+	netinternalversion "github.com/fire833/morfic/pkg/apis/net"
 	servicesinternalversion "github.com/fire833/morfic/pkg/apis/services"
 	vpninternalversion "github.com/fire833/morfic/pkg/apis/vpn"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -45,17 +39,11 @@ var scheme = runtime.NewScheme()
 var codecs = serializer.NewCodecFactory(scheme)
 
 var localSchemeBuilder = runtime.SchemeBuilder{
-	addressesinternalversion.AddToScheme,
 	authenticationinternalversion.AddToScheme,
 	certificatesinternalversion.AddToScheme,
-	configinternalversion.AddToScheme,
 	dnsinternalversion.AddToScheme,
 	firewallinternalversion.AddToScheme,
-	interfacesinternalversion.AddToScheme,
-	metricsinternalversion.AddToScheme,
-	natinternalversion.AddToScheme,
-	neighborsinternalversion.AddToScheme,
-	routesinternalversion.AddToScheme,
+	netinternalversion.AddToScheme,
 	servicesinternalversion.AddToScheme,
 	vpninternalversion.AddToScheme,
 }
