@@ -19,30 +19,18 @@
 echo "Updating API informers..."
 
 informer-gen -i \
-github.com/fire833/morfic/pkg/apis/addresses/v1alpha1,\
-github.com/fire833/morfic/pkg/apis/authentication/v1,\
+github.com/fire833/morfic/pkg/apis/net/v1alpha1,\
+github.com/fire833/morfic/pkg/apis/authentication/v1alpha1,\
 github.com/fire833/morfic/pkg/apis/certificates/v1alpha1,\
-github.com/fire833/morfic/pkg/apis/config/v1,\
 github.com/fire833/morfic/pkg/apis/dns/v1alpha1,\
 github.com/fire833/morfic/pkg/apis/firewall/v1alpha1,\
-github.com/fire833/morfic/pkg/apis/interfaces/v1,\
-github.com/fire833/morfic/pkg/apis/metrics/v1alpha1,\
-github.com/fire833/morfic/pkg/apis/nat/v1alpha1,\
-github.com/fire833/morfic/pkg/apis/neighbors/v1alpha1,\
-github.com/fire833/morfic/pkg/apis/routes/v1,\
 github.com/fire833/morfic/pkg/apis/services/v1alpha1,\
 github.com/fire833/morfic/pkg/apis/vpn/v1alpha1, \
-github.com/fire833/morfic/pkg/apis/addresses,\
+github.com/fire833/morfic/pkg/apis/net,\
 github.com/fire833/morfic/pkg/apis/authentication,\
 github.com/fire833/morfic/pkg/apis/certificates,\
-github.com/fire833/morfic/pkg/apis/config,\
 github.com/fire833/morfic/pkg/apis/dns,\
 github.com/fire833/morfic/pkg/apis/firewall,\
-github.com/fire833/morfic/pkg/apis/interfaces,\
-github.com/fire833/morfic/pkg/apis/metrics,\
-github.com/fire833/morfic/pkg/apis/nat,\
-github.com/fire833/morfic/pkg/apis/neighbors,\
-github.com/fire833/morfic/pkg/apis/routes,\
 github.com/fire833/morfic/pkg/apis/services,\
 github.com/fire833/morfic/pkg/apis/vpn \
 -h boilerplate.go.txt --listers-package github.com/fire833/morfic/pkg/client/listers \

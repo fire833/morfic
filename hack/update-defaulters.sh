@@ -18,28 +18,16 @@
 
 echo "Updating API defaulter..."
 
-echo "Rebuilding addresses API..."
-defaulter-gen --input-dirs ../pkg/apis/addresses -h boilerplate.go.txt -O zz_generated.defaults &
+echo "Rebuilding net API..."
+defaulter-gen --input-dirs ../pkg/apis/net -h boilerplate.go.txt -O zz_generated.defaults &
 echo "Rebuilding authentication API..."
 defaulter-gen --input-dirs ../pkg/apis/authentication -h boilerplate.go.txt -O zz_generated.defaults &
 echo "Rebuilding certificates API..."
 defaulter-gen --input-dirs ../pkg/apis/certificates -h boilerplate.go.txt -O zz_generated.defaults &
-echo "Rebuilding config API..."
-defaulter-gen --input-dirs ../pkg/apis/config -h boilerplate.go.txt -O zz_generated.defaults &
 echo "Rebuilding dns API..."
 defaulter-gen --input-dirs ../pkg/apis/dns -h boilerplate.go.txt -O zz_generated.defaults &
 echo "Rebuilding firewall API..."
 defaulter-gen --input-dirs ../pkg/apis/firewall -h boilerplate.go.txt -O zz_generated.defaults &
-echo "Rebuilding interfaces API..."
-defaulter-gen --input-dirs ../pkg/apis/interfaces -h boilerplate.go.txt -O zz_generated.defaults & 
-echo "Rebuilding metrics API..."
-defaulter-gen --input-dirs ../pkg/apis/metrics -h boilerplate.go.txt -O zz_generated.defaults &
-echo "Rebuilding nat API..."
-defaulter-gen --input-dirs ../pkg/apis/nat -h boilerplate.go.txt -O zz_generated.defaults &
-echo "Rebuilding neighbors API..."
-defaulter-gen --input-dirs ../pkg/apis/neighbors -h boilerplate.go.txt -O zz_generated.defaults &
-echo "Rebuilding routes API..."
-defaulter-gen --input-dirs ../pkg/apis/routes -h boilerplate.go.txt -O zz_generated.defaults &
 echo "Rebuilding services API..."
 defaulter-gen --input-dirs ../pkg/apis/services -h boilerplate.go.txt -O zz_generated.defaults &
 echo "Rebuilding vpn API..."

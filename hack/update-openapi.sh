@@ -16,28 +16,16 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-echo "Rebuilding addresses API..."
-openapi-gen --input-dirs ../pkg/apis/addresses -h boilerplate.go.txt -O zz_generated.openapi -p ../pkg/apis/addresses &
+echo "Rebuilding net API..."
+openapi-gen --input-dirs ../pkg/apis/net -h boilerplate.go.txt -O zz_generated.openapi -p ../pkg/apis/net &
 echo "Rebuilding authentication API..."
 openapi-gen --input-dirs ../pkg/apis/authentication -h boilerplate.go.txt -O zz_generated.openapi -p ../pkg/apis/authentication &
 echo "Rebuilding certificates API..."
 openapi-gen --input-dirs ../pkg/apis/certificates -h boilerplate.go.txt -O zz_generated.openapi -p ../pkg/apis/certificates &
-echo "Rebuilding config API..."
-openapi-gen --input-dirs ../pkg/apis/config -h boilerplate.go.txt -O zz_generated.openapi -p ../pkg/apis/config &
 echo "Rebuilding dns API..."
 openapi-gen --input-dirs ../pkg/apis/dns -h boilerplate.go.txt -O zz_generated.openapi -p ../pkg/apis/dns &
 echo "Rebuilding firewall API..."
 openapi-gen --input-dirs ../pkg/apis/firewall -h boilerplate.go.txt -O zz_generated.openapi -p ../pkg/apis/firewall &
-echo "Rebuilding interfaces API..."
-openapi-gen --input-dirs ../pkg/apis/interfaces -h boilerplate.go.txt -O zz_generated.openapi -p ../pkg/apis/interfaces &
-echo "Rebuilding metrics API..."
-openapi-gen --input-dirs ../pkg/apis/metrics -h boilerplate.go.txt -O zz_generated.openapi -p ../pkg/apis/metrics &
-echo "Rebuilding nat API..."
-openapi-gen --input-dirs ../pkg/apis/nat -h boilerplate.go.txt -O zz_generated.openapi -p ../pkg/apis/nat &
-echo "Rebuilding neighbors API..."
-openapi-gen --input-dirs ../pkg/apis/neighbors -h boilerplate.go.txt -O zz_generated.openapi -p ../pkg/apis/neighbors &
-echo "Rebuilding routes API..."
-openapi-gen --input-dirs ../pkg/apis/routes -h boilerplate.go.txt -O zz_generated.openapi -p ../pkg/apis/routes &
 echo "Rebuilding services API..."
 openapi-gen --input-dirs ../pkg/apis/services -h boilerplate.go.txt -O zz_generated.openapi -p ../pkg/apis/services &
 echo "Rebuilding vpn API..."
