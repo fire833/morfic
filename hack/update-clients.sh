@@ -33,6 +33,12 @@ github.com/fire833/morfic/pkg/apis/dns,\
 github.com/fire833/morfic/pkg/apis/firewall,\
 github.com/fire833/morfic/pkg/apis/services,\
 github.com/fire833/morfic/pkg/apis/vpn \
--h boilerplate.go.txt -o ../vendor -p github.com/fire833/morfic/pkg/client -n ../pkg/client/clientset --fake-clientset
+--go-header-file boilerplate.go.txt \
+--output-base ../pkg/client/clientset \
+--output-package github.com/fire833/morfic/pkg/client/ \
+--clientset-name internalversion \
+--fake-clientset \
+--input "vpn/v1alpha1,services/v1alpha1,firewall/v1alpha1,dns/v1alpha1,certificates/v1alpha1,authentication/v1alpha1,net/v1alpha1"
 
-# client-gen --input "${1}" -h boilerplate.go.txt -o ../pkg/client -p clientset -n morfic --fake-clientset
+# ../pkg/client
+# clientset

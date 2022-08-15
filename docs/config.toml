@@ -1,0 +1,3 @@
+baseURL = 'https://morfic.io/'
+languageCode = 'en-us'
+title = 'Documentation for the morfic Kubernetes-Native Network manager'
