@@ -21,37 +21,12 @@
 package fake
 
 import (
-	internalversion "github.com/fire833/morfic/pkg/client/clientset/internalversion/typed/certificates/internalversion"
 	rest "k8s.io/client-go/rest"
 	testing "k8s.io/client-go/testing"
 )
 
 type FakeCertificates struct {
 	*testing.Fake
-}
-
-func (c *FakeCertificates) Certificates(namespace string) internalversion.CertificateInterface {
-	return &FakeCertificates{c, namespace}
-}
-
-func (c *FakeCertificates) CertificateLists(namespace string) internalversion.CertificateListInterface {
-	return &FakeCertificateLists{c, namespace}
-}
-
-func (c *FakeCertificates) CertificateSigners(namespace string) internalversion.CertificateSignerInterface {
-	return &FakeCertificateSigners{c, namespace}
-}
-
-func (c *FakeCertificates) CertificateSignerLists(namespace string) internalversion.CertificateSignerListInterface {
-	return &FakeCertificateSignerLists{c, namespace}
-}
-
-func (c *FakeCertificates) CertificateSigningRequests(namespace string) internalversion.CertificateSigningRequestInterface {
-	return &FakeCertificateSigningRequests{c, namespace}
-}
-
-func (c *FakeCertificates) CertificateSigningRequestLists(namespace string) internalversion.CertificateSigningRequestListInterface {
-	return &FakeCertificateSigningRequestLists{c, namespace}
 }
 
 // RESTClient returns a RESTClient that is used to communicate

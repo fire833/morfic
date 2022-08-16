@@ -19,7 +19,7 @@
 package v1alpha1
 
 import (
-	routesv1 "github.com/fire833/morfic/pkg/apis/routes"
+	"github.com/fire833/morfic/pkg/apis/net"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
 
@@ -35,7 +35,7 @@ func Resource(resource string) schema.GroupResource {
 }
 
 var (
-	localSchemeBuilder = &routesv1.SchemeBuilder
+	localSchemeBuilder = &net.SchemeBuilder
 	AddToScheme        = localSchemeBuilder.AddToScheme
 )
 

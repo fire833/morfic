@@ -29,41 +29,11 @@ import (
 
 type CertificatesInterface interface {
 	RESTClient() rest.Interface
-	CertificatesGetter
-	CertificateListsGetter
-	CertificateSignersGetter
-	CertificateSignerListsGetter
-	CertificateSigningRequestsGetter
-	CertificateSigningRequestListsGetter
 }
 
-// CertificatesClient is used to interact with features provided by the certificates.morfic.io group.
+// CertificatesClient is used to interact with features provided by the certificates group.
 type CertificatesClient struct {
 	restClient rest.Interface
-}
-
-func (c *CertificatesClient) Certificates(namespace string) CertificateInterface {
-	return newCertificates(c, namespace)
-}
-
-func (c *CertificatesClient) CertificateLists(namespace string) CertificateListInterface {
-	return newCertificateLists(c, namespace)
-}
-
-func (c *CertificatesClient) CertificateSigners(namespace string) CertificateSignerInterface {
-	return newCertificateSigners(c, namespace)
-}
-
-func (c *CertificatesClient) CertificateSignerLists(namespace string) CertificateSignerListInterface {
-	return newCertificateSignerLists(c, namespace)
-}
-
-func (c *CertificatesClient) CertificateSigningRequests(namespace string) CertificateSigningRequestInterface {
-	return newCertificateSigningRequests(c, namespace)
-}
-
-func (c *CertificatesClient) CertificateSigningRequestLists(namespace string) CertificateSigningRequestListInterface {
-	return newCertificateSigningRequestLists(c, namespace)
 }
 
 // NewForConfig creates a new CertificatesClient for the given config.
@@ -115,8 +85,8 @@ func setConfigDefaults(config *rest.Config) error {
 	if config.UserAgent == "" {
 		config.UserAgent = rest.DefaultKubernetesUserAgent()
 	}
-	if config.GroupVersion == nil || config.GroupVersion.Group != scheme.Scheme.PrioritizedVersionsForGroup("certificates.morfic.io")[0].Group {
-		gv := scheme.Scheme.PrioritizedVersionsForGroup("certificates.morfic.io")[0]
+	if config.GroupVersion == nil || config.GroupVersion.Group != scheme.Scheme.PrioritizedVersionsForGroup("certificates")[0].Group {
+		gv := scheme.Scheme.PrioritizedVersionsForGroup("certificates")[0]
 		config.GroupVersion = &gv
 	}
 	config.NegotiatedSerializer = scheme.Codecs
