@@ -22,16 +22,16 @@ package firewall
 
 import (
 	"context"
-	internalinterfaces "pkg/client/informers/externalversions/internalinterfaces"
+	internalinterfaces "github.com/fire833/morfic/pkg/client/informers/externalversions/internalinterfaces"
 	time "time"
 
 	apisfirewall "github.com/fire833/morfic/pkg/apis/firewall"
+	versioned "github.com/fire833/morfic/pkg/client/clientset/versioned"
 	firewall "github.com/fire833/morfic/pkg/client/listers/apis/firewall"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 	watch "k8s.io/apimachinery/pkg/watch"
 	cache "k8s.io/client-go/tools/cache"
-	clientset "k8s.io/kubernetes/pkg/client/clientset_generated/clientset"
 )
 
 // TableListInformer provides access to a shared informer and lister for
@@ -50,14 +50,14 @@ type tableListInformer struct {
 // NewTableListInformer constructs a new informer for TableList type.
 // Always prefer using an informer factory to get a shared informer instead of getting an independent
 // one. This reduces memory footprint and number of connections to the server.
-func NewTableListInformer(client clientset.Interface, namespace string, resyncPeriod time.Duration, indexers cache.Indexers) cache.SharedIndexInformer {
+func NewTableListInformer(client versioned.Interface, namespace string, resyncPeriod time.Duration, indexers cache.Indexers) cache.SharedIndexInformer {
 	return NewFilteredTableListInformer(client, namespace, resyncPeriod, indexers, nil)
 }
 
 // NewFilteredTableListInformer constructs a new informer for TableList type.
 // Always prefer using an informer factory to get a shared informer instead of getting an independent
 // one. This reduces memory footprint and number of connections to the server.
-func NewFilteredTableListInformer(client clientset.Interface, namespace string, resyncPeriod time.Duration, indexers cache.Indexers, tweakListOptions internalinterfaces.TweakListOptionsFunc) cache.SharedIndexInformer {
+func NewFilteredTableListInformer(client versioned.Interface, namespace string, resyncPeriod time.Duration, indexers cache.Indexers, tweakListOptions internalinterfaces.TweakListOptionsFunc) cache.SharedIndexInformer {
 	return cache.NewSharedIndexInformer(
 		&cache.ListWatch{
 			ListFunc: func(options v1.ListOptions) (runtime.Object, error) {
@@ -79,7 +79,7 @@ func NewFilteredTableListInformer(client clientset.Interface, namespace string, 
 	)
 }
 
-func (f *tableListInformer) defaultInformer(client clientset.Interface, resyncPeriod time.Duration) cache.SharedIndexInformer {
+func (f *tableListInformer) defaultInformer(client versioned.Interface, resyncPeriod time.Duration) cache.SharedIndexInformer {
 	return NewFilteredTableListInformer(client, f.namespace, resyncPeriod, cache.Indexers{cache.NamespaceIndex: cache.MetaNamespaceIndexFunc}, f.tweakListOptions)
 }
 

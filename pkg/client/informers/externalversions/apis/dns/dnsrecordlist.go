@@ -26,12 +26,12 @@ import (
 	time "time"
 
 	apisdns "github.com/fire833/morfic/pkg/apis/dns"
+	versioned "github.com/fire833/morfic/pkg/client/clientset/versioned"
 	dns "github.com/fire833/morfic/pkg/client/listers/apis/dns"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 	watch "k8s.io/apimachinery/pkg/watch"
 	cache "k8s.io/client-go/tools/cache"
-	clientset "k8s.io/kubernetes/pkg/client/clientset_generated/clientset"
 )
 
 // DNSRecordListInformer provides access to a shared informer and lister for
@@ -50,14 +50,14 @@ type dNSRecordListInformer struct {
 // NewDNSRecordListInformer constructs a new informer for DNSRecordList type.
 // Always prefer using an informer factory to get a shared informer instead of getting an independent
 // one. This reduces memory footprint and number of connections to the server.
-func NewDNSRecordListInformer(client clientset.Interface, namespace string, resyncPeriod time.Duration, indexers cache.Indexers) cache.SharedIndexInformer {
+func NewDNSRecordListInformer(client versioned.Interface, namespace string, resyncPeriod time.Duration, indexers cache.Indexers) cache.SharedIndexInformer {
 	return NewFilteredDNSRecordListInformer(client, namespace, resyncPeriod, indexers, nil)
 }
 
 // NewFilteredDNSRecordListInformer constructs a new informer for DNSRecordList type.
 // Always prefer using an informer factory to get a shared informer instead of getting an independent
 // one. This reduces memory footprint and number of connections to the server.
-func NewFilteredDNSRecordListInformer(client clientset.Interface, namespace string, resyncPeriod time.Duration, indexers cache.Indexers, tweakListOptions internalinterfaces.TweakListOptionsFunc) cache.SharedIndexInformer {
+func NewFilteredDNSRecordListInformer(client versioned.Interface, namespace string, resyncPeriod time.Duration, indexers cache.Indexers, tweakListOptions internalinterfaces.TweakListOptionsFunc) cache.SharedIndexInformer {
 	return cache.NewSharedIndexInformer(
 		&cache.ListWatch{
 			ListFunc: func(options v1.ListOptions) (runtime.Object, error) {
@@ -79,7 +79,7 @@ func NewFilteredDNSRecordListInformer(client clientset.Interface, namespace stri
 	)
 }
 
-func (f *dNSRecordListInformer) defaultInformer(client clientset.Interface, resyncPeriod time.Duration) cache.SharedIndexInformer {
+func (f *dNSRecordListInformer) defaultInformer(client versioned.Interface, resyncPeriod time.Duration) cache.SharedIndexInformer {
 	return NewFilteredDNSRecordListInformer(client, f.namespace, resyncPeriod, cache.Indexers{cache.NamespaceIndex: cache.MetaNamespaceIndexFunc}, f.tweakListOptions)
 }
 

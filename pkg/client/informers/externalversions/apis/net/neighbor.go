@@ -26,12 +26,12 @@ import (
 	time "time"
 
 	apisnet "github.com/fire833/morfic/pkg/apis/net"
+	versioned "github.com/fire833/morfic/pkg/client/clientset/versioned"
 	net "github.com/fire833/morfic/pkg/client/listers/apis/net"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 	watch "k8s.io/apimachinery/pkg/watch"
 	cache "k8s.io/client-go/tools/cache"
-	clientset "k8s.io/kubernetes/pkg/client/clientset_generated/clientset"
 )
 
 // NeighborInformer provides access to a shared informer and lister for
@@ -50,14 +50,14 @@ type neighborInformer struct {
 // NewNeighborInformer constructs a new informer for Neighbor type.
 // Always prefer using an informer factory to get a shared informer instead of getting an independent
 // one. This reduces memory footprint and number of connections to the server.
-func NewNeighborInformer(client clientset.Interface, namespace string, resyncPeriod time.Duration, indexers cache.Indexers) cache.SharedIndexInformer {
+func NewNeighborInformer(client versioned.Interface, namespace string, resyncPeriod time.Duration, indexers cache.Indexers) cache.SharedIndexInformer {
 	return NewFilteredNeighborInformer(client, namespace, resyncPeriod, indexers, nil)
 }
 
 // NewFilteredNeighborInformer constructs a new informer for Neighbor type.
 // Always prefer using an informer factory to get a shared informer instead of getting an independent
 // one. This reduces memory footprint and number of connections to the server.
-func NewFilteredNeighborInformer(client clientset.Interface, namespace string, resyncPeriod time.Duration, indexers cache.Indexers, tweakListOptions internalinterfaces.TweakListOptionsFunc) cache.SharedIndexInformer {
+func NewFilteredNeighborInformer(client versioned.Interface, namespace string, resyncPeriod time.Duration, indexers cache.Indexers, tweakListOptions internalinterfaces.TweakListOptionsFunc) cache.SharedIndexInformer {
 	return cache.NewSharedIndexInformer(
 		&cache.ListWatch{
 			ListFunc: func(options v1.ListOptions) (runtime.Object, error) {
@@ -79,7 +79,7 @@ func NewFilteredNeighborInformer(client clientset.Interface, namespace string, r
 	)
 }
 
-func (f *neighborInformer) defaultInformer(client clientset.Interface, resyncPeriod time.Duration) cache.SharedIndexInformer {
+func (f *neighborInformer) defaultInformer(client versioned.Interface, resyncPeriod time.Duration) cache.SharedIndexInformer {
 	return NewFilteredNeighborInformer(client, f.namespace, resyncPeriod, cache.Indexers{cache.NamespaceIndex: cache.MetaNamespaceIndexFunc}, f.tweakListOptions)
 }
 

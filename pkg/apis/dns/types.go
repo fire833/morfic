@@ -47,7 +47,7 @@ const (
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 // +k8s:openapi-gen=true
 // +k8s:deepcopy-gen=true
-// +genclient
+// +genclient:nonNamespaced
 // +genclient:noStatus
 
 // DNSRecordList represents a list of DNS records.
@@ -65,7 +65,7 @@ type DNSRecordList struct {
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 // +k8s:openapi-gen=true
 // +k8s:deepcopy-gen=true
-// +genclient
+// +genclient:nonNamespaced
 // +genclient:noStatus
 
 // DNSRecord represents a desired DNS record for some DNS server.
@@ -112,7 +112,7 @@ type DNSRecordStatus struct {
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 // +k8s:openapi-gen=true
 // +k8s:deepcopy-gen=true
-// +genclient
+// +genclient:nonNamespaced
 // +genclient:noStatus
 
 // DNSProviderList describes a list of DNS providers.
@@ -130,7 +130,7 @@ type DNSProviderList struct {
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 // +k8s:openapi-gen=true
 // +k8s:deepcopy-gen=true
-// +genclient
+// +genclient:nonNamespaced
 // +genclient:noStatus
 
 // DNSProvider represents a provider for implementing DNS records.

@@ -38,7 +38,7 @@ type Chain struct {
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 // +k8s:openapi-gen=true
 // +k8s:deepcopy-gen=true
-// +genclient
+// +genclient:nonNamespaced
 // +genclient:noStatus
 
 // TableList repesents a list of firewall tables.
@@ -56,7 +56,7 @@ type TableList struct {
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 // +k8s:openapi-gen=true
 // +k8s:deepcopy-gen=true
-// +genclient
+// +genclient:nonNamespaced
 // +genclient:noStatus
 
 // Table represents a firewall table.

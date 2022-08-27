@@ -23,11 +23,11 @@ package versioned
 import (
 	"fmt"
 	"net/http"
-	dnsv1alpha1 "pkg/client/clientset/versioned/typed/dns/v1alpha1"
-	firewallv1alpha1 "pkg/client/clientset/versioned/typed/firewall/v1alpha1"
-	netv1alpha1 "pkg/client/clientset/versioned/typed/net/v1alpha1"
-	servicesv1alpha1 "pkg/client/clientset/versioned/typed/services/v1alpha1"
-	vpnv1alpha1 "pkg/client/clientset/versioned/typed/vpn/v1alpha1"
+	dnsv1alpha1 "github.com/fire833/morfic/pkg/client/clientset/versioned/typed/dns/v1alpha1"
+	firewallv1alpha1 "github.com/fire833/morfic/pkg/client/clientset/versioned/typed/firewall/v1alpha1"
+	netv1alpha1 "github.com/fire833/morfic/pkg/client/clientset/versioned/typed/net/v1alpha1"
+	servicesv1alpha1 "github.com/fire833/morfic/pkg/client/clientset/versioned/typed/services/v1alpha1"
+	vpnv1alpha1 "github.com/fire833/morfic/pkg/client/clientset/versioned/typed/vpn/v1alpha1"
 
 	discovery "k8s.io/client-go/discovery"
 	rest "k8s.io/client-go/rest"
