@@ -22,16 +22,16 @@ package dns
 
 import (
 	"context"
+	internalinterfaces "pkg/client/informers/externalversions/internalinterfaces"
 	time "time"
 
 	apisdns "github.com/fire833/morfic/pkg/apis/dns"
-	versioned "github.com/fire833/morfic/pkg/client/clientset/versioned"
-	internalinterfaces "github.com/fire833/morfic/pkg/client/informers/externalversions/internalinterfaces"
 	dns "github.com/fire833/morfic/pkg/client/listers/apis/dns"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 	watch "k8s.io/apimachinery/pkg/watch"
 	cache "k8s.io/client-go/tools/cache"
+	clientset "k8s.io/kubernetes/pkg/client/clientset_generated/clientset"
 )
 
 // DNSProviderListInformer provides access to a shared informer and lister for
@@ -50,27 +50,27 @@ type dNSProviderListInformer struct {
 // NewDNSProviderListInformer constructs a new informer for DNSProviderList type.
 // Always prefer using an informer factory to get a shared informer instead of getting an independent
 // one. This reduces memory footprint and number of connections to the server.
-func NewDNSProviderListInformer(client versioned.Interface, namespace string, resyncPeriod time.Duration, indexers cache.Indexers) cache.SharedIndexInformer {
+func NewDNSProviderListInformer(client clientset.Interface, namespace string, resyncPeriod time.Duration, indexers cache.Indexers) cache.SharedIndexInformer {
 	return NewFilteredDNSProviderListInformer(client, namespace, resyncPeriod, indexers, nil)
 }
 
 // NewFilteredDNSProviderListInformer constructs a new informer for DNSProviderList type.
 // Always prefer using an informer factory to get a shared informer instead of getting an independent
 // one. This reduces memory footprint and number of connections to the server.
-func NewFilteredDNSProviderListInformer(client versioned.Interface, namespace string, resyncPeriod time.Duration, indexers cache.Indexers, tweakListOptions internalinterfaces.TweakListOptionsFunc) cache.SharedIndexInformer {
+func NewFilteredDNSProviderListInformer(client clientset.Interface, namespace string, resyncPeriod time.Duration, indexers cache.Indexers, tweakListOptions internalinterfaces.TweakListOptionsFunc) cache.SharedIndexInformer {
 	return cache.NewSharedIndexInformer(
 		&cache.ListWatch{
 			ListFunc: func(options v1.ListOptions) (runtime.Object, error) {
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.DnsV1alpha1().DNSProviderLists(namespace).List(context.TODO(), options)
+				return client.DnsDns().DNSProviderLists(namespace).List(context.TODO(), options)
 			},
 			WatchFunc: func(options v1.ListOptions) (watch.Interface, error) {
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.DnsV1alpha1().DNSProviderLists(namespace).Watch(context.TODO(), options)
+				return client.DnsDns().DNSProviderLists(namespace).Watch(context.TODO(), options)
 			},
 		},
 		&apisdns.DNSProviderList{},
@@ -79,7 +79,7 @@ func NewFilteredDNSProviderListInformer(client versioned.Interface, namespace st
 	)
 }
 
-func (f *dNSProviderListInformer) defaultInformer(client versioned.Interface, resyncPeriod time.Duration) cache.SharedIndexInformer {
+func (f *dNSProviderListInformer) defaultInformer(client clientset.Interface, resyncPeriod time.Duration) cache.SharedIndexInformer {
 	return NewFilteredDNSProviderListInformer(client, f.namespace, resyncPeriod, cache.Indexers{cache.NamespaceIndex: cache.MetaNamespaceIndexFunc}, f.tweakListOptions)
 }
 

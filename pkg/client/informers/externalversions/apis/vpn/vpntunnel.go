@@ -22,16 +22,16 @@ package vpn
 
 import (
 	"context"
+	internalinterfaces "pkg/client/informers/externalversions/internalinterfaces"
 	time "time"
 
 	apisvpn "github.com/fire833/morfic/pkg/apis/vpn"
-	versioned "github.com/fire833/morfic/pkg/client/clientset/versioned"
-	internalinterfaces "github.com/fire833/morfic/pkg/client/informers/externalversions/internalinterfaces"
 	vpn "github.com/fire833/morfic/pkg/client/listers/apis/vpn"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 	watch "k8s.io/apimachinery/pkg/watch"
 	cache "k8s.io/client-go/tools/cache"
+	clientset "k8s.io/kubernetes/pkg/client/clientset_generated/clientset"
 )
 
 // VPNTunnelInformer provides access to a shared informer and lister for
@@ -50,27 +50,27 @@ type vPNTunnelInformer struct {
 // NewVPNTunnelInformer constructs a new informer for VPNTunnel type.
 // Always prefer using an informer factory to get a shared informer instead of getting an independent
 // one. This reduces memory footprint and number of connections to the server.
-func NewVPNTunnelInformer(client versioned.Interface, namespace string, resyncPeriod time.Duration, indexers cache.Indexers) cache.SharedIndexInformer {
+func NewVPNTunnelInformer(client clientset.Interface, namespace string, resyncPeriod time.Duration, indexers cache.Indexers) cache.SharedIndexInformer {
 	return NewFilteredVPNTunnelInformer(client, namespace, resyncPeriod, indexers, nil)
 }
 
 // NewFilteredVPNTunnelInformer constructs a new informer for VPNTunnel type.
 // Always prefer using an informer factory to get a shared informer instead of getting an independent
 // one. This reduces memory footprint and number of connections to the server.
-func NewFilteredVPNTunnelInformer(client versioned.Interface, namespace string, resyncPeriod time.Duration, indexers cache.Indexers, tweakListOptions internalinterfaces.TweakListOptionsFunc) cache.SharedIndexInformer {
+func NewFilteredVPNTunnelInformer(client clientset.Interface, namespace string, resyncPeriod time.Duration, indexers cache.Indexers, tweakListOptions internalinterfaces.TweakListOptionsFunc) cache.SharedIndexInformer {
 	return cache.NewSharedIndexInformer(
 		&cache.ListWatch{
 			ListFunc: func(options v1.ListOptions) (runtime.Object, error) {
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.VpnV1alpha1().VPNTunnels(namespace).List(context.TODO(), options)
+				return client.VpnVpn().VPNTunnels(namespace).List(context.TODO(), options)
 			},
 			WatchFunc: func(options v1.ListOptions) (watch.Interface, error) {
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.VpnV1alpha1().VPNTunnels(namespace).Watch(context.TODO(), options)
+				return client.VpnVpn().VPNTunnels(namespace).Watch(context.TODO(), options)
 			},
 		},
 		&apisvpn.VPNTunnel{},
@@ -79,7 +79,7 @@ func NewFilteredVPNTunnelInformer(client versioned.Interface, namespace string, 
 	)
 }
 
-func (f *vPNTunnelInformer) defaultInformer(client versioned.Interface, resyncPeriod time.Duration) cache.SharedIndexInformer {
+func (f *vPNTunnelInformer) defaultInformer(client clientset.Interface, resyncPeriod time.Duration) cache.SharedIndexInformer {
 	return NewFilteredVPNTunnelInformer(client, f.namespace, resyncPeriod, cache.Indexers{cache.NamespaceIndex: cache.MetaNamespaceIndexFunc}, f.tweakListOptions)
 }
 

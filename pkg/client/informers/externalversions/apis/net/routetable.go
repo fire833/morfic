@@ -22,16 +22,16 @@ package net
 
 import (
 	"context"
+	internalinterfaces "pkg/client/informers/externalversions/internalinterfaces"
 	time "time"
 
 	apisnet "github.com/fire833/morfic/pkg/apis/net"
-	versioned "github.com/fire833/morfic/pkg/client/clientset/versioned"
-	internalinterfaces "github.com/fire833/morfic/pkg/client/informers/externalversions/internalinterfaces"
 	net "github.com/fire833/morfic/pkg/client/listers/apis/net"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 	watch "k8s.io/apimachinery/pkg/watch"
 	cache "k8s.io/client-go/tools/cache"
+	clientset "k8s.io/kubernetes/pkg/client/clientset_generated/clientset"
 )
 
 // RouteTableInformer provides access to a shared informer and lister for
@@ -50,27 +50,27 @@ type routeTableInformer struct {
 // NewRouteTableInformer constructs a new informer for RouteTable type.
 // Always prefer using an informer factory to get a shared informer instead of getting an independent
 // one. This reduces memory footprint and number of connections to the server.
-func NewRouteTableInformer(client versioned.Interface, namespace string, resyncPeriod time.Duration, indexers cache.Indexers) cache.SharedIndexInformer {
+func NewRouteTableInformer(client clientset.Interface, namespace string, resyncPeriod time.Duration, indexers cache.Indexers) cache.SharedIndexInformer {
 	return NewFilteredRouteTableInformer(client, namespace, resyncPeriod, indexers, nil)
 }
 
 // NewFilteredRouteTableInformer constructs a new informer for RouteTable type.
 // Always prefer using an informer factory to get a shared informer instead of getting an independent
 // one. This reduces memory footprint and number of connections to the server.
-func NewFilteredRouteTableInformer(client versioned.Interface, namespace string, resyncPeriod time.Duration, indexers cache.Indexers, tweakListOptions internalinterfaces.TweakListOptionsFunc) cache.SharedIndexInformer {
+func NewFilteredRouteTableInformer(client clientset.Interface, namespace string, resyncPeriod time.Duration, indexers cache.Indexers, tweakListOptions internalinterfaces.TweakListOptionsFunc) cache.SharedIndexInformer {
 	return cache.NewSharedIndexInformer(
 		&cache.ListWatch{
 			ListFunc: func(options v1.ListOptions) (runtime.Object, error) {
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.NetV1alpha1().RouteTables(namespace).List(context.TODO(), options)
+				return client.NetNet().RouteTables(namespace).List(context.TODO(), options)
 			},
 			WatchFunc: func(options v1.ListOptions) (watch.Interface, error) {
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.NetV1alpha1().RouteTables(namespace).Watch(context.TODO(), options)
+				return client.NetNet().RouteTables(namespace).Watch(context.TODO(), options)
 			},
 		},
 		&apisnet.RouteTable{},
@@ -79,7 +79,7 @@ func NewFilteredRouteTableInformer(client versioned.Interface, namespace string,
 	)
 }
 
-func (f *routeTableInformer) defaultInformer(client versioned.Interface, resyncPeriod time.Duration) cache.SharedIndexInformer {
+func (f *routeTableInformer) defaultInformer(client clientset.Interface, resyncPeriod time.Duration) cache.SharedIndexInformer {
 	return NewFilteredRouteTableInformer(client, f.namespace, resyncPeriod, cache.Indexers{cache.NamespaceIndex: cache.MetaNamespaceIndexFunc}, f.tweakListOptions)
 }
 

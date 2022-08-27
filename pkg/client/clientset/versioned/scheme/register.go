@@ -21,7 +21,6 @@
 package scheme
 
 import (
-	certificatesv1alpha1 "github.com/fire833/morfic/pkg/apis/certificates/v1alpha1"
 	dnsv1alpha1 "github.com/fire833/morfic/pkg/apis/dns/v1alpha1"
 	firewallv1alpha1 "github.com/fire833/morfic/pkg/apis/firewall/v1alpha1"
 	netv1alpha1 "github.com/fire833/morfic/pkg/apis/net/v1alpha1"
@@ -38,7 +37,6 @@ var Scheme = runtime.NewScheme()
 var Codecs = serializer.NewCodecFactory(Scheme)
 var ParameterCodec = runtime.NewParameterCodec(Scheme)
 var localSchemeBuilder = runtime.SchemeBuilder{
-	certificatesv1alpha1.AddToScheme,
 	dnsv1alpha1.AddToScheme,
 	firewallv1alpha1.AddToScheme,
 	netv1alpha1.AddToScheme,

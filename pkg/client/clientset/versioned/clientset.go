@@ -23,13 +23,12 @@ package versioned
 import (
 	"fmt"
 	"net/http"
+	dnsv1alpha1 "pkg/client/clientset/versioned/typed/dns/v1alpha1"
+	firewallv1alpha1 "pkg/client/clientset/versioned/typed/firewall/v1alpha1"
+	netv1alpha1 "pkg/client/clientset/versioned/typed/net/v1alpha1"
+	servicesv1alpha1 "pkg/client/clientset/versioned/typed/services/v1alpha1"
+	vpnv1alpha1 "pkg/client/clientset/versioned/typed/vpn/v1alpha1"
 
-	certificatesv1alpha1 "github.com/fire833/morfic/pkg/client/clientset/versioned/typed/certificates/v1alpha1"
-	dnsv1alpha1 "github.com/fire833/morfic/pkg/client/clientset/versioned/typed/dns/v1alpha1"
-	firewallv1alpha1 "github.com/fire833/morfic/pkg/client/clientset/versioned/typed/firewall/v1alpha1"
-	netv1alpha1 "github.com/fire833/morfic/pkg/client/clientset/versioned/typed/net/v1alpha1"
-	servicesv1alpha1 "github.com/fire833/morfic/pkg/client/clientset/versioned/typed/services/v1alpha1"
-	vpnv1alpha1 "github.com/fire833/morfic/pkg/client/clientset/versioned/typed/vpn/v1alpha1"
 	discovery "k8s.io/client-go/discovery"
 	rest "k8s.io/client-go/rest"
 	flowcontrol "k8s.io/client-go/util/flowcontrol"
@@ -37,7 +36,6 @@ import (
 
 type Interface interface {
 	Discovery() discovery.DiscoveryInterface
-	CertificatesV1alpha1() certificatesv1alpha1.CertificatesV1alpha1Interface
 	DnsV1alpha1() dnsv1alpha1.DnsV1alpha1Interface
 	FirewallV1alpha1() firewallv1alpha1.FirewallV1alpha1Interface
 	NetV1alpha1() netv1alpha1.NetV1alpha1Interface
@@ -49,17 +47,11 @@ type Interface interface {
 // version included in a Clientset.
 type Clientset struct {
 	*discovery.DiscoveryClient
-	certificatesV1alpha1 *certificatesv1alpha1.CertificatesV1alpha1Client
-	dnsV1alpha1          *dnsv1alpha1.DnsV1alpha1Client
-	firewallV1alpha1     *firewallv1alpha1.FirewallV1alpha1Client
-	netV1alpha1          *netv1alpha1.NetV1alpha1Client
-	servicesV1alpha1     *servicesv1alpha1.ServicesV1alpha1Client
-	vpnV1alpha1          *vpnv1alpha1.VpnV1alpha1Client
-}
-
-// CertificatesV1alpha1 retrieves the CertificatesV1alpha1Client
-func (c *Clientset) CertificatesV1alpha1() certificatesv1alpha1.CertificatesV1alpha1Interface {
-	return c.certificatesV1alpha1
+	dnsV1alpha1      *dnsv1alpha1.DnsV1alpha1Client
+	firewallV1alpha1 *firewallv1alpha1.FirewallV1alpha1Client
+	netV1alpha1      *netv1alpha1.NetV1alpha1Client
+	servicesV1alpha1 *servicesv1alpha1.ServicesV1alpha1Client
+	vpnV1alpha1      *vpnv1alpha1.VpnV1alpha1Client
 }
 
 // DnsV1alpha1 retrieves the DnsV1alpha1Client
@@ -131,10 +123,6 @@ func NewForConfigAndClient(c *rest.Config, httpClient *http.Client) (*Clientset,
 
 	var cs Clientset
 	var err error
-	cs.certificatesV1alpha1, err = certificatesv1alpha1.NewForConfigAndClient(&configShallowCopy, httpClient)
-	if err != nil {
-		return nil, err
-	}
 	cs.dnsV1alpha1, err = dnsv1alpha1.NewForConfigAndClient(&configShallowCopy, httpClient)
 	if err != nil {
 		return nil, err
@@ -176,7 +164,6 @@ func NewForConfigOrDie(c *rest.Config) *Clientset {
 // New creates a new Clientset for the given RESTClient.
 func New(c rest.Interface) *Clientset {
 	var cs Clientset
-	cs.certificatesV1alpha1 = certificatesv1alpha1.New(c)
 	cs.dnsV1alpha1 = dnsv1alpha1.New(c)
 	cs.firewallV1alpha1 = firewallv1alpha1.New(c)
 	cs.netV1alpha1 = netv1alpha1.New(c)

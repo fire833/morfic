@@ -21,19 +21,18 @@
 package fake
 
 import (
-	clientset "github.com/fire833/morfic/pkg/client/clientset/versioned"
-	certificatesv1alpha1 "github.com/fire833/morfic/pkg/client/clientset/versioned/typed/certificates/v1alpha1"
-	fakecertificatesv1alpha1 "github.com/fire833/morfic/pkg/client/clientset/versioned/typed/certificates/v1alpha1/fake"
-	dnsv1alpha1 "github.com/fire833/morfic/pkg/client/clientset/versioned/typed/dns/v1alpha1"
-	fakednsv1alpha1 "github.com/fire833/morfic/pkg/client/clientset/versioned/typed/dns/v1alpha1/fake"
-	firewallv1alpha1 "github.com/fire833/morfic/pkg/client/clientset/versioned/typed/firewall/v1alpha1"
-	fakefirewallv1alpha1 "github.com/fire833/morfic/pkg/client/clientset/versioned/typed/firewall/v1alpha1/fake"
-	netv1alpha1 "github.com/fire833/morfic/pkg/client/clientset/versioned/typed/net/v1alpha1"
-	fakenetv1alpha1 "github.com/fire833/morfic/pkg/client/clientset/versioned/typed/net/v1alpha1/fake"
-	servicesv1alpha1 "github.com/fire833/morfic/pkg/client/clientset/versioned/typed/services/v1alpha1"
-	fakeservicesv1alpha1 "github.com/fire833/morfic/pkg/client/clientset/versioned/typed/services/v1alpha1/fake"
-	vpnv1alpha1 "github.com/fire833/morfic/pkg/client/clientset/versioned/typed/vpn/v1alpha1"
-	fakevpnv1alpha1 "github.com/fire833/morfic/pkg/client/clientset/versioned/typed/vpn/v1alpha1/fake"
+	clientset "pkg/client/clientset/versioned"
+	dnsv1alpha1 "pkg/client/clientset/versioned/typed/dns/v1alpha1"
+	fakednsv1alpha1 "pkg/client/clientset/versioned/typed/dns/v1alpha1/fake"
+	firewallv1alpha1 "pkg/client/clientset/versioned/typed/firewall/v1alpha1"
+	fakefirewallv1alpha1 "pkg/client/clientset/versioned/typed/firewall/v1alpha1/fake"
+	netv1alpha1 "pkg/client/clientset/versioned/typed/net/v1alpha1"
+	fakenetv1alpha1 "pkg/client/clientset/versioned/typed/net/v1alpha1/fake"
+	servicesv1alpha1 "pkg/client/clientset/versioned/typed/services/v1alpha1"
+	fakeservicesv1alpha1 "pkg/client/clientset/versioned/typed/services/v1alpha1/fake"
+	vpnv1alpha1 "pkg/client/clientset/versioned/typed/vpn/v1alpha1"
+	fakevpnv1alpha1 "pkg/client/clientset/versioned/typed/vpn/v1alpha1/fake"
+
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/watch"
 	"k8s.io/client-go/discovery"
@@ -90,11 +89,6 @@ var (
 	_ clientset.Interface = &Clientset{}
 	_ testing.FakeClient  = &Clientset{}
 )
-
-// CertificatesV1alpha1 retrieves the CertificatesV1alpha1Client
-func (c *Clientset) CertificatesV1alpha1() certificatesv1alpha1.CertificatesV1alpha1Interface {
-	return &fakecertificatesv1alpha1.FakeCertificatesV1alpha1{Fake: &c.Fake}
-}
 
 // DnsV1alpha1 retrieves the DnsV1alpha1Client
 func (c *Clientset) DnsV1alpha1() dnsv1alpha1.DnsV1alpha1Interface {

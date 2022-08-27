@@ -21,7 +21,7 @@
 package dns
 
 import (
-	internalinterfaces "github.com/fire833/morfic/pkg/client/informers/externalversions/internalinterfaces"
+	internalinterfaces "pkg/client/informers/externalversions/internalinterfaces"
 )
 
 // Interface provides access to all the informers in this group version.
