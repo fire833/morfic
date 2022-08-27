@@ -16,4 +16,8 @@
 *	51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package authentication
+package services
+
+//go:generate deepcopy-gen --input-dirs=../services -h ../../../hack/boilerplate.go.txt -O zz_generated.deepcopy
+//go:generate openapi-gen --input-dirs=../services -h ../../../hack/boilerplate.go.txt -O zz_generated.openapi -p ../services
+//go:generate defaulter-gen --input-dirs ../services -h ../../../hack/boilerplate.go.txt -O zz_generated.defaults

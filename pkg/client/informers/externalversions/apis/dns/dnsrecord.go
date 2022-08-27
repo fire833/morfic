@@ -64,13 +64,13 @@ func NewFilteredDNSRecordInformer(client versioned.Interface, namespace string, 
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.DnsDns().DNSRecords(namespace).List(context.TODO(), options)
+				return client.DnsV1alpha1().DNSRecords(namespace).List(context.TODO(), options)
 			},
 			WatchFunc: func(options v1.ListOptions) (watch.Interface, error) {
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.DnsDns().DNSRecords(namespace).Watch(context.TODO(), options)
+				return client.DnsV1alpha1().DNSRecords(namespace).Watch(context.TODO(), options)
 			},
 		},
 		&apisdns.DNSRecord{},

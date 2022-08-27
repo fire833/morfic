@@ -64,13 +64,13 @@ func NewFilteredAddressListInformer(client versioned.Interface, namespace string
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.NetNet().AddressLists(namespace).List(context.TODO(), options)
+				return client.NetV1alpha1().AddressLists(namespace).List(context.TODO(), options)
 			},
 			WatchFunc: func(options v1.ListOptions) (watch.Interface, error) {
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.NetNet().AddressLists(namespace).Watch(context.TODO(), options)
+				return client.NetV1alpha1().AddressLists(namespace).Watch(context.TODO(), options)
 			},
 		},
 		&apisnet.AddressList{},

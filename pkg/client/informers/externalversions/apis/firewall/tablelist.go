@@ -64,13 +64,13 @@ func NewFilteredTableListInformer(client versioned.Interface, namespace string, 
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.FirewallFirewall().TableLists(namespace).List(context.TODO(), options)
+				return client.FirewallV1alpha1().TableLists(namespace).List(context.TODO(), options)
 			},
 			WatchFunc: func(options v1.ListOptions) (watch.Interface, error) {
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.FirewallFirewall().TableLists(namespace).Watch(context.TODO(), options)
+				return client.FirewallV1alpha1().TableLists(namespace).Watch(context.TODO(), options)
 			},
 		},
 		&apisfirewall.TableList{},

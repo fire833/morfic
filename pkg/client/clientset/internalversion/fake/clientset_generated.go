@@ -22,8 +22,6 @@ package fake
 
 import (
 	clientset "github.com/fire833/morfic/pkg/client/clientset/internalversion"
-	authenticationinternalversion "github.com/fire833/morfic/pkg/client/clientset/internalversion/typed/authentication/internalversion"
-	fakeauthenticationinternalversion "github.com/fire833/morfic/pkg/client/clientset/internalversion/typed/authentication/internalversion/fake"
 	certificatesinternalversion "github.com/fire833/morfic/pkg/client/clientset/internalversion/typed/certificates/internalversion"
 	fakecertificatesinternalversion "github.com/fire833/morfic/pkg/client/clientset/internalversion/typed/certificates/internalversion/fake"
 	dnsinternalversion "github.com/fire833/morfic/pkg/client/clientset/internalversion/typed/dns/internalversion"
@@ -92,11 +90,6 @@ var (
 	_ clientset.Interface = &Clientset{}
 	_ testing.FakeClient  = &Clientset{}
 )
-
-// Authentication retrieves the AuthenticationClient
-func (c *Clientset) Authentication() authenticationinternalversion.AuthenticationInterface {
-	return &fakeauthenticationinternalversion.FakeAuthentication{Fake: &c.Fake}
-}
 
 // Certificates retrieves the CertificatesClient
 func (c *Clientset) Certificates() certificatesinternalversion.CertificatesInterface {

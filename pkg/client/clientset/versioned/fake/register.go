@@ -21,7 +21,6 @@
 package fake
 
 import (
-	authenticationv1alpha1 "github.com/fire833/morfic/pkg/apis/authentication/v1alpha1"
 	certificatesv1alpha1 "github.com/fire833/morfic/pkg/apis/certificates/v1alpha1"
 	dnsv1alpha1 "github.com/fire833/morfic/pkg/apis/dns/v1alpha1"
 	firewallv1alpha1 "github.com/fire833/morfic/pkg/apis/firewall/v1alpha1"
@@ -39,7 +38,6 @@ var scheme = runtime.NewScheme()
 var codecs = serializer.NewCodecFactory(scheme)
 
 var localSchemeBuilder = runtime.SchemeBuilder{
-	authenticationv1alpha1.AddToScheme,
 	certificatesv1alpha1.AddToScheme,
 	dnsv1alpha1.AddToScheme,
 	firewallv1alpha1.AddToScheme,

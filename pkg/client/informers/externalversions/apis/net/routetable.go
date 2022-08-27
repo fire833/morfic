@@ -64,13 +64,13 @@ func NewFilteredRouteTableInformer(client versioned.Interface, namespace string,
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.NetNet().RouteTables(namespace).List(context.TODO(), options)
+				return client.NetV1alpha1().RouteTables(namespace).List(context.TODO(), options)
 			},
 			WatchFunc: func(options v1.ListOptions) (watch.Interface, error) {
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.NetNet().RouteTables(namespace).Watch(context.TODO(), options)
+				return client.NetV1alpha1().RouteTables(namespace).Watch(context.TODO(), options)
 			},
 		},
 		&apisnet.RouteTable{},

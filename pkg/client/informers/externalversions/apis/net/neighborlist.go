@@ -64,13 +64,13 @@ func NewFilteredNeighborListInformer(client versioned.Interface, namespace strin
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.NetNet().NeighborLists(namespace).List(context.TODO(), options)
+				return client.NetV1alpha1().NeighborLists(namespace).List(context.TODO(), options)
 			},
 			WatchFunc: func(options v1.ListOptions) (watch.Interface, error) {
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.NetNet().NeighborLists(namespace).Watch(context.TODO(), options)
+				return client.NetV1alpha1().NeighborLists(namespace).Watch(context.TODO(), options)
 			},
 		},
 		&apisnet.NeighborList{},

@@ -64,13 +64,13 @@ func NewFilteredLinkListInformer(client versioned.Interface, namespace string, r
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.NetNet().LinkLists(namespace).List(context.TODO(), options)
+				return client.NetV1alpha1().LinkLists(namespace).List(context.TODO(), options)
 			},
 			WatchFunc: func(options v1.ListOptions) (watch.Interface, error) {
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.NetNet().LinkLists(namespace).Watch(context.TODO(), options)
+				return client.NetV1alpha1().LinkLists(namespace).Watch(context.TODO(), options)
 			},
 		},
 		&apisnet.LinkList{},

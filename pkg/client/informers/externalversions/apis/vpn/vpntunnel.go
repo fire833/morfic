@@ -64,13 +64,13 @@ func NewFilteredVPNTunnelInformer(client versioned.Interface, namespace string, 
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.VpnVpn().VPNTunnels(namespace).List(context.TODO(), options)
+				return client.VpnV1alpha1().VPNTunnels(namespace).List(context.TODO(), options)
 			},
 			WatchFunc: func(options v1.ListOptions) (watch.Interface, error) {
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.VpnVpn().VPNTunnels(namespace).Watch(context.TODO(), options)
+				return client.VpnV1alpha1().VPNTunnels(namespace).Watch(context.TODO(), options)
 			},
 		},
 		&apisvpn.VPNTunnel{},

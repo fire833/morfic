@@ -22,8 +22,6 @@ package fake
 
 import (
 	clientset "github.com/fire833/morfic/pkg/client/clientset/versioned"
-	authenticationv1alpha1 "github.com/fire833/morfic/pkg/client/clientset/versioned/typed/authentication/v1alpha1"
-	fakeauthenticationv1alpha1 "github.com/fire833/morfic/pkg/client/clientset/versioned/typed/authentication/v1alpha1/fake"
 	certificatesv1alpha1 "github.com/fire833/morfic/pkg/client/clientset/versioned/typed/certificates/v1alpha1"
 	fakecertificatesv1alpha1 "github.com/fire833/morfic/pkg/client/clientset/versioned/typed/certificates/v1alpha1/fake"
 	dnsv1alpha1 "github.com/fire833/morfic/pkg/client/clientset/versioned/typed/dns/v1alpha1"
@@ -92,11 +90,6 @@ var (
 	_ clientset.Interface = &Clientset{}
 	_ testing.FakeClient  = &Clientset{}
 )
-
-// AuthenticationV1alpha1 retrieves the AuthenticationV1alpha1Client
-func (c *Clientset) AuthenticationV1alpha1() authenticationv1alpha1.AuthenticationV1alpha1Interface {
-	return &fakeauthenticationv1alpha1.FakeAuthenticationV1alpha1{Fake: &c.Fake}
-}
 
 // CertificatesV1alpha1 retrieves the CertificatesV1alpha1Client
 func (c *Clientset) CertificatesV1alpha1() certificatesv1alpha1.CertificatesV1alpha1Interface {

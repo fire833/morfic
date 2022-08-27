@@ -24,7 +24,6 @@ import (
 	"fmt"
 	"net/http"
 
-	authenticationv1alpha1 "github.com/fire833/morfic/pkg/client/clientset/versioned/typed/authentication/v1alpha1"
 	certificatesv1alpha1 "github.com/fire833/morfic/pkg/client/clientset/versioned/typed/certificates/v1alpha1"
 	dnsv1alpha1 "github.com/fire833/morfic/pkg/client/clientset/versioned/typed/dns/v1alpha1"
 	firewallv1alpha1 "github.com/fire833/morfic/pkg/client/clientset/versioned/typed/firewall/v1alpha1"
@@ -38,7 +37,6 @@ import (
 
 type Interface interface {
 	Discovery() discovery.DiscoveryInterface
-	AuthenticationV1alpha1() authenticationv1alpha1.AuthenticationV1alpha1Interface
 	CertificatesV1alpha1() certificatesv1alpha1.CertificatesV1alpha1Interface
 	DnsV1alpha1() dnsv1alpha1.DnsV1alpha1Interface
 	FirewallV1alpha1() firewallv1alpha1.FirewallV1alpha1Interface
@@ -51,18 +49,12 @@ type Interface interface {
 // version included in a Clientset.
 type Clientset struct {
 	*discovery.DiscoveryClient
-	authenticationV1alpha1 *authenticationv1alpha1.AuthenticationV1alpha1Client
-	certificatesV1alpha1   *certificatesv1alpha1.CertificatesV1alpha1Client
-	dnsV1alpha1            *dnsv1alpha1.DnsV1alpha1Client
-	firewallV1alpha1       *firewallv1alpha1.FirewallV1alpha1Client
-	netV1alpha1            *netv1alpha1.NetV1alpha1Client
-	servicesV1alpha1       *servicesv1alpha1.ServicesV1alpha1Client
-	vpnV1alpha1            *vpnv1alpha1.VpnV1alpha1Client
-}
-
-// AuthenticationV1alpha1 retrieves the AuthenticationV1alpha1Client
-func (c *Clientset) AuthenticationV1alpha1() authenticationv1alpha1.AuthenticationV1alpha1Interface {
-	return c.authenticationV1alpha1
+	certificatesV1alpha1 *certificatesv1alpha1.CertificatesV1alpha1Client
+	dnsV1alpha1          *dnsv1alpha1.DnsV1alpha1Client
+	firewallV1alpha1     *firewallv1alpha1.FirewallV1alpha1Client
+	netV1alpha1          *netv1alpha1.NetV1alpha1Client
+	servicesV1alpha1     *servicesv1alpha1.ServicesV1alpha1Client
+	vpnV1alpha1          *vpnv1alpha1.VpnV1alpha1Client
 }
 
 // CertificatesV1alpha1 retrieves the CertificatesV1alpha1Client
@@ -139,10 +131,6 @@ func NewForConfigAndClient(c *rest.Config, httpClient *http.Client) (*Clientset,
 
 	var cs Clientset
 	var err error
-	cs.authenticationV1alpha1, err = authenticationv1alpha1.NewForConfigAndClient(&configShallowCopy, httpClient)
-	if err != nil {
-		return nil, err
-	}
 	cs.certificatesV1alpha1, err = certificatesv1alpha1.NewForConfigAndClient(&configShallowCopy, httpClient)
 	if err != nil {
 		return nil, err
@@ -188,7 +176,6 @@ func NewForConfigOrDie(c *rest.Config) *Clientset {
 // New creates a new Clientset for the given RESTClient.
 func New(c rest.Interface) *Clientset {
 	var cs Clientset
-	cs.authenticationV1alpha1 = authenticationv1alpha1.New(c)
 	cs.certificatesV1alpha1 = certificatesv1alpha1.New(c)
 	cs.dnsV1alpha1 = dnsv1alpha1.New(c)
 	cs.firewallV1alpha1 = firewallv1alpha1.New(c)

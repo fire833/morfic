@@ -21,8 +21,6 @@
 package scheme
 
 import (
-	authentication "github.com/fire833/morfic/pkg/apis/authentication/install"
-	certificates "github.com/fire833/morfic/pkg/apis/certificates/install"
 	dns "github.com/fire833/morfic/pkg/apis/dns/install"
 	firewall "github.com/fire833/morfic/pkg/apis/firewall/install"
 	net "github.com/fire833/morfic/pkg/apis/net/install"
@@ -45,8 +43,6 @@ func init() {
 
 // Install registers the API group and adds types to a scheme
 func Install(scheme *runtime.Scheme) {
-	authentication.Install(scheme)
-	certificates.Install(scheme)
 	dns.Install(scheme)
 	firewall.Install(scheme)
 	net.Install(scheme)

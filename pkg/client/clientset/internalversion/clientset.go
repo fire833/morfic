@@ -24,7 +24,6 @@ import (
 	"fmt"
 	"net/http"
 
-	authenticationinternalversion "github.com/fire833/morfic/pkg/client/clientset/internalversion/typed/authentication/internalversion"
 	certificatesinternalversion "github.com/fire833/morfic/pkg/client/clientset/internalversion/typed/certificates/internalversion"
 	dnsinternalversion "github.com/fire833/morfic/pkg/client/clientset/internalversion/typed/dns/internalversion"
 	firewallinternalversion "github.com/fire833/morfic/pkg/client/clientset/internalversion/typed/firewall/internalversion"
@@ -38,7 +37,6 @@ import (
 
 type Interface interface {
 	Discovery() discovery.DiscoveryInterface
-	Authentication() authenticationinternalversion.AuthenticationInterface
 	Certificates() certificatesinternalversion.CertificatesInterface
 	Dns() dnsinternalversion.DnsInterface
 	Firewall() firewallinternalversion.FirewallInterface
@@ -51,18 +49,12 @@ type Interface interface {
 // version included in a Clientset.
 type Clientset struct {
 	*discovery.DiscoveryClient
-	authentication *authenticationinternalversion.AuthenticationClient
-	certificates   *certificatesinternalversion.CertificatesClient
-	dns            *dnsinternalversion.DnsClient
-	firewall       *firewallinternalversion.FirewallClient
-	net            *netinternalversion.NetClient
-	services       *servicesinternalversion.ServicesClient
-	vpn            *vpninternalversion.VpnClient
-}
-
-// Authentication retrieves the AuthenticationClient
-func (c *Clientset) Authentication() authenticationinternalversion.AuthenticationInterface {
-	return c.authentication
+	certificates *certificatesinternalversion.CertificatesClient
+	dns          *dnsinternalversion.DnsClient
+	firewall     *firewallinternalversion.FirewallClient
+	net          *netinternalversion.NetClient
+	services     *servicesinternalversion.ServicesClient
+	vpn          *vpninternalversion.VpnClient
 }
 
 // Certificates retrieves the CertificatesClient
@@ -139,10 +131,6 @@ func NewForConfigAndClient(c *rest.Config, httpClient *http.Client) (*Clientset,
 
 	var cs Clientset
 	var err error
-	cs.authentication, err = authenticationinternalversion.NewForConfigAndClient(&configShallowCopy, httpClient)
-	if err != nil {
-		return nil, err
-	}
 	cs.certificates, err = certificatesinternalversion.NewForConfigAndClient(&configShallowCopy, httpClient)
 	if err != nil {
 		return nil, err
@@ -188,7 +176,6 @@ func NewForConfigOrDie(c *rest.Config) *Clientset {
 // New creates a new Clientset for the given RESTClient.
 func New(c rest.Interface) *Clientset {
 	var cs Clientset
-	cs.authentication = authenticationinternalversion.New(c)
 	cs.certificates = certificatesinternalversion.New(c)
 	cs.dns = dnsinternalversion.New(c)
 	cs.firewall = firewallinternalversion.New(c)

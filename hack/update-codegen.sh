@@ -21,7 +21,7 @@
 
 # # export GOPATH=$(go env GOPATH)
 
-declare apiGroups="authentication/v1alpha1,certificates/v1alpha1,dns/v1alpha1,firewall/v1alpha1,services/v1alpha1,vpn/v1alpha1,net/v1alpha1"
+declare apiGroups="dns/v1alpha1,firewall/v1alpha1,services/v1alpha1,vpn/v1alpha1,net/v1alpha1"
 
 # ./update-deepcopy.sh
 
@@ -34,7 +34,7 @@ declare apiGroups="authentication/v1alpha1,certificates/v1alpha1,dns/v1alpha1,fi
 GOPATH="${PWD}/../pkg" ./generate-internal-groups.sh \
 all \
 github.com/fire833/morfic/pkg/client github.com/fire833/morfic/pkg/apis github.com/fire833/morfic/pkg/apis \
-"authentication:v1alpha1 certificates:v1alpha1 dns:v1alpha1 firewall:v1alpha1 services:v1alpha1 vpn:v1alpha1 net:v1alpha1" \
+"certificates:v1alpha1 dns:v1alpha1 firewall:v1alpha1 services:v1alpha1 vpn:v1alpha1 net:v1alpha1" \
 --go-header-file boilerplate.go.txt
 
 # This is such a hack, but to clean up, move the packages to pkg/client.
