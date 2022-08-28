@@ -1,0 +1,75 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.9.2
+  creationTimestamp: null
+  name: dnsrecords.dns.vroute.io
+spec:
+  group: dns.vroute.io
+  names:
+    kind: DNSRecord
+    listKind: DNSRecordList
+    plural: dnsrecords
+    singular: dnsrecord
+  scope: Namespaced
+  versions:
+  - name: dns
+    schema:
+      openAPIV3Schema:
+        description: DNSRecord represents a desired DNS record for some DNS server.
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: DNSRecordSpec specifies the desired specification for a DNS
+              record.
+            properties:
+              domain:
+                description: Domain notes the domain for this host record.
+                type: string
+              host:
+                description: Specify the hostname that is to be controlled via this
+                  record.
+                type: string
+              ttl:
+                description: Time to live for the record, cannot be negative.
+                type: integer
+              type:
+                description: Type specifies the type of this DNS entry. The supported
+                  values are notated in the above enum for types.
+                type: string
+              value:
+                description: The value for the record.
+                type: string
+            required:
+            - domain
+            - host
+            - type
+            - value
+            type: object
+          status:
+            description: DNSRecordStatus describes the current status of a DNS record.
+            properties:
+              deployed:
+                type: boolean
+            required:
+            - deployed
+            type: object
+        required:
+        - spec
+        - status
+        type: object
+    served: true
+    storage: true

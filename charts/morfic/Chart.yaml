@@ -1,0 +1,15 @@
+apiVersion: v2
+name: morfic
+version: 0.0.1
+appVersion: 0.0.1
+description: Official Morfic Controller Helm Chart
+keywords:
+  - networking
+  - crds
+  - vpn
+  - firewall
+type: application
+maintainers:
+  - name: Kendall Tauser
+    email: kttpsy@gmail.com
+kubeVersion: ">=1.20.0-0"

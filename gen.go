@@ -26,3 +26,6 @@ package morfic
 
 // Generate informers
 //go:generate informer-gen --input-dirs github.com/fire833/morfic/pkg/apis/net,github.com/fire833/morfic/pkg/apis/vpn,github.com/fire833/morfic/pkg/apis/firewall,github.com/fire833/morfic/pkg/apis/dns,github.com/fire833/morfic/pkg/apis/services --go-header-file hack/boilerplate.go.txt --output-package pkg/client/informers --listers-package github.com/fire833/morfic/pkg/client/listers --versioned-clientset-package github.com/fire833/morfic/pkg/client/clientset/versioned --output-package pkg/client/informers
+
+// Generate CRDs
+//go:generate controller-gen crd paths=./pkg/apis/... output:dir=./charts/morfic/crds

@@ -1,0 +1,132 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.9.2
+  creationTimestamp: null
+  name: tablelists.firewall.morfic.io
+spec:
+  group: firewall.morfic.io
+  names:
+    kind: TableList
+    listKind: TableListList
+    plural: tablelists
+    singular: tablelist
+  scope: Namespaced
+  versions:
+  - name: firewall
+    schema:
+      openAPIV3Schema:
+        description: TableList repesents a list of firewall tables.
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          items:
+            description: Items represents the array of firewall tables.
+            items:
+              description: Table represents a firewall table.
+              properties:
+                apiVersion:
+                  description: 'APIVersion defines the versioned schema of this representation
+                    of an object. Servers should convert recognized schemas to the
+                    latest internal value, and may reject unrecognized values. More
+                    info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+                  type: string
+                kind:
+                  description: 'Kind is a string value representing the REST resource
+                    this object represents. Servers may infer this from the endpoint
+                    the client submits requests to. Cannot be updated. In CamelCase.
+                    More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+                  type: string
+                metadata:
+                  description: Standard object metadata. Utilizes the Kubernetes metadata
+                    object spec for now.
+                  type: object
+                spec:
+                  description: Spec is the desired spec of this firewall table object.
+                  properties:
+                    chains:
+                      description: Chains represents an array of chain objects that
+                        are a part of this table.
+                      items:
+                        description: Chain represents a firewall chain of rules.
+                        properties:
+                          rules:
+                            items:
+                              description: Rule represents a firewall rule.
+                              properties:
+                                handle:
+                                  type: string
+                                index:
+                                  type: integer
+                                name:
+                                  type: string
+                                statement:
+                                  type: string
+                              required:
+                              - handle
+                              - index
+                              - name
+                              - statement
+                              type: object
+                            type: array
+                        required:
+                        - rules
+                        type: object
+                      type: array
+                    family:
+                      description: Family represents the family of data that this
+                        table will filter on.
+                      type: string
+                    objects:
+                      description: Objects represents a set of stateful objects that
+                        are members of this table.
+                      items:
+                        description: Object represents a stateful object.
+                        type: object
+                      type: array
+                    sets:
+                      description: Sets represents an array of sets that should be
+                        a part of this table.
+                      items:
+                        description: Set reresents a set of objects within the host
+                          firewall configuration.
+                        type: object
+                      type: array
+                  required:
+                  - chains
+                  - family
+                  - objects
+                  - sets
+                  type: object
+                status:
+                  description: "Status is the current state of this firewall table
+                    on the host. \n Should not be filled out by the user, will be
+                    filled/managed by the server. Can be read by user at runtime."
+                  properties:
+                    enabled:
+                      type: boolean
+                  required:
+                  - enabled
+                  type: object
+              required:
+              - spec
+              - status
+              type: object
+            type: array
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+        required:
+        - items
+        type: object
+    served: true
+    storage: true

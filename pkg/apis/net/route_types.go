@@ -55,13 +55,13 @@ type RouteTable struct {
 	metav1.ObjectMeta `json:"metadata,omitempty" yaml:"metadata,omitempty"`
 
 	// Spec is the desired spec of this route table.
-	Spec RouteTableSpec
+	Spec RouteTableSpec `json:"spec" yaml:"spec"`
 
 	// Status is the current state of this route table on the host.
 	//
 	// Should not be filled out by the user, will be filled/managed
 	// by the server. Can be read by user at runtime.
-	Status RouteTableStatus
+	Status RouteTableStatus `json:"status" yaml:"status"`
 }
 
 // RouteTableSpec specifies the desired state of the route table.

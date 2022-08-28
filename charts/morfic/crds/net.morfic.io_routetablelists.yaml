@@ -1,0 +1,90 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.9.2
+  creationTimestamp: null
+  name: routetablelists.net.morfic.io
+spec:
+  group: net.morfic.io
+  names:
+    kind: RouteTableList
+    listKind: RouteTableListList
+    plural: routetablelists
+    singular: routetablelist
+  scope: Namespaced
+  versions:
+  - name: net
+    schema:
+      openAPIV3Schema:
+        description: RouteTableList specifies a list of RouteTables.
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          items:
+            description: Items specifies the array of RouteTables.
+            items:
+              description: RouteTable specifies a routing table located in the kernel.
+              properties:
+                apiVersion:
+                  description: 'APIVersion defines the versioned schema of this representation
+                    of an object. Servers should convert recognized schemas to the
+                    latest internal value, and may reject unrecognized values. More
+                    info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+                  type: string
+                kind:
+                  description: 'Kind is a string value representing the REST resource
+                    this object represents. Servers may infer this from the endpoint
+                    the client submits requests to. Cannot be updated. In CamelCase.
+                    More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+                  type: string
+                metadata:
+                  description: Standard object metadata. Utilizes the Kubernetes metadata
+                    object spec for now.
+                  type: object
+                spec:
+                  description: Spec is the desired spec of this route table.
+                  properties:
+                    index:
+                      description: Index specifies the index of this route table.
+                      type: integer
+                    name:
+                      description: Name specifies the name of this routing table.
+                      type: string
+                  required:
+                  - index
+                  - name
+                  type: object
+                status:
+                  description: "Status is the current state of this route table on
+                    the host. \n Should not be filled out by the user, will be filled/managed
+                    by the server. Can be read by user at runtime."
+                  properties:
+                    foundOnBoot:
+                      description: FoundOnBoot specifies if this route table was found
+                        at bootup.
+                      type: boolean
+                  required:
+                  - foundOnBoot
+                  type: object
+              required:
+              - spec
+              - status
+              type: object
+            type: array
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+        required:
+        - items
+        type: object
+    served: true
+    storage: true

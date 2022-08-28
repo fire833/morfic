@@ -1,0 +1,118 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.9.2
+  creationTimestamp: null
+  name: dnsproviderlists.dns.vroute.io
+spec:
+  group: dns.vroute.io
+  names:
+    kind: DNSProviderList
+    listKind: DNSProviderListList
+    plural: dnsproviderlists
+    singular: dnsproviderlist
+  scope: Namespaced
+  versions:
+  - name: dns
+    schema:
+      openAPIV3Schema:
+        description: DNSProviderList describes a list of DNS providers.
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          items:
+            description: Items specifies the array of DNS providers.
+            items:
+              description: DNSProvider represents a provider for implementing DNS
+                records.
+              properties:
+                apiVersion:
+                  description: 'APIVersion defines the versioned schema of this representation
+                    of an object. Servers should convert recognized schemas to the
+                    latest internal value, and may reject unrecognized values. More
+                    info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+                  type: string
+                kind:
+                  description: 'Kind is a string value representing the REST resource
+                    this object represents. Servers may infer this from the endpoint
+                    the client submits requests to. Cannot be updated. In CamelCase.
+                    More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+                  type: string
+                metadata:
+                  description: Standard object metadata. Utilizes the Kubernetes metadata
+                    object spec for now.
+                  type: object
+                spec:
+                  description: Spec is the desired spec of this DNS provider.
+                  properties:
+                    cloudflare:
+                      description: Specify a cloudflare provider as the backend for
+                        this provider object.
+                      properties:
+                        secretName:
+                          description: "Specify the secret name to pull credentials
+                            from for this backend. \n This secrets should contain
+                            a key cloudflare.api.id and cloudflare.api.key, corresponding
+                            to theapi key id and key secret id that are needed to
+                            authenticate with the cloudflare API. \n cloudflare.api.zone
+                            is another key that can be used to store the zone id for
+                            cloudflare instead of specifying the ZoneId field within
+                            this spec object. The ZoneId field will take precedence
+                            over any keys that are found in secretName, however."
+                          type: string
+                        zone:
+                          description: Specify the zone Id that this provider will
+                            manage with the provided API. This field will take priority
+                            over an id that was specified in the secret secretName
+                            references.
+                          type: string
+                      required:
+                      - secretName
+                      type: object
+                    route53:
+                      description: Specify a route53 provider as the backend for this
+                        provider object.
+                      type: object
+                  type: object
+                status:
+                  description: "Status is the current state of this DNS provider on
+                    the host. \n Should not be filled out by the user, will be filled/managed
+                    by the server. Can be read by user at runtime."
+                  properties:
+                    enabled:
+                      description: Enabled defines if the provider is enabled and
+                        has been verified as working by the control plane.
+                      type: boolean
+                    status:
+                      description: Status Defines what the current status of the provider.
+                      type: integer
+                    statusString:
+                      description: StatusString represents a more verbose string status
+                        of the provider.
+                      type: string
+                  required:
+                  - enabled
+                  - status
+                  type: object
+              required:
+              - spec
+              - status
+              type: object
+            type: array
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+        required:
+        - items
+        type: object
+    served: true
+    storage: true

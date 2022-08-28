@@ -1,0 +1,168 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.9.2
+  creationTimestamp: null
+  name: vpntunnellists.vpn.morfic.io
+spec:
+  group: vpn.morfic.io
+  names:
+    kind: VPNTunnelList
+    listKind: VPNTunnelListList
+    plural: vpntunnellists
+    singular: vpntunnellist
+  scope: Namespaced
+  versions:
+  - name: vpn
+    schema:
+      openAPIV3Schema:
+        description: VPNTunnelList represents a list of VPN tunnels.
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          items:
+            description: Items represents an array of VPN tunnels
+            items:
+              description: VPNTunnel represents a tunnel to a remote endpoint with
+                a vpn configuration.
+              properties:
+                apiVersion:
+                  description: 'APIVersion defines the versioned schema of this representation
+                    of an object. Servers should convert recognized schemas to the
+                    latest internal value, and may reject unrecognized values. More
+                    info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+                  type: string
+                kind:
+                  description: 'Kind is a string value representing the REST resource
+                    this object represents. Servers may infer this from the endpoint
+                    the client submits requests to. Cannot be updated. In CamelCase.
+                    More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+                  type: string
+                metadata:
+                  description: Standard object metadata. Utilizes the Kubernetes metadata
+                    object spec for now.
+                  type: object
+                spec:
+                  description: VPNTunnelSpec represents the desired specification
+                    for a VPN tunnel to a remote host. Only one tunnel configuration
+                    should be specified per spec object. Otherwise a conflict will
+                    occur.
+                  properties:
+                    ipsec:
+                      description: IPSEC is optional configuration for an IPSec tunnel
+                        that will be represented by this spec.
+                      properties:
+                        deviceName:
+                          description: DeviceName represents the name of the network
+                            link that will be created for ipsec.
+                          type: string
+                      required:
+                      - deviceName
+                      type: object
+                    l2tp:
+                      description: L2TP is optional configuration for an L2TP tunnel
+                        that will be represented by this spec.
+                      properties:
+                        deviceName:
+                          description: DeviceName represents the name of the network
+                            link that will be created for l2tp.
+                          type: string
+                      required:
+                      - deviceName
+                      type: object
+                    openvpn:
+                      description: 'OpenVPN is optional configuration for an OpenVPN
+                        tunnel that will be represented by this spec. NOTE: Requires
+                        the openvpn service to be installed on the host and running.'
+                      type: object
+                    wireguard:
+                      description: Wireguard is optional configuration for a wireguard
+                        tunnel that will be represented by this spec.
+                      properties:
+                        deviceName:
+                          description: DeviceName represents the name of the network
+                            link that will be created for wireguard.
+                          type: string
+                        keyRef:
+                          description: "KeyRef represents the local secret object
+                            that contains the public/private key to be used by this
+                            tunnel for establishing secure connections with the remote
+                            peer. \n The controller will look for two k/v pairs within
+                            said secret: - wg.privateKey : This should have as the
+                            value that represents the private key that should be used
+                            for said link. - wg.publicKey : This should have another
+                            string as the value that represents the corresponding
+                            public key of the afformentioned private key."
+                          properties:
+                            name:
+                              description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                TODO: Add other useful fields. apiVersion, kind, uid?'
+                              type: string
+                          type: object
+                          x-kubernetes-map-type: atomic
+                        listenPort:
+                          description: ListenPort specifies the port that the device
+                            should listen on for incoming Wireguard connections. The
+                            port will always be a UDP listen port that is initialized.
+                          type: integer
+                        peers:
+                          description: Peers represents the array of peers that the
+                            wireguard will looks for and accept incoming connections
+                            from/to.
+                          items:
+                            description: WireguardPeer represents a peer that a wireguard
+                              tunnel device will attempt to peer with.
+                            type: object
+                          type: array
+                      required:
+                      - deviceName
+                      - keyRef
+                      - listenPort
+                      - peers
+                      type: object
+                  type: object
+                status:
+                  description: VPNTunnelStatus represents the current status for a
+                    VPN tunnel to a remote host.
+                  properties:
+                    receiveBytes:
+                      description: ReceiveBytes represents the number of bytes that
+                        have been received by this tunnel from a peer.
+                      format: int64
+                      type: integer
+                    sendBytes:
+                      description: SendBytes represents the number of bytes that have
+                        been sent through this tunnel to a peer.
+                      format: int64
+                      type: integer
+                    up:
+                      description: IsUp denotes whether the tunnel has been established
+                        with the remote peer.
+                      type: boolean
+                  required:
+                  - receiveBytes
+                  - sendBytes
+                  - up
+                  type: object
+              required:
+              - spec
+              - status
+              type: object
+            type: array
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+        required:
+        - items
+        type: object
+    served: true
+    storage: true
