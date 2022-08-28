@@ -19,13 +19,13 @@
 package morfic
 
 // Generate listers
-//go:generate lister-gen --input-dirs github.com/fire833/morfic/pkg/apis/net,github.com/fire833/morfic/pkg/apis/vpn,github.com/fire833/morfic/pkg/apis/firewall,github.com/fire833/morfic/pkg/apis/dns,github.com/fire833/morfic/pkg/apis/services --go-header-file hack/boilerplate.go.txt --output-package pkg/client/listers
+//go:generate lister-gen --input-dirs github.com/fire833/morfic/pkg/apis/sys,github.com/fire833/morfic/pkg/apis/net,github.com/fire833/morfic/pkg/apis/vpn,github.com/fire833/morfic/pkg/apis/firewall,github.com/fire833/morfic/pkg/apis/dns,github.com/fire833/morfic/pkg/apis/services --go-header-file hack/boilerplate.go.txt --output-package pkg/client/listers
 
 // Genarate clientset
-//go:generate client-gen --input-dirs github.com/fire833/morfic/pkg/apis/net,github.com/fire833/morfic/pkg/apis/vpn,github.com/fire833/morfic/pkg/apis/firewall,github.com/fire833/morfic/pkg/apis/dns,github.com/fire833/morfic/pkg/apis/services --input "net/v1alpha1,vpn/v1alpha1,dns/v1alpha1,firewall/v1alpha1,services/v1alpha1" --fake-clientset --clientset-name versioned --input-base github.com/fire833/morfic/pkg/apis --go-header-file hack/boilerplate.go.txt --output-package pkg/client/clientset
+//go:generate client-gen --input-dirs github.com/fire833/morfic/pkg/apis/sys,github.com/fire833/morfic/pkg/apis/net,github.com/fire833/morfic/pkg/apis/vpn,github.com/fire833/morfic/pkg/apis/firewall,github.com/fire833/morfic/pkg/apis/dns,github.com/fire833/morfic/pkg/apis/services --input "net/v1alpha1,vpn/v1alpha1,dns/v1alpha1,firewall/v1alpha1,services/v1alpha1" --fake-clientset --clientset-name versioned --input-base github.com/fire833/morfic/pkg/apis --go-header-file hack/boilerplate.go.txt --output-package pkg/client/clientset
 
 // Generate informers
-//go:generate informer-gen --input-dirs github.com/fire833/morfic/pkg/apis/net,github.com/fire833/morfic/pkg/apis/vpn,github.com/fire833/morfic/pkg/apis/firewall,github.com/fire833/morfic/pkg/apis/dns,github.com/fire833/morfic/pkg/apis/services --go-header-file hack/boilerplate.go.txt --output-package pkg/client/informers --listers-package github.com/fire833/morfic/pkg/client/listers --versioned-clientset-package github.com/fire833/morfic/pkg/client/clientset/versioned --output-package pkg/client/informers
+//go:generate informer-gen --input-dirs github.com/fire833/morfic/pkg/apis/sys,github.com/fire833/morfic/pkg/apis/net,github.com/fire833/morfic/pkg/apis/vpn,github.com/fire833/morfic/pkg/apis/firewall,github.com/fire833/morfic/pkg/apis/dns,github.com/fire833/morfic/pkg/apis/services --go-header-file hack/boilerplate.go.txt --output-package pkg/client/informers --listers-package github.com/fire833/morfic/pkg/client/listers --versioned-clientset-package github.com/fire833/morfic/pkg/client/clientset/versioned --output-package pkg/client/informers
 
 // Generate CRDs
 //go:generate controller-gen crd paths=./pkg/apis/... output:dir=./charts/morfic/crds
