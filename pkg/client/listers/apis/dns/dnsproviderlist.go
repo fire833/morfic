@@ -33,8 +33,9 @@ type DNSProviderListLister interface {
 	// List lists all DNSProviderLists in the indexer.
 	// Objects returned here must be treated as read-only.
 	List(selector labels.Selector) (ret []*dns.DNSProviderList, err error)
-	// DNSProviderLists returns an object that can list and get DNSProviderLists.
-	DNSProviderLists(namespace string) DNSProviderListNamespaceLister
+	// Get retrieves the DNSProviderList from the index for a given name.
+	// Objects returned here must be treated as read-only.
+	Get(name string) (*dns.DNSProviderList, error)
 	DNSProviderListListerExpansion
 }
 
@@ -56,41 +57,9 @@ func (s *dNSProviderListLister) List(selector labels.Selector) (ret []*dns.DNSPr
 	return ret, err
 }
 
-// DNSProviderLists returns an object that can list and get DNSProviderLists.
-func (s *dNSProviderListLister) DNSProviderLists(namespace string) DNSProviderListNamespaceLister {
-	return dNSProviderListNamespaceLister{indexer: s.indexer, namespace: namespace}
-}
-
-// DNSProviderListNamespaceLister helps list and get DNSProviderLists.
-// All objects returned here must be treated as read-only.
-type DNSProviderListNamespaceLister interface {
-	// List lists all DNSProviderLists in the indexer for a given namespace.
-	// Objects returned here must be treated as read-only.
-	List(selector labels.Selector) (ret []*dns.DNSProviderList, err error)
-	// Get retrieves the DNSProviderList from the indexer for a given namespace and name.
-	// Objects returned here must be treated as read-only.
-	Get(name string) (*dns.DNSProviderList, error)
-	DNSProviderListNamespaceListerExpansion
-}
-
-// dNSProviderListNamespaceLister implements the DNSProviderListNamespaceLister
-// interface.
-type dNSProviderListNamespaceLister struct {
-	indexer   cache.Indexer
-	namespace string
-}
-
-// List lists all DNSProviderLists in the indexer for a given namespace.
-func (s dNSProviderListNamespaceLister) List(selector labels.Selector) (ret []*dns.DNSProviderList, err error) {
-	err = cache.ListAllByNamespace(s.indexer, s.namespace, selector, func(m interface{}) {
-		ret = append(ret, m.(*dns.DNSProviderList))
-	})
-	return ret, err
-}
-
-// Get retrieves the DNSProviderList from the indexer for a given namespace and name.
-func (s dNSProviderListNamespaceLister) Get(name string) (*dns.DNSProviderList, error) {
-	obj, exists, err := s.indexer.GetByKey(s.namespace + "/" + name)
+// Get retrieves the DNSProviderList from the index for a given name.
+func (s *dNSProviderListLister) Get(name string) (*dns.DNSProviderList, error) {
+	obj, exists, err := s.indexer.GetByKey(name)
 	if err != nil {
 		return nil, err
 	}

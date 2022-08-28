@@ -23,11 +23,12 @@ package versioned
 import (
 	"fmt"
 	"net/http"
-	dnsv1alpha1 "github.com/fire833/morfic/pkg/client/clientset/versioned/typed/dns/v1alpha1"
-	firewallv1alpha1 "github.com/fire833/morfic/pkg/client/clientset/versioned/typed/firewall/v1alpha1"
-	netv1alpha1 "github.com/fire833/morfic/pkg/client/clientset/versioned/typed/net/v1alpha1"
-	servicesv1alpha1 "github.com/fire833/morfic/pkg/client/clientset/versioned/typed/services/v1alpha1"
-	vpnv1alpha1 "github.com/fire833/morfic/pkg/client/clientset/versioned/typed/vpn/v1alpha1"
+	dnsv1alpha1 "pkg/client/clientset/versioned/typed/dns/v1alpha1"
+	firewallv1alpha1 "pkg/client/clientset/versioned/typed/firewall/v1alpha1"
+	netv1alpha1 "pkg/client/clientset/versioned/typed/net/v1alpha1"
+	servicesv1alpha1 "pkg/client/clientset/versioned/typed/services/v1alpha1"
+	sysv1alpha1 "pkg/client/clientset/versioned/typed/sys/v1alpha1"
+	vpnv1alpha1 "pkg/client/clientset/versioned/typed/vpn/v1alpha1"
 
 	discovery "k8s.io/client-go/discovery"
 	rest "k8s.io/client-go/rest"
@@ -40,6 +41,7 @@ type Interface interface {
 	FirewallV1alpha1() firewallv1alpha1.FirewallV1alpha1Interface
 	NetV1alpha1() netv1alpha1.NetV1alpha1Interface
 	ServicesV1alpha1() servicesv1alpha1.ServicesV1alpha1Interface
+	SysV1alpha1() sysv1alpha1.SysV1alpha1Interface
 	VpnV1alpha1() vpnv1alpha1.VpnV1alpha1Interface
 }
 
@@ -51,6 +53,7 @@ type Clientset struct {
 	firewallV1alpha1 *firewallv1alpha1.FirewallV1alpha1Client
 	netV1alpha1      *netv1alpha1.NetV1alpha1Client
 	servicesV1alpha1 *servicesv1alpha1.ServicesV1alpha1Client
+	sysV1alpha1      *sysv1alpha1.SysV1alpha1Client
 	vpnV1alpha1      *vpnv1alpha1.VpnV1alpha1Client
 }
 
@@ -72,6 +75,11 @@ func (c *Clientset) NetV1alpha1() netv1alpha1.NetV1alpha1Interface {
 // ServicesV1alpha1 retrieves the ServicesV1alpha1Client
 func (c *Clientset) ServicesV1alpha1() servicesv1alpha1.ServicesV1alpha1Interface {
 	return c.servicesV1alpha1
+}
+
+// SysV1alpha1 retrieves the SysV1alpha1Client
+func (c *Clientset) SysV1alpha1() sysv1alpha1.SysV1alpha1Interface {
+	return c.sysV1alpha1
 }
 
 // VpnV1alpha1 retrieves the VpnV1alpha1Client
@@ -139,6 +147,10 @@ func NewForConfigAndClient(c *rest.Config, httpClient *http.Client) (*Clientset,
 	if err != nil {
 		return nil, err
 	}
+	cs.sysV1alpha1, err = sysv1alpha1.NewForConfigAndClient(&configShallowCopy, httpClient)
+	if err != nil {
+		return nil, err
+	}
 	cs.vpnV1alpha1, err = vpnv1alpha1.NewForConfigAndClient(&configShallowCopy, httpClient)
 	if err != nil {
 		return nil, err
@@ -168,6 +180,7 @@ func New(c rest.Interface) *Clientset {
 	cs.firewallV1alpha1 = firewallv1alpha1.New(c)
 	cs.netV1alpha1 = netv1alpha1.New(c)
 	cs.servicesV1alpha1 = servicesv1alpha1.New(c)
+	cs.sysV1alpha1 = sysv1alpha1.New(c)
 	cs.vpnV1alpha1 = vpnv1alpha1.New(c)
 
 	cs.DiscoveryClient = discovery.NewDiscoveryClient(c)

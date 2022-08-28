@@ -33,8 +33,9 @@ type TableListLister interface {
 	// List lists all TableLists in the indexer.
 	// Objects returned here must be treated as read-only.
 	List(selector labels.Selector) (ret []*firewall.TableList, err error)
-	// TableLists returns an object that can list and get TableLists.
-	TableLists(namespace string) TableListNamespaceLister
+	// Get retrieves the TableList from the index for a given name.
+	// Objects returned here must be treated as read-only.
+	Get(name string) (*firewall.TableList, error)
 	TableListListerExpansion
 }
 
@@ -56,41 +57,9 @@ func (s *tableListLister) List(selector labels.Selector) (ret []*firewall.TableL
 	return ret, err
 }
 
-// TableLists returns an object that can list and get TableLists.
-func (s *tableListLister) TableLists(namespace string) TableListNamespaceLister {
-	return tableListNamespaceLister{indexer: s.indexer, namespace: namespace}
-}
-
-// TableListNamespaceLister helps list and get TableLists.
-// All objects returned here must be treated as read-only.
-type TableListNamespaceLister interface {
-	// List lists all TableLists in the indexer for a given namespace.
-	// Objects returned here must be treated as read-only.
-	List(selector labels.Selector) (ret []*firewall.TableList, err error)
-	// Get retrieves the TableList from the indexer for a given namespace and name.
-	// Objects returned here must be treated as read-only.
-	Get(name string) (*firewall.TableList, error)
-	TableListNamespaceListerExpansion
-}
-
-// tableListNamespaceLister implements the TableListNamespaceLister
-// interface.
-type tableListNamespaceLister struct {
-	indexer   cache.Indexer
-	namespace string
-}
-
-// List lists all TableLists in the indexer for a given namespace.
-func (s tableListNamespaceLister) List(selector labels.Selector) (ret []*firewall.TableList, err error) {
-	err = cache.ListAllByNamespace(s.indexer, s.namespace, selector, func(m interface{}) {
-		ret = append(ret, m.(*firewall.TableList))
-	})
-	return ret, err
-}
-
-// Get retrieves the TableList from the indexer for a given namespace and name.
-func (s tableListNamespaceLister) Get(name string) (*firewall.TableList, error) {
-	obj, exists, err := s.indexer.GetByKey(s.namespace + "/" + name)
+// Get retrieves the TableList from the index for a given name.
+func (s *tableListLister) Get(name string) (*firewall.TableList, error) {
+	obj, exists, err := s.indexer.GetByKey(name)
 	if err != nil {
 		return nil, err
 	}

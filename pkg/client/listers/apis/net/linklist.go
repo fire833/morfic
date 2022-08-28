@@ -33,8 +33,9 @@ type LinkListLister interface {
 	// List lists all LinkLists in the indexer.
 	// Objects returned here must be treated as read-only.
 	List(selector labels.Selector) (ret []*net.LinkList, err error)
-	// LinkLists returns an object that can list and get LinkLists.
-	LinkLists(namespace string) LinkListNamespaceLister
+	// Get retrieves the LinkList from the index for a given name.
+	// Objects returned here must be treated as read-only.
+	Get(name string) (*net.LinkList, error)
 	LinkListListerExpansion
 }
 
@@ -56,41 +57,9 @@ func (s *linkListLister) List(selector labels.Selector) (ret []*net.LinkList, er
 	return ret, err
 }
 
-// LinkLists returns an object that can list and get LinkLists.
-func (s *linkListLister) LinkLists(namespace string) LinkListNamespaceLister {
-	return linkListNamespaceLister{indexer: s.indexer, namespace: namespace}
-}
-
-// LinkListNamespaceLister helps list and get LinkLists.
-// All objects returned here must be treated as read-only.
-type LinkListNamespaceLister interface {
-	// List lists all LinkLists in the indexer for a given namespace.
-	// Objects returned here must be treated as read-only.
-	List(selector labels.Selector) (ret []*net.LinkList, err error)
-	// Get retrieves the LinkList from the indexer for a given namespace and name.
-	// Objects returned here must be treated as read-only.
-	Get(name string) (*net.LinkList, error)
-	LinkListNamespaceListerExpansion
-}
-
-// linkListNamespaceLister implements the LinkListNamespaceLister
-// interface.
-type linkListNamespaceLister struct {
-	indexer   cache.Indexer
-	namespace string
-}
-
-// List lists all LinkLists in the indexer for a given namespace.
-func (s linkListNamespaceLister) List(selector labels.Selector) (ret []*net.LinkList, err error) {
-	err = cache.ListAllByNamespace(s.indexer, s.namespace, selector, func(m interface{}) {
-		ret = append(ret, m.(*net.LinkList))
-	})
-	return ret, err
-}
-
-// Get retrieves the LinkList from the indexer for a given namespace and name.
-func (s linkListNamespaceLister) Get(name string) (*net.LinkList, error) {
-	obj, exists, err := s.indexer.GetByKey(s.namespace + "/" + name)
+// Get retrieves the LinkList from the index for a given name.
+func (s *linkListLister) Get(name string) (*net.LinkList, error) {
+	obj, exists, err := s.indexer.GetByKey(name)
 	if err != nil {
 		return nil, err
 	}

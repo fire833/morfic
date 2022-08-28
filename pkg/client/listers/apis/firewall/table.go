@@ -33,8 +33,9 @@ type TableLister interface {
 	// List lists all Tables in the indexer.
 	// Objects returned here must be treated as read-only.
 	List(selector labels.Selector) (ret []*firewall.Table, err error)
-	// Tables returns an object that can list and get Tables.
-	Tables(namespace string) TableNamespaceLister
+	// Get retrieves the Table from the index for a given name.
+	// Objects returned here must be treated as read-only.
+	Get(name string) (*firewall.Table, error)
 	TableListerExpansion
 }
 
@@ -56,41 +57,9 @@ func (s *tableLister) List(selector labels.Selector) (ret []*firewall.Table, err
 	return ret, err
 }
 
-// Tables returns an object that can list and get Tables.
-func (s *tableLister) Tables(namespace string) TableNamespaceLister {
-	return tableNamespaceLister{indexer: s.indexer, namespace: namespace}
-}
-
-// TableNamespaceLister helps list and get Tables.
-// All objects returned here must be treated as read-only.
-type TableNamespaceLister interface {
-	// List lists all Tables in the indexer for a given namespace.
-	// Objects returned here must be treated as read-only.
-	List(selector labels.Selector) (ret []*firewall.Table, err error)
-	// Get retrieves the Table from the indexer for a given namespace and name.
-	// Objects returned here must be treated as read-only.
-	Get(name string) (*firewall.Table, error)
-	TableNamespaceListerExpansion
-}
-
-// tableNamespaceLister implements the TableNamespaceLister
-// interface.
-type tableNamespaceLister struct {
-	indexer   cache.Indexer
-	namespace string
-}
-
-// List lists all Tables in the indexer for a given namespace.
-func (s tableNamespaceLister) List(selector labels.Selector) (ret []*firewall.Table, err error) {
-	err = cache.ListAllByNamespace(s.indexer, s.namespace, selector, func(m interface{}) {
-		ret = append(ret, m.(*firewall.Table))
-	})
-	return ret, err
-}
-
-// Get retrieves the Table from the indexer for a given namespace and name.
-func (s tableNamespaceLister) Get(name string) (*firewall.Table, error) {
-	obj, exists, err := s.indexer.GetByKey(s.namespace + "/" + name)
+// Get retrieves the Table from the index for a given name.
+func (s *tableLister) Get(name string) (*firewall.Table, error) {
+	obj, exists, err := s.indexer.GetByKey(name)
 	if err != nil {
 		return nil, err
 	}

@@ -24,14 +24,6 @@ package firewall
 // TableLister.
 type TableListerExpansion interface{}
 
-// TableNamespaceListerExpansion allows custom methods to be added to
-// TableNamespaceLister.
-type TableNamespaceListerExpansion interface{}
-
 // TableListListerExpansion allows custom methods to be added to
 // TableListLister.
 type TableListListerExpansion interface{}
-
-// TableListNamespaceListerExpansion allows custom methods to be added to
-// TableListNamespaceLister.
-type TableListNamespaceListerExpansion interface{}

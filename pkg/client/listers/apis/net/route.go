@@ -33,8 +33,9 @@ type RouteLister interface {
 	// List lists all Routes in the indexer.
 	// Objects returned here must be treated as read-only.
 	List(selector labels.Selector) (ret []*net.Route, err error)
-	// Routes returns an object that can list and get Routes.
-	Routes(namespace string) RouteNamespaceLister
+	// Get retrieves the Route from the index for a given name.
+	// Objects returned here must be treated as read-only.
+	Get(name string) (*net.Route, error)
 	RouteListerExpansion
 }
 
@@ -56,41 +57,9 @@ func (s *routeLister) List(selector labels.Selector) (ret []*net.Route, err erro
 	return ret, err
 }
 
-// Routes returns an object that can list and get Routes.
-func (s *routeLister) Routes(namespace string) RouteNamespaceLister {
-	return routeNamespaceLister{indexer: s.indexer, namespace: namespace}
-}
-
-// RouteNamespaceLister helps list and get Routes.
-// All objects returned here must be treated as read-only.
-type RouteNamespaceLister interface {
-	// List lists all Routes in the indexer for a given namespace.
-	// Objects returned here must be treated as read-only.
-	List(selector labels.Selector) (ret []*net.Route, err error)
-	// Get retrieves the Route from the indexer for a given namespace and name.
-	// Objects returned here must be treated as read-only.
-	Get(name string) (*net.Route, error)
-	RouteNamespaceListerExpansion
-}
-
-// routeNamespaceLister implements the RouteNamespaceLister
-// interface.
-type routeNamespaceLister struct {
-	indexer   cache.Indexer
-	namespace string
-}
-
-// List lists all Routes in the indexer for a given namespace.
-func (s routeNamespaceLister) List(selector labels.Selector) (ret []*net.Route, err error) {
-	err = cache.ListAllByNamespace(s.indexer, s.namespace, selector, func(m interface{}) {
-		ret = append(ret, m.(*net.Route))
-	})
-	return ret, err
-}
-
-// Get retrieves the Route from the indexer for a given namespace and name.
-func (s routeNamespaceLister) Get(name string) (*net.Route, error) {
-	obj, exists, err := s.indexer.GetByKey(s.namespace + "/" + name)
+// Get retrieves the Route from the index for a given name.
+func (s *routeLister) Get(name string) (*net.Route, error) {
+	obj, exists, err := s.indexer.GetByKey(name)
 	if err != nil {
 		return nil, err
 	}

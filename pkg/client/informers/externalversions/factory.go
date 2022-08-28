@@ -21,8 +21,8 @@
 package externalversions
 
 import (
-	apis "github.com/fire833/morfic/pkg/client/informers/externalversions/apis"
-	internalinterfaces "github.com/fire833/morfic/pkg/client/informers/externalversions/internalinterfaces"
+	apis "pkg/client/informers/externalversions/apis"
+	internalinterfaces "pkg/client/informers/externalversions/internalinterfaces"
 	reflect "reflect"
 	sync "sync"
 	time "time"

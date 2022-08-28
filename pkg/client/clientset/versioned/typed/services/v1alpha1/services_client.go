@@ -22,7 +22,7 @@ package v1alpha1
 
 import (
 	"net/http"
-	"github.com/fire833/morfic/pkg/client/clientset/versioned/scheme"
+	"pkg/client/clientset/versioned/scheme"
 
 	v1alpha1 "github.com/fire833/morfic/pkg/apis/services/v1alpha1"
 	rest "k8s.io/client-go/rest"

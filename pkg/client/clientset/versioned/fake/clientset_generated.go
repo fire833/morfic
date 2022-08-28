@@ -21,17 +21,19 @@
 package fake
 
 import (
-	clientset "github.com/fire833/morfic/pkg/client/clientset/versioned"
-	dnsv1alpha1 "github.com/fire833/morfic/pkg/client/clientset/versioned/typed/dns/v1alpha1"
-	fakednsv1alpha1 "github.com/fire833/morfic/pkg/client/clientset/versioned/typed/dns/v1alpha1/fake"
-	firewallv1alpha1 "github.com/fire833/morfic/pkg/client/clientset/versioned/typed/firewall/v1alpha1"
-	fakefirewallv1alpha1 "github.com/fire833/morfic/pkg/client/clientset/versioned/typed/firewall/v1alpha1/fake"
-	netv1alpha1 "github.com/fire833/morfic/pkg/client/clientset/versioned/typed/net/v1alpha1"
-	fakenetv1alpha1 "github.com/fire833/morfic/pkg/client/clientset/versioned/typed/net/v1alpha1/fake"
-	servicesv1alpha1 "github.com/fire833/morfic/pkg/client/clientset/versioned/typed/services/v1alpha1"
-	fakeservicesv1alpha1 "github.com/fire833/morfic/pkg/client/clientset/versioned/typed/services/v1alpha1/fake"
-	vpnv1alpha1 "github.com/fire833/morfic/pkg/client/clientset/versioned/typed/vpn/v1alpha1"
-	fakevpnv1alpha1 "github.com/fire833/morfic/pkg/client/clientset/versioned/typed/vpn/v1alpha1/fake"
+	clientset "pkg/client/clientset/versioned"
+	dnsv1alpha1 "pkg/client/clientset/versioned/typed/dns/v1alpha1"
+	fakednsv1alpha1 "pkg/client/clientset/versioned/typed/dns/v1alpha1/fake"
+	firewallv1alpha1 "pkg/client/clientset/versioned/typed/firewall/v1alpha1"
+	fakefirewallv1alpha1 "pkg/client/clientset/versioned/typed/firewall/v1alpha1/fake"
+	netv1alpha1 "pkg/client/clientset/versioned/typed/net/v1alpha1"
+	fakenetv1alpha1 "pkg/client/clientset/versioned/typed/net/v1alpha1/fake"
+	servicesv1alpha1 "pkg/client/clientset/versioned/typed/services/v1alpha1"
+	fakeservicesv1alpha1 "pkg/client/clientset/versioned/typed/services/v1alpha1/fake"
+	sysv1alpha1 "pkg/client/clientset/versioned/typed/sys/v1alpha1"
+	fakesysv1alpha1 "pkg/client/clientset/versioned/typed/sys/v1alpha1/fake"
+	vpnv1alpha1 "pkg/client/clientset/versioned/typed/vpn/v1alpha1"
+	fakevpnv1alpha1 "pkg/client/clientset/versioned/typed/vpn/v1alpha1/fake"
 
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/watch"
@@ -108,6 +110,11 @@ func (c *Clientset) NetV1alpha1() netv1alpha1.NetV1alpha1Interface {
 // ServicesV1alpha1 retrieves the ServicesV1alpha1Client
 func (c *Clientset) ServicesV1alpha1() servicesv1alpha1.ServicesV1alpha1Interface {
 	return &fakeservicesv1alpha1.FakeServicesV1alpha1{Fake: &c.Fake}
+}
+
+// SysV1alpha1 retrieves the SysV1alpha1Client
+func (c *Clientset) SysV1alpha1() sysv1alpha1.SysV1alpha1Interface {
+	return &fakesysv1alpha1.FakeSysV1alpha1{Fake: &c.Fake}
 }
 
 // VpnV1alpha1 retrieves the VpnV1alpha1Client

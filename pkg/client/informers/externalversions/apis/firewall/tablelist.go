@@ -22,7 +22,7 @@ package firewall
 
 import (
 	"context"
-	internalinterfaces "github.com/fire833/morfic/pkg/client/informers/externalversions/internalinterfaces"
+	internalinterfaces "pkg/client/informers/externalversions/internalinterfaces"
 	time "time"
 
 	apisfirewall "github.com/fire833/morfic/pkg/apis/firewall"
@@ -44,33 +44,32 @@ type TableListInformer interface {
 type tableListInformer struct {
 	factory          internalinterfaces.SharedInformerFactory
 	tweakListOptions internalinterfaces.TweakListOptionsFunc
-	namespace        string
 }
 
 // NewTableListInformer constructs a new informer for TableList type.
 // Always prefer using an informer factory to get a shared informer instead of getting an independent
 // one. This reduces memory footprint and number of connections to the server.
-func NewTableListInformer(client versioned.Interface, namespace string, resyncPeriod time.Duration, indexers cache.Indexers) cache.SharedIndexInformer {
-	return NewFilteredTableListInformer(client, namespace, resyncPeriod, indexers, nil)
+func NewTableListInformer(client versioned.Interface, resyncPeriod time.Duration, indexers cache.Indexers) cache.SharedIndexInformer {
+	return NewFilteredTableListInformer(client, resyncPeriod, indexers, nil)
 }
 
 // NewFilteredTableListInformer constructs a new informer for TableList type.
 // Always prefer using an informer factory to get a shared informer instead of getting an independent
 // one. This reduces memory footprint and number of connections to the server.
-func NewFilteredTableListInformer(client versioned.Interface, namespace string, resyncPeriod time.Duration, indexers cache.Indexers, tweakListOptions internalinterfaces.TweakListOptionsFunc) cache.SharedIndexInformer {
+func NewFilteredTableListInformer(client versioned.Interface, resyncPeriod time.Duration, indexers cache.Indexers, tweakListOptions internalinterfaces.TweakListOptionsFunc) cache.SharedIndexInformer {
 	return cache.NewSharedIndexInformer(
 		&cache.ListWatch{
 			ListFunc: func(options v1.ListOptions) (runtime.Object, error) {
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.FirewallFirewall().TableLists(namespace).List(context.TODO(), options)
+				return client.FirewallFirewall().TableLists().List(context.TODO(), options)
 			},
 			WatchFunc: func(options v1.ListOptions) (watch.Interface, error) {
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.FirewallFirewall().TableLists(namespace).Watch(context.TODO(), options)
+				return client.FirewallFirewall().TableLists().Watch(context.TODO(), options)
 			},
 		},
 		&apisfirewall.TableList{},
@@ -80,7 +79,7 @@ func NewFilteredTableListInformer(client versioned.Interface, namespace string, 
 }
 
 func (f *tableListInformer) defaultInformer(client versioned.Interface, resyncPeriod time.Duration) cache.SharedIndexInformer {
-	return NewFilteredTableListInformer(client, f.namespace, resyncPeriod, cache.Indexers{cache.NamespaceIndex: cache.MetaNamespaceIndexFunc}, f.tweakListOptions)
+	return NewFilteredTableListInformer(client, resyncPeriod, cache.Indexers{cache.NamespaceIndex: cache.MetaNamespaceIndexFunc}, f.tweakListOptions)
 }
 
 func (f *tableListInformer) Informer() cache.SharedIndexInformer {

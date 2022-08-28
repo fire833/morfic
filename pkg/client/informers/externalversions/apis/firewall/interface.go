@@ -21,7 +21,7 @@
 package firewall
 
 import (
-	internalinterfaces "github.com/fire833/morfic/pkg/client/informers/externalversions/internalinterfaces"
+	internalinterfaces "pkg/client/informers/externalversions/internalinterfaces"
 )
 
 // Interface provides access to all the informers in this group version.
@@ -45,10 +45,10 @@ func New(f internalinterfaces.SharedInformerFactory, namespace string, tweakList
 
 // Tables returns a TableInformer.
 func (v *version) Tables() TableInformer {
-	return &tableInformer{factory: v.factory, namespace: v.namespace, tweakListOptions: v.tweakListOptions}
+	return &tableInformer{factory: v.factory, tweakListOptions: v.tweakListOptions}
 }
 
 // TableLists returns a TableListInformer.
 func (v *version) TableLists() TableListInformer {
-	return &tableListInformer{factory: v.factory, namespace: v.namespace, tweakListOptions: v.tweakListOptions}
+	return &tableListInformer{factory: v.factory, tweakListOptions: v.tweakListOptions}
 }

@@ -33,8 +33,9 @@ type DNSRecordLister interface {
 	// List lists all DNSRecords in the indexer.
 	// Objects returned here must be treated as read-only.
 	List(selector labels.Selector) (ret []*dns.DNSRecord, err error)
-	// DNSRecords returns an object that can list and get DNSRecords.
-	DNSRecords(namespace string) DNSRecordNamespaceLister
+	// Get retrieves the DNSRecord from the index for a given name.
+	// Objects returned here must be treated as read-only.
+	Get(name string) (*dns.DNSRecord, error)
 	DNSRecordListerExpansion
 }
 
@@ -56,41 +57,9 @@ func (s *dNSRecordLister) List(selector labels.Selector) (ret []*dns.DNSRecord, 
 	return ret, err
 }
 
-// DNSRecords returns an object that can list and get DNSRecords.
-func (s *dNSRecordLister) DNSRecords(namespace string) DNSRecordNamespaceLister {
-	return dNSRecordNamespaceLister{indexer: s.indexer, namespace: namespace}
-}
-
-// DNSRecordNamespaceLister helps list and get DNSRecords.
-// All objects returned here must be treated as read-only.
-type DNSRecordNamespaceLister interface {
-	// List lists all DNSRecords in the indexer for a given namespace.
-	// Objects returned here must be treated as read-only.
-	List(selector labels.Selector) (ret []*dns.DNSRecord, err error)
-	// Get retrieves the DNSRecord from the indexer for a given namespace and name.
-	// Objects returned here must be treated as read-only.
-	Get(name string) (*dns.DNSRecord, error)
-	DNSRecordNamespaceListerExpansion
-}
-
-// dNSRecordNamespaceLister implements the DNSRecordNamespaceLister
-// interface.
-type dNSRecordNamespaceLister struct {
-	indexer   cache.Indexer
-	namespace string
-}
-
-// List lists all DNSRecords in the indexer for a given namespace.
-func (s dNSRecordNamespaceLister) List(selector labels.Selector) (ret []*dns.DNSRecord, err error) {
-	err = cache.ListAllByNamespace(s.indexer, s.namespace, selector, func(m interface{}) {
-		ret = append(ret, m.(*dns.DNSRecord))
-	})
-	return ret, err
-}
-
-// Get retrieves the DNSRecord from the indexer for a given namespace and name.
-func (s dNSRecordNamespaceLister) Get(name string) (*dns.DNSRecord, error) {
-	obj, exists, err := s.indexer.GetByKey(s.namespace + "/" + name)
+// Get retrieves the DNSRecord from the index for a given name.
+func (s *dNSRecordLister) Get(name string) (*dns.DNSRecord, error) {
+	obj, exists, err := s.indexer.GetByKey(name)
 	if err != nil {
 		return nil, err
 	}

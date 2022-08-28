@@ -21,7 +21,7 @@
 package net
 
 import (
-	internalinterfaces "github.com/fire833/morfic/pkg/client/informers/externalversions/internalinterfaces"
+	internalinterfaces "pkg/client/informers/externalversions/internalinterfaces"
 )
 
 // Interface provides access to all the informers in this group version.
@@ -30,6 +30,20 @@ type Interface interface {
 	Addresses() AddressInformer
 	// AddressLists returns a AddressListInformer.
 	AddressLists() AddressListInformer
+	// Links returns a LinkInformer.
+	Links() LinkInformer
+	// LinkLists returns a LinkListInformer.
+	LinkLists() LinkListInformer
+	// Neighbors returns a NeighborInformer.
+	Neighbors() NeighborInformer
+	// NeighborLists returns a NeighborListInformer.
+	NeighborLists() NeighborListInformer
+	// Routes returns a RouteInformer.
+	Routes() RouteInformer
+	// RouteTables returns a RouteTableInformer.
+	RouteTables() RouteTableInformer
+	// RouteTableLists returns a RouteTableListInformer.
+	RouteTableLists() RouteTableListInformer
 }
 
 type version struct {
@@ -51,4 +65,39 @@ func (v *version) Addresses() AddressInformer {
 // AddressLists returns a AddressListInformer.
 func (v *version) AddressLists() AddressListInformer {
 	return &addressListInformer{factory: v.factory, namespace: v.namespace, tweakListOptions: v.tweakListOptions}
+}
+
+// Links returns a LinkInformer.
+func (v *version) Links() LinkInformer {
+	return &linkInformer{factory: v.factory, tweakListOptions: v.tweakListOptions}
+}
+
+// LinkLists returns a LinkListInformer.
+func (v *version) LinkLists() LinkListInformer {
+	return &linkListInformer{factory: v.factory, tweakListOptions: v.tweakListOptions}
+}
+
+// Neighbors returns a NeighborInformer.
+func (v *version) Neighbors() NeighborInformer {
+	return &neighborInformer{factory: v.factory, tweakListOptions: v.tweakListOptions}
+}
+
+// NeighborLists returns a NeighborListInformer.
+func (v *version) NeighborLists() NeighborListInformer {
+	return &neighborListInformer{factory: v.factory, tweakListOptions: v.tweakListOptions}
+}
+
+// Routes returns a RouteInformer.
+func (v *version) Routes() RouteInformer {
+	return &routeInformer{factory: v.factory, tweakListOptions: v.tweakListOptions}
+}
+
+// RouteTables returns a RouteTableInformer.
+func (v *version) RouteTables() RouteTableInformer {
+	return &routeTableInformer{factory: v.factory, tweakListOptions: v.tweakListOptions}
+}
+
+// RouteTableLists returns a RouteTableListInformer.
+func (v *version) RouteTableLists() RouteTableListInformer {
+	return &routeTableListInformer{factory: v.factory, tweakListOptions: v.tweakListOptions}
 }

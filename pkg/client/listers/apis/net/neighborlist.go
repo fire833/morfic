@@ -33,8 +33,9 @@ type NeighborListLister interface {
 	// List lists all NeighborLists in the indexer.
 	// Objects returned here must be treated as read-only.
 	List(selector labels.Selector) (ret []*net.NeighborList, err error)
-	// NeighborLists returns an object that can list and get NeighborLists.
-	NeighborLists(namespace string) NeighborListNamespaceLister
+	// Get retrieves the NeighborList from the index for a given name.
+	// Objects returned here must be treated as read-only.
+	Get(name string) (*net.NeighborList, error)
 	NeighborListListerExpansion
 }
 
@@ -56,41 +57,9 @@ func (s *neighborListLister) List(selector labels.Selector) (ret []*net.Neighbor
 	return ret, err
 }
 
-// NeighborLists returns an object that can list and get NeighborLists.
-func (s *neighborListLister) NeighborLists(namespace string) NeighborListNamespaceLister {
-	return neighborListNamespaceLister{indexer: s.indexer, namespace: namespace}
-}
-
-// NeighborListNamespaceLister helps list and get NeighborLists.
-// All objects returned here must be treated as read-only.
-type NeighborListNamespaceLister interface {
-	// List lists all NeighborLists in the indexer for a given namespace.
-	// Objects returned here must be treated as read-only.
-	List(selector labels.Selector) (ret []*net.NeighborList, err error)
-	// Get retrieves the NeighborList from the indexer for a given namespace and name.
-	// Objects returned here must be treated as read-only.
-	Get(name string) (*net.NeighborList, error)
-	NeighborListNamespaceListerExpansion
-}
-
-// neighborListNamespaceLister implements the NeighborListNamespaceLister
-// interface.
-type neighborListNamespaceLister struct {
-	indexer   cache.Indexer
-	namespace string
-}
-
-// List lists all NeighborLists in the indexer for a given namespace.
-func (s neighborListNamespaceLister) List(selector labels.Selector) (ret []*net.NeighborList, err error) {
-	err = cache.ListAllByNamespace(s.indexer, s.namespace, selector, func(m interface{}) {
-		ret = append(ret, m.(*net.NeighborList))
-	})
-	return ret, err
-}
-
-// Get retrieves the NeighborList from the indexer for a given namespace and name.
-func (s neighborListNamespaceLister) Get(name string) (*net.NeighborList, error) {
-	obj, exists, err := s.indexer.GetByKey(s.namespace + "/" + name)
+// Get retrieves the NeighborList from the index for a given name.
+func (s *neighborListLister) Get(name string) (*net.NeighborList, error) {
+	obj, exists, err := s.indexer.GetByKey(name)
 	if err != nil {
 		return nil, err
 	}

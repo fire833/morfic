@@ -22,7 +22,7 @@ package dns
 
 import (
 	"context"
-	internalinterfaces "github.com/fire833/morfic/pkg/client/informers/externalversions/internalinterfaces"
+	internalinterfaces "pkg/client/informers/externalversions/internalinterfaces"
 	time "time"
 
 	apisdns "github.com/fire833/morfic/pkg/apis/dns"
@@ -44,33 +44,32 @@ type DNSProviderInformer interface {
 type dNSProviderInformer struct {
 	factory          internalinterfaces.SharedInformerFactory
 	tweakListOptions internalinterfaces.TweakListOptionsFunc
-	namespace        string
 }
 
 // NewDNSProviderInformer constructs a new informer for DNSProvider type.
 // Always prefer using an informer factory to get a shared informer instead of getting an independent
 // one. This reduces memory footprint and number of connections to the server.
-func NewDNSProviderInformer(client versioned.Interface, namespace string, resyncPeriod time.Duration, indexers cache.Indexers) cache.SharedIndexInformer {
-	return NewFilteredDNSProviderInformer(client, namespace, resyncPeriod, indexers, nil)
+func NewDNSProviderInformer(client versioned.Interface, resyncPeriod time.Duration, indexers cache.Indexers) cache.SharedIndexInformer {
+	return NewFilteredDNSProviderInformer(client, resyncPeriod, indexers, nil)
 }
 
 // NewFilteredDNSProviderInformer constructs a new informer for DNSProvider type.
 // Always prefer using an informer factory to get a shared informer instead of getting an independent
 // one. This reduces memory footprint and number of connections to the server.
-func NewFilteredDNSProviderInformer(client versioned.Interface, namespace string, resyncPeriod time.Duration, indexers cache.Indexers, tweakListOptions internalinterfaces.TweakListOptionsFunc) cache.SharedIndexInformer {
+func NewFilteredDNSProviderInformer(client versioned.Interface, resyncPeriod time.Duration, indexers cache.Indexers, tweakListOptions internalinterfaces.TweakListOptionsFunc) cache.SharedIndexInformer {
 	return cache.NewSharedIndexInformer(
 		&cache.ListWatch{
 			ListFunc: func(options v1.ListOptions) (runtime.Object, error) {
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.DnsDns().DNSProviders(namespace).List(context.TODO(), options)
+				return client.DnsDns().DNSProviders().List(context.TODO(), options)
 			},
 			WatchFunc: func(options v1.ListOptions) (watch.Interface, error) {
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.DnsDns().DNSProviders(namespace).Watch(context.TODO(), options)
+				return client.DnsDns().DNSProviders().Watch(context.TODO(), options)
 			},
 		},
 		&apisdns.DNSProvider{},
@@ -80,7 +79,7 @@ func NewFilteredDNSProviderInformer(client versioned.Interface, namespace string
 }
 
 func (f *dNSProviderInformer) defaultInformer(client versioned.Interface, resyncPeriod time.Duration) cache.SharedIndexInformer {
-	return NewFilteredDNSProviderInformer(client, f.namespace, resyncPeriod, cache.Indexers{cache.NamespaceIndex: cache.MetaNamespaceIndexFunc}, f.tweakListOptions)
+	return NewFilteredDNSProviderInformer(client, resyncPeriod, cache.Indexers{cache.NamespaceIndex: cache.MetaNamespaceIndexFunc}, f.tweakListOptions)
 }
 
 func (f *dNSProviderInformer) Informer() cache.SharedIndexInformer {

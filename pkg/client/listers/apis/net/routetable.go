@@ -33,8 +33,9 @@ type RouteTableLister interface {
 	// List lists all RouteTables in the indexer.
 	// Objects returned here must be treated as read-only.
 	List(selector labels.Selector) (ret []*net.RouteTable, err error)
-	// RouteTables returns an object that can list and get RouteTables.
-	RouteTables(namespace string) RouteTableNamespaceLister
+	// Get retrieves the RouteTable from the index for a given name.
+	// Objects returned here must be treated as read-only.
+	Get(name string) (*net.RouteTable, error)
 	RouteTableListerExpansion
 }
 
@@ -56,41 +57,9 @@ func (s *routeTableLister) List(selector labels.Selector) (ret []*net.RouteTable
 	return ret, err
 }
 
-// RouteTables returns an object that can list and get RouteTables.
-func (s *routeTableLister) RouteTables(namespace string) RouteTableNamespaceLister {
-	return routeTableNamespaceLister{indexer: s.indexer, namespace: namespace}
-}
-
-// RouteTableNamespaceLister helps list and get RouteTables.
-// All objects returned here must be treated as read-only.
-type RouteTableNamespaceLister interface {
-	// List lists all RouteTables in the indexer for a given namespace.
-	// Objects returned here must be treated as read-only.
-	List(selector labels.Selector) (ret []*net.RouteTable, err error)
-	// Get retrieves the RouteTable from the indexer for a given namespace and name.
-	// Objects returned here must be treated as read-only.
-	Get(name string) (*net.RouteTable, error)
-	RouteTableNamespaceListerExpansion
-}
-
-// routeTableNamespaceLister implements the RouteTableNamespaceLister
-// interface.
-type routeTableNamespaceLister struct {
-	indexer   cache.Indexer
-	namespace string
-}
-
-// List lists all RouteTables in the indexer for a given namespace.
-func (s routeTableNamespaceLister) List(selector labels.Selector) (ret []*net.RouteTable, err error) {
-	err = cache.ListAllByNamespace(s.indexer, s.namespace, selector, func(m interface{}) {
-		ret = append(ret, m.(*net.RouteTable))
-	})
-	return ret, err
-}
-
-// Get retrieves the RouteTable from the indexer for a given namespace and name.
-func (s routeTableNamespaceLister) Get(name string) (*net.RouteTable, error) {
-	obj, exists, err := s.indexer.GetByKey(s.namespace + "/" + name)
+// Get retrieves the RouteTable from the index for a given name.
+func (s *routeTableLister) Get(name string) (*net.RouteTable, error) {
+	obj, exists, err := s.indexer.GetByKey(name)
 	if err != nil {
 		return nil, err
 	}

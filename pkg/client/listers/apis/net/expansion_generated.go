@@ -35,3 +35,31 @@ type AddressListListerExpansion interface{}
 // AddressListNamespaceListerExpansion allows custom methods to be added to
 // AddressListNamespaceLister.
 type AddressListNamespaceListerExpansion interface{}
+
+// LinkListerExpansion allows custom methods to be added to
+// LinkLister.
+type LinkListerExpansion interface{}
+
+// LinkListListerExpansion allows custom methods to be added to
+// LinkListLister.
+type LinkListListerExpansion interface{}
+
+// NeighborListerExpansion allows custom methods to be added to
+// NeighborLister.
+type NeighborListerExpansion interface{}
+
+// NeighborListListerExpansion allows custom methods to be added to
+// NeighborListLister.
+type NeighborListListerExpansion interface{}
+
+// RouteListerExpansion allows custom methods to be added to
+// RouteLister.
+type RouteListerExpansion interface{}
+
+// RouteTableListerExpansion allows custom methods to be added to
+// RouteTableLister.
+type RouteTableListerExpansion interface{}
+
+// RouteTableListListerExpansion allows custom methods to be added to
+// RouteTableListLister.
+type RouteTableListListerExpansion interface{}

@@ -25,6 +25,7 @@ import (
 	firewallv1alpha1 "github.com/fire833/morfic/pkg/apis/firewall/v1alpha1"
 	netv1alpha1 "github.com/fire833/morfic/pkg/apis/net/v1alpha1"
 	servicesv1alpha1 "github.com/fire833/morfic/pkg/apis/services/v1alpha1"
+	sysv1alpha1 "github.com/fire833/morfic/pkg/apis/sys/v1alpha1"
 	vpnv1alpha1 "github.com/fire833/morfic/pkg/apis/vpn/v1alpha1"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	runtime "k8s.io/apimachinery/pkg/runtime"
@@ -41,6 +42,7 @@ var localSchemeBuilder = runtime.SchemeBuilder{
 	firewallv1alpha1.AddToScheme,
 	netv1alpha1.AddToScheme,
 	servicesv1alpha1.AddToScheme,
+	sysv1alpha1.AddToScheme,
 	vpnv1alpha1.AddToScheme,
 }
 

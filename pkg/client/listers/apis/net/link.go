@@ -33,8 +33,9 @@ type LinkLister interface {
 	// List lists all Links in the indexer.
 	// Objects returned here must be treated as read-only.
 	List(selector labels.Selector) (ret []*net.Link, err error)
-	// Links returns an object that can list and get Links.
-	Links(namespace string) LinkNamespaceLister
+	// Get retrieves the Link from the index for a given name.
+	// Objects returned here must be treated as read-only.
+	Get(name string) (*net.Link, error)
 	LinkListerExpansion
 }
 
@@ -56,41 +57,9 @@ func (s *linkLister) List(selector labels.Selector) (ret []*net.Link, err error)
 	return ret, err
 }
 
-// Links returns an object that can list and get Links.
-func (s *linkLister) Links(namespace string) LinkNamespaceLister {
-	return linkNamespaceLister{indexer: s.indexer, namespace: namespace}
-}
-
-// LinkNamespaceLister helps list and get Links.
-// All objects returned here must be treated as read-only.
-type LinkNamespaceLister interface {
-	// List lists all Links in the indexer for a given namespace.
-	// Objects returned here must be treated as read-only.
-	List(selector labels.Selector) (ret []*net.Link, err error)
-	// Get retrieves the Link from the indexer for a given namespace and name.
-	// Objects returned here must be treated as read-only.
-	Get(name string) (*net.Link, error)
-	LinkNamespaceListerExpansion
-}
-
-// linkNamespaceLister implements the LinkNamespaceLister
-// interface.
-type linkNamespaceLister struct {
-	indexer   cache.Indexer
-	namespace string
-}
-
-// List lists all Links in the indexer for a given namespace.
-func (s linkNamespaceLister) List(selector labels.Selector) (ret []*net.Link, err error) {
-	err = cache.ListAllByNamespace(s.indexer, s.namespace, selector, func(m interface{}) {
-		ret = append(ret, m.(*net.Link))
-	})
-	return ret, err
-}
-
-// Get retrieves the Link from the indexer for a given namespace and name.
-func (s linkNamespaceLister) Get(name string) (*net.Link, error) {
-	obj, exists, err := s.indexer.GetByKey(s.namespace + "/" + name)
+// Get retrieves the Link from the index for a given name.
+func (s *linkLister) Get(name string) (*net.Link, error) {
+	obj, exists, err := s.indexer.GetByKey(name)
 	if err != nil {
 		return nil, err
 	}
