@@ -18,6 +18,6 @@
 
 // +k8s:deepcopy-gen=package
 // +groupName=vpn.morfic.io
+// +groupGoName=vpn
 // +genclient
-
 package vpn

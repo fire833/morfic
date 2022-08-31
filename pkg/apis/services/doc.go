@@ -18,6 +18,6 @@
 
 // +k8s:deepcopy-gen=package
 // +groupName=services.morfic.io
+// +groupGoName=services
 // +genclient
-
 package services

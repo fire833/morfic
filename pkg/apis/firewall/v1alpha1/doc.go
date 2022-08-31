@@ -17,5 +17,6 @@
  */
 
 // +groupName=firewall.morfic.io
+// +groupGoName=firewall
 
 package v1alpha1

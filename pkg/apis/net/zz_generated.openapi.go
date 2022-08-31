@@ -114,11 +114,10 @@ func schema__net_LinkList(ref common.ReferenceCallback) common.OpenAPIDefinition
 							Format:      "",
 						},
 					},
-					"metadata": {
+					"ListMeta": {
 						SchemaProps: spec.SchemaProps{
-							Description: "Standard object metadata. Utilizes the Kubernetes metadata object spec for now.",
-							Default:     map[string]interface{}{},
-							Ref:         ref("k8s.io/apimachinery/pkg/apis/meta/v1.ObjectMeta"),
+							Default: map[string]interface{}{},
+							Ref:     ref("k8s.io/apimachinery/pkg/apis/meta/v1.ListMeta"),
 						},
 					},
 					"items": {
@@ -140,7 +139,7 @@ func schema__net_LinkList(ref common.ReferenceCallback) common.OpenAPIDefinition
 			},
 		},
 		Dependencies: []string{
-			"../net.Link", "k8s.io/apimachinery/pkg/apis/meta/v1.ObjectMeta"},
+			"../net.Link", "k8s.io/apimachinery/pkg/apis/meta/v1.ListMeta"},
 	}
 }
 
@@ -216,11 +215,10 @@ func schema__net_NeighborList(ref common.ReferenceCallback) common.OpenAPIDefini
 							Format:      "",
 						},
 					},
-					"metadata": {
+					"ListMeta": {
 						SchemaProps: spec.SchemaProps{
-							Description: "Standard object metadata. Utilizes the Kubernetes metadata object spec for now.",
-							Default:     map[string]interface{}{},
-							Ref:         ref("k8s.io/apimachinery/pkg/apis/meta/v1.ObjectMeta"),
+							Default: map[string]interface{}{},
+							Ref:     ref("k8s.io/apimachinery/pkg/apis/meta/v1.ListMeta"),
 						},
 					},
 					"items": {
@@ -242,7 +240,7 @@ func schema__net_NeighborList(ref common.ReferenceCallback) common.OpenAPIDefini
 			},
 		},
 		Dependencies: []string{
-			"../net.Neighbor", "k8s.io/apimachinery/pkg/apis/meta/v1.ObjectMeta"},
+			"../net.Neighbor", "k8s.io/apimachinery/pkg/apis/meta/v1.ListMeta"},
 	}
 }
 
@@ -369,11 +367,10 @@ func schema__net_RouteTableList(ref common.ReferenceCallback) common.OpenAPIDefi
 							Format:      "",
 						},
 					},
-					"metadata": {
+					"ListMeta": {
 						SchemaProps: spec.SchemaProps{
-							Description: "Standard object metadata. Utilizes the Kubernetes metadata object spec for now.",
-							Default:     map[string]interface{}{},
-							Ref:         ref("k8s.io/apimachinery/pkg/apis/meta/v1.ObjectMeta"),
+							Default: map[string]interface{}{},
+							Ref:     ref("k8s.io/apimachinery/pkg/apis/meta/v1.ListMeta"),
 						},
 					},
 					"items": {
@@ -395,6 +392,6 @@ func schema__net_RouteTableList(ref common.ReferenceCallback) common.OpenAPIDefi
 			},
 		},
 		Dependencies: []string{
-			"../net.RouteTable", "k8s.io/apimachinery/pkg/apis/meta/v1.ObjectMeta"},
+			"../net.RouteTable", "k8s.io/apimachinery/pkg/apis/meta/v1.ListMeta"},
 	}
 }

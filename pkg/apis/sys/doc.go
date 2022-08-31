@@ -18,6 +18,6 @@
 
 // +k8s:deepcopy-gen=package
 // +groupName=sys.morfic.io
+// +groupGoName=sys
 // +genclient
-
 package sys

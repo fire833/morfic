@@ -107,11 +107,10 @@ func schema__vpn_VPNTunnelList(ref common.ReferenceCallback) common.OpenAPIDefin
 							Format:      "",
 						},
 					},
-					"metadata": {
+					"ListMeta": {
 						SchemaProps: spec.SchemaProps{
-							Description: "Standard object metadata. Utilizes the Kubernetes metadata object spec for now.",
-							Default:     map[string]interface{}{},
-							Ref:         ref("k8s.io/apimachinery/pkg/apis/meta/v1.ObjectMeta"),
+							Default: map[string]interface{}{},
+							Ref:     ref("k8s.io/apimachinery/pkg/apis/meta/v1.ListMeta"),
 						},
 					},
 					"items": {
@@ -133,6 +132,6 @@ func schema__vpn_VPNTunnelList(ref common.ReferenceCallback) common.OpenAPIDefin
 			},
 		},
 		Dependencies: []string{
-			"../vpn.VPNTunnel", "k8s.io/apimachinery/pkg/apis/meta/v1.ObjectMeta"},
+			"../vpn.VPNTunnel", "k8s.io/apimachinery/pkg/apis/meta/v1.ListMeta"},
 	}
 }

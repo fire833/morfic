@@ -31,9 +31,8 @@ import (
 type LinkList struct {
 	metav1.TypeMeta `json:",inline" yaml:",inline"`
 
-	// Standard object metadata.
-	// Utilizes the Kubernetes metadata object spec for now.
-	metav1.ObjectMeta `json:"metadata,omitempty" yaml:"metadata,omitempty"`
+	// +optional
+	metav1.ListMeta
 
 	// Items specifies the array of links.
 	Items []Link `json:"items" yaml:"items"`

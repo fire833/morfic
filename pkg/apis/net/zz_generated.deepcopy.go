@@ -185,7 +185,7 @@ func (in *Link) DeepCopyObject() runtime.Object {
 func (in *LinkList) DeepCopyInto(out *LinkList) {
 	*out = *in
 	out.TypeMeta = in.TypeMeta
-	in.ObjectMeta.DeepCopyInto(&out.ObjectMeta)
+	in.ListMeta.DeepCopyInto(&out.ListMeta)
 	if in.Items != nil {
 		in, out := &in.Items, &out.Items
 		*out = make([]Link, len(*in))
@@ -279,7 +279,7 @@ func (in *Neighbor) DeepCopyObject() runtime.Object {
 func (in *NeighborList) DeepCopyInto(out *NeighborList) {
 	*out = *in
 	out.TypeMeta = in.TypeMeta
-	in.ObjectMeta.DeepCopyInto(&out.ObjectMeta)
+	in.ListMeta.DeepCopyInto(&out.ListMeta)
 	if in.Items != nil {
 		in, out := &in.Items, &out.Items
 		*out = make([]Neighbor, len(*in))
@@ -448,7 +448,7 @@ func (in *RouteTable) DeepCopyObject() runtime.Object {
 func (in *RouteTableList) DeepCopyInto(out *RouteTableList) {
 	*out = *in
 	out.TypeMeta = in.TypeMeta
-	in.ObjectMeta.DeepCopyInto(&out.ObjectMeta)
+	in.ListMeta.DeepCopyInto(&out.ListMeta)
 	if in.Items != nil {
 		in, out := &in.Items, &out.Items
 		*out = make([]RouteTable, len(*in))

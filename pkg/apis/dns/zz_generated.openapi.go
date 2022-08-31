@@ -111,13 +111,6 @@ func schema__dns_DNSProviderList(ref common.ReferenceCallback) common.OpenAPIDef
 							Format:      "",
 						},
 					},
-					"metadata": {
-						SchemaProps: spec.SchemaProps{
-							Description: "Standard object metadata. Utilizes the Kubernetes metadata object spec for now.",
-							Default:     map[string]interface{}{},
-							Ref:         ref("k8s.io/apimachinery/pkg/apis/meta/v1.ObjectMeta"),
-						},
-					},
 					"ListMeta": {
 						SchemaProps: spec.SchemaProps{
 							Default: map[string]interface{}{},
@@ -143,7 +136,7 @@ func schema__dns_DNSProviderList(ref common.ReferenceCallback) common.OpenAPIDef
 			},
 		},
 		Dependencies: []string{
-			"../dns.DNSProvider", "k8s.io/apimachinery/pkg/apis/meta/v1.ListMeta", "k8s.io/apimachinery/pkg/apis/meta/v1.ObjectMeta"},
+			"../dns.DNSProvider", "k8s.io/apimachinery/pkg/apis/meta/v1.ListMeta"},
 	}
 }
 
@@ -217,13 +210,6 @@ func schema__dns_DNSRecordList(ref common.ReferenceCallback) common.OpenAPIDefin
 							Format:      "",
 						},
 					},
-					"metadata": {
-						SchemaProps: spec.SchemaProps{
-							Description: "Standard object metadata. Utilizes the Kubernetes metadata object spec for now.",
-							Default:     map[string]interface{}{},
-							Ref:         ref("k8s.io/apimachinery/pkg/apis/meta/v1.ObjectMeta"),
-						},
-					},
 					"ListMeta": {
 						SchemaProps: spec.SchemaProps{
 							Default: map[string]interface{}{},
@@ -249,6 +235,6 @@ func schema__dns_DNSRecordList(ref common.ReferenceCallback) common.OpenAPIDefin
 			},
 		},
 		Dependencies: []string{
-			"../dns.DNSRecord", "k8s.io/apimachinery/pkg/apis/meta/v1.ListMeta", "k8s.io/apimachinery/pkg/apis/meta/v1.ObjectMeta"},
+			"../dns.DNSRecord", "k8s.io/apimachinery/pkg/apis/meta/v1.ListMeta"},
 	}
 }

@@ -18,6 +18,6 @@
 
 // +k8s:deepcopy-gen=package
 // +groupName=net.morfic.io
+// +groupGoName=net
 // +genclient
-
 package net

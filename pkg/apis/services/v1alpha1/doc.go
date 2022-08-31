@@ -17,5 +17,6 @@
  */
 
 // +groupName=services.morfic.io
+// +groupGoName=services
 
 package v1alpha1

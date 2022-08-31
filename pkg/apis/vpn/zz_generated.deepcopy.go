@@ -108,7 +108,7 @@ func (in *VPNTunnel) DeepCopyObject() runtime.Object {
 func (in *VPNTunnelList) DeepCopyInto(out *VPNTunnelList) {
 	*out = *in
 	out.TypeMeta = in.TypeMeta
-	in.ObjectMeta.DeepCopyInto(&out.ObjectMeta)
+	in.ListMeta.DeepCopyInto(&out.ListMeta)
 	if in.Items != nil {
 		in, out := &in.Items, &out.Items
 		*out = make([]VPNTunnel, len(*in))

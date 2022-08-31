@@ -31,9 +31,8 @@ import (
 type NeighborList struct {
 	metav1.TypeMeta `json:",inline" yaml:",inline"`
 
-	// Standard object metadata.
-	// Utilizes the Kubernetes metadata object spec for now.
-	metav1.ObjectMeta `json:"metadata,omitempty" yaml:"metadata,omitempty"`
+	// +optional
+	metav1.ListMeta
 
 	// Items represents the array of neighbors.
 	Items []Neighbor `json:"items" yaml:"items"`

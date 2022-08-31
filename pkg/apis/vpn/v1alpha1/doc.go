@@ -17,5 +17,6 @@
  */
 
 // +groupName=vpn.morfic.io
+// +groupGoName=vpn
 
 package v1alpha1

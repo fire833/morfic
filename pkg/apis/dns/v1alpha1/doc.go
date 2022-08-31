@@ -17,5 +17,6 @@
  */
 
 // +groupName=dns.morfic.io
+// +groupGoName=dns
 
 package v1alpha1

@@ -33,9 +33,8 @@ import (
 type VPNTunnelList struct {
 	metav1.TypeMeta `json:",inline" yaml:",inline"`
 
-	// Standard object metadata.
-	// Utilizes the Kubernetes metadata object spec for now.
-	metav1.ObjectMeta `json:"metadata,omitempty" yaml:"metadata,omitempty"`
+	// +optional
+	metav1.ListMeta
 
 	// Items represents an array of VPN tunnels
 	Items []VPNTunnel `json:"items" yaml:"items"`

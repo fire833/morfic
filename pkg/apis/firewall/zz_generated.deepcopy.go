@@ -177,7 +177,7 @@ func (in *Table) DeepCopyObject() runtime.Object {
 func (in *TableList) DeepCopyInto(out *TableList) {
 	*out = *in
 	out.TypeMeta = in.TypeMeta
-	in.ObjectMeta.DeepCopyInto(&out.ObjectMeta)
+	in.ListMeta.DeepCopyInto(&out.ListMeta)
 	if in.Items != nil {
 		in, out := &in.Items, &out.Items
 		*out = make([]Table, len(*in))

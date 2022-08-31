@@ -33,7 +33,6 @@ var ()
 func ValidateDNSRecordList(in *dns.DNSRecordList) []error {
 	var retErrors []error
 	retErrors = append(retErrors, apis.ValidateTypeMeta(&in.TypeMeta, "DNSRecordList", "dns.morfic.io/v1alpha1")...)
-	retErrors = append(retErrors, apis.ValidateObjectMeta(&in.ObjectMeta)...)
 	for _, record := range in.Items {
 		retErrors = append(retErrors, ValidateDNSRecord(&record)...)
 	}

@@ -17,5 +17,6 @@
  */
 
 // +groupName=sys.morfic.io
+// +groupGoName=sys
 
 package v1alpha1

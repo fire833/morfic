@@ -109,11 +109,10 @@ func schema__firewall_TableList(ref common.ReferenceCallback) common.OpenAPIDefi
 							Format:      "",
 						},
 					},
-					"metadata": {
+					"ListMeta": {
 						SchemaProps: spec.SchemaProps{
-							Description: "Standard object metadata. Utilizes the Kubernetes metadata object spec for now.",
-							Default:     map[string]interface{}{},
-							Ref:         ref("k8s.io/apimachinery/pkg/apis/meta/v1.ObjectMeta"),
+							Default: map[string]interface{}{},
+							Ref:     ref("k8s.io/apimachinery/pkg/apis/meta/v1.ListMeta"),
 						},
 					},
 					"items": {
@@ -135,6 +134,6 @@ func schema__firewall_TableList(ref common.ReferenceCallback) common.OpenAPIDefi
 			},
 		},
 		Dependencies: []string{
-			"../firewall.Table", "k8s.io/apimachinery/pkg/apis/meta/v1.ObjectMeta"},
+			"../firewall.Table", "k8s.io/apimachinery/pkg/apis/meta/v1.ListMeta"},
 	}
 }

@@ -18,6 +18,6 @@
 
 // +k8s:deepcopy-gen=package
 // +groupName=firewall.morfic.io
+// +groupGoName=firewall
 // +genclient
-
 package firewall

@@ -17,5 +17,6 @@
  */
 
 // +groupName=net.morfic.io
+// +groupGoName=net
 
 package v1alpha1
