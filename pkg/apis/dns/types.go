@@ -49,8 +49,6 @@ const (
 // +k8s:deepcopy-gen=true
 // +genclient
 // +genclient:nonNamespaced
-// +genclient:noStatus
-
 // DNSRecordList represents a list of DNS records.
 type DNSRecordList struct {
 	metav1.TypeMeta `json:",inline" yaml:",inline"`
@@ -58,6 +56,9 @@ type DNSRecordList struct {
 	// Standard object metadata.
 	// Utilizes the Kubernetes metadata object spec for now.
 	metav1.ObjectMeta `json:"metadata,omitempty" yaml:"metadata,omitempty"`
+
+	// +optional
+	metav1.ListMeta
 
 	// Items specifies the array of DNS records.
 	Items []DNSRecord `json:"items" yaml:"items"`
@@ -68,8 +69,6 @@ type DNSRecordList struct {
 // +k8s:deepcopy-gen=true
 // +genclient
 // +genclient:nonNamespaced
-// +genclient:noStatus
-
 // DNSRecord represents a desired DNS record for some DNS server.
 type DNSRecord struct {
 	metav1.TypeMeta `json:",inline" yaml:",inline"`
@@ -116,8 +115,6 @@ type DNSRecordStatus struct {
 // +k8s:deepcopy-gen=true
 // +genclient
 // +genclient:nonNamespaced
-// +genclient:noStatus
-
 // DNSProviderList describes a list of DNS providers.
 type DNSProviderList struct {
 	metav1.TypeMeta `json:",inline" yaml:",inline"`
@@ -125,6 +122,9 @@ type DNSProviderList struct {
 	// Standard object metadata.
 	// Utilizes the Kubernetes metadata object spec for now.
 	metav1.ObjectMeta `json:"metadata,omitempty" yaml:"metadata,omitempty"`
+
+	// +optional
+	metav1.ListMeta
 
 	// Items specifies the array of DNS providers.
 	Items []DNSProvider `json:"items" yaml:"items"`
@@ -135,8 +135,6 @@ type DNSProviderList struct {
 // +k8s:deepcopy-gen=true
 // +genclient
 // +genclient:nonNamespaced
-// +genclient:noStatus
-
 // DNSProvider represents a provider for implementing DNS records.
 type DNSProvider struct {
 	metav1.TypeMeta `json:",inline" yaml:",inline"`

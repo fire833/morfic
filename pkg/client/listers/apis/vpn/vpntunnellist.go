@@ -33,8 +33,9 @@ type VPNTunnelListLister interface {
 	// List lists all VPNTunnelLists in the indexer.
 	// Objects returned here must be treated as read-only.
 	List(selector labels.Selector) (ret []*vpn.VPNTunnelList, err error)
-	// VPNTunnelLists returns an object that can list and get VPNTunnelLists.
-	VPNTunnelLists(namespace string) VPNTunnelListNamespaceLister
+	// Get retrieves the VPNTunnelList from the index for a given name.
+	// Objects returned here must be treated as read-only.
+	Get(name string) (*vpn.VPNTunnelList, error)
 	VPNTunnelListListerExpansion
 }
 
@@ -56,41 +57,9 @@ func (s *vPNTunnelListLister) List(selector labels.Selector) (ret []*vpn.VPNTunn
 	return ret, err
 }
 
-// VPNTunnelLists returns an object that can list and get VPNTunnelLists.
-func (s *vPNTunnelListLister) VPNTunnelLists(namespace string) VPNTunnelListNamespaceLister {
-	return vPNTunnelListNamespaceLister{indexer: s.indexer, namespace: namespace}
-}
-
-// VPNTunnelListNamespaceLister helps list and get VPNTunnelLists.
-// All objects returned here must be treated as read-only.
-type VPNTunnelListNamespaceLister interface {
-	// List lists all VPNTunnelLists in the indexer for a given namespace.
-	// Objects returned here must be treated as read-only.
-	List(selector labels.Selector) (ret []*vpn.VPNTunnelList, err error)
-	// Get retrieves the VPNTunnelList from the indexer for a given namespace and name.
-	// Objects returned here must be treated as read-only.
-	Get(name string) (*vpn.VPNTunnelList, error)
-	VPNTunnelListNamespaceListerExpansion
-}
-
-// vPNTunnelListNamespaceLister implements the VPNTunnelListNamespaceLister
-// interface.
-type vPNTunnelListNamespaceLister struct {
-	indexer   cache.Indexer
-	namespace string
-}
-
-// List lists all VPNTunnelLists in the indexer for a given namespace.
-func (s vPNTunnelListNamespaceLister) List(selector labels.Selector) (ret []*vpn.VPNTunnelList, err error) {
-	err = cache.ListAllByNamespace(s.indexer, s.namespace, selector, func(m interface{}) {
-		ret = append(ret, m.(*vpn.VPNTunnelList))
-	})
-	return ret, err
-}
-
-// Get retrieves the VPNTunnelList from the indexer for a given namespace and name.
-func (s vPNTunnelListNamespaceLister) Get(name string) (*vpn.VPNTunnelList, error) {
-	obj, exists, err := s.indexer.GetByKey(s.namespace + "/" + name)
+// Get retrieves the VPNTunnelList from the index for a given name.
+func (s *vPNTunnelListLister) Get(name string) (*vpn.VPNTunnelList, error) {
+	obj, exists, err := s.indexer.GetByKey(name)
 	if err != nil {
 		return nil, err
 	}

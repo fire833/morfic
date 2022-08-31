@@ -28,8 +28,7 @@ import (
 // +k8s:openapi-gen=true
 // +k8s:deepcopy-gen=true
 // +genclient:nonNamespaced
-// +genclient:noStatus
-
+// +genclient
 // VPNTunnelList represents a list of VPN tunnels.
 type VPNTunnelList struct {
 	metav1.TypeMeta `json:",inline" yaml:",inline"`
@@ -46,8 +45,7 @@ type VPNTunnelList struct {
 // +k8s:openapi-gen=true
 // +k8s:deepcopy-gen=true
 // +genclient:nonNamespaced
-// +genclient:noStatus
-
+// +genclient
 // VPNTunnel represents a tunnel to a remote endpoint with a vpn configuration.
 type VPNTunnel struct {
 	metav1.TypeMeta `json:",inline" yaml:",inline"`

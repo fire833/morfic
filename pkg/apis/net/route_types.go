@@ -27,8 +27,6 @@ import (
 // +k8s:deepcopy-gen=true
 // +genclient
 // +genclient:nonNamespaced
-// +genclient:noStatus
-
 // RouteTableList specifies a list of RouteTables.
 type RouteTableList struct {
 	metav1.TypeMeta `json:",inline" yaml:",inline"`
@@ -46,8 +44,6 @@ type RouteTableList struct {
 // +k8s:deepcopy-gen=true
 // +genclient
 // +genclient:nonNamespaced
-// +genclient:noStatus
-
 // RouteTable specifies a routing table located in the kernel.
 type RouteTable struct {
 	metav1.TypeMeta `json:",inline" yaml:",inline"`
@@ -86,8 +82,6 @@ type RouteTableStatus struct {
 // +k8s:deepcopy-gen=true
 // +genclient
 // +genclient:nonNamespaced
-// +genclient:noStatus
-
 // Route specifies a route on the host.
 type Route struct {
 	metav1.TypeMeta `json:",inline" yaml:",inline"`

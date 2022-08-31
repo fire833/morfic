@@ -27,8 +27,6 @@ import (
 // +k8s:deepcopy-gen=true
 // +genclient
 // +genclient:nonNamespaced
-// +genclient:noStatus
-
 // LinkList represents a list of Link objects.
 type LinkList struct {
 	metav1.TypeMeta `json:",inline" yaml:",inline"`
@@ -46,8 +44,6 @@ type LinkList struct {
 // +k8s:deepcopy-gen=true
 // +genclient
 // +genclient:nonNamespaced
-// +genclient:noStatus
-
 // Link represents a link that exists on the host.
 type Link struct {
 	metav1.TypeMeta `json:",inline" yaml:",inline"`

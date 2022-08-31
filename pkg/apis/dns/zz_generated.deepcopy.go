@@ -76,6 +76,7 @@ func (in *DNSProviderList) DeepCopyInto(out *DNSProviderList) {
 	*out = *in
 	out.TypeMeta = in.TypeMeta
 	in.ObjectMeta.DeepCopyInto(&out.ObjectMeta)
+	in.ListMeta.DeepCopyInto(&out.ListMeta)
 	if in.Items != nil {
 		in, out := &in.Items, &out.Items
 		*out = make([]DNSProvider, len(*in))
@@ -171,6 +172,7 @@ func (in *DNSRecordList) DeepCopyInto(out *DNSRecordList) {
 	*out = *in
 	out.TypeMeta = in.TypeMeta
 	in.ObjectMeta.DeepCopyInto(&out.ObjectMeta)
+	in.ListMeta.DeepCopyInto(&out.ListMeta)
 	if in.Items != nil {
 		in, out := &in.Items, &out.Items
 		*out = make([]DNSRecord, len(*in))

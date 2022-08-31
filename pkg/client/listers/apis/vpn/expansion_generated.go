@@ -24,14 +24,6 @@ package vpn
 // VPNTunnelLister.
 type VPNTunnelListerExpansion interface{}
 
-// VPNTunnelNamespaceListerExpansion allows custom methods to be added to
-// VPNTunnelNamespaceLister.
-type VPNTunnelNamespaceListerExpansion interface{}
-
 // VPNTunnelListListerExpansion allows custom methods to be added to
 // VPNTunnelListLister.
 type VPNTunnelListListerExpansion interface{}
-
-// VPNTunnelListNamespaceListerExpansion allows custom methods to be added to
-// VPNTunnelListNamespaceLister.
-type VPNTunnelListNamespaceListerExpansion interface{}

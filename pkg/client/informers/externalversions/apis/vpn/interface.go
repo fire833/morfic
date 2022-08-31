@@ -45,10 +45,10 @@ func New(f internalinterfaces.SharedInformerFactory, namespace string, tweakList
 
 // VPNTunnels returns a VPNTunnelInformer.
 func (v *version) VPNTunnels() VPNTunnelInformer {
-	return &vPNTunnelInformer{factory: v.factory, namespace: v.namespace, tweakListOptions: v.tweakListOptions}
+	return &vPNTunnelInformer{factory: v.factory, tweakListOptions: v.tweakListOptions}
 }
 
 // VPNTunnelLists returns a VPNTunnelListInformer.
 func (v *version) VPNTunnelLists() VPNTunnelListInformer {
-	return &vPNTunnelListInformer{factory: v.factory, namespace: v.namespace, tweakListOptions: v.tweakListOptions}
+	return &vPNTunnelListInformer{factory: v.factory, tweakListOptions: v.tweakListOptions}
 }

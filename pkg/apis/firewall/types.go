@@ -40,8 +40,6 @@ type Chain struct {
 // +k8s:deepcopy-gen=true
 // +genclient
 // +genclient:nonNamespaced
-// +genclient:noStatus
-
 // TableList repesents a list of firewall tables.
 type TableList struct {
 	metav1.TypeMeta `json:",inline" yaml:",inline"`
@@ -59,8 +57,6 @@ type TableList struct {
 // +k8s:deepcopy-gen=true
 // +genclient
 // +genclient:nonNamespaced
-// +genclient:noStatus
-
 // Table represents a firewall table.
 type Table struct {
 	metav1.TypeMeta `json:",inline" yaml:",inline"`

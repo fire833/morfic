@@ -44,33 +44,32 @@ type VPNTunnelInformer interface {
 type vPNTunnelInformer struct {
 	factory          internalinterfaces.SharedInformerFactory
 	tweakListOptions internalinterfaces.TweakListOptionsFunc
-	namespace        string
 }
 
 // NewVPNTunnelInformer constructs a new informer for VPNTunnel type.
 // Always prefer using an informer factory to get a shared informer instead of getting an independent
 // one. This reduces memory footprint and number of connections to the server.
-func NewVPNTunnelInformer(client versioned.Interface, namespace string, resyncPeriod time.Duration, indexers cache.Indexers) cache.SharedIndexInformer {
-	return NewFilteredVPNTunnelInformer(client, namespace, resyncPeriod, indexers, nil)
+func NewVPNTunnelInformer(client versioned.Interface, resyncPeriod time.Duration, indexers cache.Indexers) cache.SharedIndexInformer {
+	return NewFilteredVPNTunnelInformer(client, resyncPeriod, indexers, nil)
 }
 
 // NewFilteredVPNTunnelInformer constructs a new informer for VPNTunnel type.
 // Always prefer using an informer factory to get a shared informer instead of getting an independent
 // one. This reduces memory footprint and number of connections to the server.
-func NewFilteredVPNTunnelInformer(client versioned.Interface, namespace string, resyncPeriod time.Duration, indexers cache.Indexers, tweakListOptions internalinterfaces.TweakListOptionsFunc) cache.SharedIndexInformer {
+func NewFilteredVPNTunnelInformer(client versioned.Interface, resyncPeriod time.Duration, indexers cache.Indexers, tweakListOptions internalinterfaces.TweakListOptionsFunc) cache.SharedIndexInformer {
 	return cache.NewSharedIndexInformer(
 		&cache.ListWatch{
 			ListFunc: func(options v1.ListOptions) (runtime.Object, error) {
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.VpnVpn().VPNTunnels(namespace).List(context.TODO(), options)
+				return client.VpnVpn().VPNTunnels().List(context.TODO(), options)
 			},
 			WatchFunc: func(options v1.ListOptions) (watch.Interface, error) {
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.VpnVpn().VPNTunnels(namespace).Watch(context.TODO(), options)
+				return client.VpnVpn().VPNTunnels().Watch(context.TODO(), options)
 			},
 		},
 		&apisvpn.VPNTunnel{},
@@ -80,7 +79,7 @@ func NewFilteredVPNTunnelInformer(client versioned.Interface, namespace string, 
 }
 
 func (f *vPNTunnelInformer) defaultInformer(client versioned.Interface, resyncPeriod time.Duration) cache.SharedIndexInformer {
-	return NewFilteredVPNTunnelInformer(client, f.namespace, resyncPeriod, cache.Indexers{cache.NamespaceIndex: cache.MetaNamespaceIndexFunc}, f.tweakListOptions)
+	return NewFilteredVPNTunnelInformer(client, resyncPeriod, cache.Indexers{cache.NamespaceIndex: cache.MetaNamespaceIndexFunc}, f.tweakListOptions)
 }
 
 func (f *vPNTunnelInformer) Informer() cache.SharedIndexInformer {

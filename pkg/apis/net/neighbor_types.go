@@ -27,8 +27,6 @@ import (
 // +k8s:deepcopy-gen=true
 // +genclient
 // +genclient:nonNamespaced
-// +genclient:noStatus
-
 // NeighborList represents a list of local neighbors.
 type NeighborList struct {
 	metav1.TypeMeta `json:",inline" yaml:",inline"`
@@ -46,8 +44,6 @@ type NeighborList struct {
 // +k8s:deepcopy-gen=true
 // +genclient
 // +genclient:nonNamespaced
-// +genclient:noStatus
-
 // Neighbor represents a neighbor in the local ARP table on the host.
 type Neighbor struct {
 	metav1.TypeMeta `json:",inline" yaml:",inline"`
