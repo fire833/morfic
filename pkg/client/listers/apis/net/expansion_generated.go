@@ -44,6 +44,10 @@ type LinkListerExpansion interface{}
 // LinkListLister.
 type LinkListListerExpansion interface{}
 
+// NATConfigurationListerExpansion allows custom methods to be added to
+// NATConfigurationLister.
+type NATConfigurationListerExpansion interface{}
+
 // NeighborListerExpansion allows custom methods to be added to
 // NeighborLister.
 type NeighborListerExpansion interface{}

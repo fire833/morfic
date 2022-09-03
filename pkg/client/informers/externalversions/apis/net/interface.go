@@ -34,6 +34,8 @@ type Interface interface {
 	Links() LinkInformer
 	// LinkLists returns a LinkListInformer.
 	LinkLists() LinkListInformer
+	// NATConfigurations returns a NATConfigurationInformer.
+	NATConfigurations() NATConfigurationInformer
 	// Neighbors returns a NeighborInformer.
 	Neighbors() NeighborInformer
 	// NeighborLists returns a NeighborListInformer.
@@ -75,6 +77,11 @@ func (v *version) Links() LinkInformer {
 // LinkLists returns a LinkListInformer.
 func (v *version) LinkLists() LinkListInformer {
 	return &linkListInformer{factory: v.factory, tweakListOptions: v.tweakListOptions}
+}
+
+// NATConfigurations returns a NATConfigurationInformer.
+func (v *version) NATConfigurations() NATConfigurationInformer {
+	return &nATConfigurationInformer{factory: v.factory, tweakListOptions: v.tweakListOptions}
 }
 
 // Neighbors returns a NeighborInformer.

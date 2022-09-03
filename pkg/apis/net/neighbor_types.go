@@ -51,7 +51,7 @@ type Neighbor struct {
 	// Utilizes the Kubernetes metadata object spec for now.
 	metav1.ObjectMeta `json:"metadata,omitempty" yaml:"metadata,omitempty"`
 
-	// Spec is the desired spec of this nighbor on the host ARP table.
+	// Spec is the desired spec of this neighbor on the host ARP table.
 	Spec NeighborSpec `json:"spec" yaml:"spec"`
 
 	// Status is the current state of this neighbor on the host.

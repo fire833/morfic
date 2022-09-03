@@ -5,21 +5,21 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.9.2
   creationTimestamp: null
-  name: neighbors.net.morfic.io
+  name: natconfigurations.net.morfic.io
 spec:
   group: net.morfic.io
   names:
-    kind: Neighbor
-    listKind: NeighborList
-    plural: neighbors
-    singular: neighbor
+    kind: NATConfiguration
+    listKind: NATConfigurationList
+    plural: natconfigurations
+    singular: natconfiguration
   scope: Namespaced
   versions:
   - name: net
     schema:
       openAPIV3Schema:
-        description: Neighbor represents a neighbor in the local ARP table on the
-          host.
+        description: NATConfiguration describes a configuration for NAT masqurading
+          on a system.
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -34,13 +34,9 @@ spec:
           metadata:
             type: object
           spec:
-            description: Spec is the desired spec of this neighbor on the host ARP
-              table.
+            description: Spec is the desired spec of this node's NAT config.
             type: object
           status:
-            description: "Status is the current state of this neighbor on the host.
-              \n Should not be filled out by the user, will be filled/managed by the
-              server. Can be read by user at runtime."
             type: object
         required:
         - spec

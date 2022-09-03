@@ -32,13 +32,14 @@ import (
 
 func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenAPIDefinition {
 	return map[string]common.OpenAPIDefinition{
-		"../net.Link":           schema__net_Link(ref),
-		"../net.LinkList":       schema__net_LinkList(ref),
-		"../net.Neighbor":       schema__net_Neighbor(ref),
-		"../net.NeighborList":   schema__net_NeighborList(ref),
-		"../net.Route":          schema__net_Route(ref),
-		"../net.RouteTable":     schema__net_RouteTable(ref),
-		"../net.RouteTableList": schema__net_RouteTableList(ref),
+		"../net.Link":             schema__net_Link(ref),
+		"../net.LinkList":         schema__net_LinkList(ref),
+		"../net.NATConfiguration": schema__net_NATConfiguration(ref),
+		"../net.Neighbor":         schema__net_Neighbor(ref),
+		"../net.NeighborList":     schema__net_NeighborList(ref),
+		"../net.Route":            schema__net_Route(ref),
+		"../net.RouteTable":       schema__net_RouteTable(ref),
+		"../net.RouteTableList":   schema__net_RouteTableList(ref),
 	}
 }
 
@@ -143,6 +144,56 @@ func schema__net_LinkList(ref common.ReferenceCallback) common.OpenAPIDefinition
 	}
 }
 
+func schema__net_NATConfiguration(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Description: "NATConfiguration describes a configuration for NAT masqurading on a system.",
+				Type:        []string{"object"},
+				Properties: map[string]spec.Schema{
+					"kind": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"apiVersion": {
+						SchemaProps: spec.SchemaProps{
+							Description: "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"metadata": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Standard object metadata. Utilizes the Kubernetes metadata object spec for now.",
+							Default:     map[string]interface{}{},
+							Ref:         ref("k8s.io/apimachinery/pkg/apis/meta/v1.ObjectMeta"),
+						},
+					},
+					"spec": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Spec is the desired spec of this node's NAT config.",
+							Default:     map[string]interface{}{},
+							Ref:         ref("../net.NATConfigurationSpec"),
+						},
+					},
+					"status": {
+						SchemaProps: spec.SchemaProps{
+							Default: map[string]interface{}{},
+							Ref:     ref("../net.NATConfigurationStatus"),
+						},
+					},
+				},
+				Required: []string{"spec", "status"},
+			},
+		},
+		Dependencies: []string{
+			"../net.NATConfigurationSpec", "../net.NATConfigurationStatus", "k8s.io/apimachinery/pkg/apis/meta/v1.ObjectMeta"},
+	}
+}
+
 func schema__net_Neighbor(ref common.ReferenceCallback) common.OpenAPIDefinition {
 	return common.OpenAPIDefinition{
 		Schema: spec.Schema{
@@ -173,7 +224,7 @@ func schema__net_Neighbor(ref common.ReferenceCallback) common.OpenAPIDefinition
 					},
 					"spec": {
 						SchemaProps: spec.SchemaProps{
-							Description: "Spec is the desired spec of this nighbor on the host ARP table.",
+							Description: "Spec is the desired spec of this neighbor on the host ARP table.",
 							Default:     map[string]interface{}{},
 							Ref:         ref("../net.NeighborSpec"),
 						},
