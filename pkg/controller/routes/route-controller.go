@@ -18,5 +18,55 @@
 
 package routes
 
+import (
+	"time"
+
+	clientset "github.com/fire833/morfic/pkg/client/clientset/versioned"
+
+	"k8s.io/apimachinery/pkg/util/wait"
+	"k8s.io/client-go/tools/cache"
+	"k8s.io/client-go/util/workqueue"
+)
+
 type RouteController struct {
+	client clientset.Interface
+
+	// queue of new work items to be processed.
+	queue workqueue.RateLimitingInterface
+
+	// routeLister
+
+	routeSynched cache.InformerSynced
+}
+
+func (c *RouteController) Run(threadiness int, stopCh chan struct{}) {
+
+	// Defer shutting down the controller workqueue.
+	defer c.queue.ShutDown()
+
+	for i := 0; i < threadiness; i++ {
+		// Start each worker on a new goroutine.
+		go wait.Until(c.routeWorker, time.Second, stopCh)
+	}
+
+	// Block until we want to stop the controller.
+	<-stopCh
+}
+
+func (c *RouteController) routeWorker() {
+	for c.processNextWorkItem() {
+	}
+}
+
+func (c *RouteController) processNextWorkItem() bool {
+
+	key, quit := c.queue.Get()
+	if quit {
+		return false
+	}
+
+	// Defer finishing the processing of this key from the queue.
+	defer c.queue.Done(key)
+
+	return false
 }
