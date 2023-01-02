@@ -1,5 +1,5 @@
 /*
-*	Copyright (C) 2022  Kendall Tauser
+*	Copyright (C) 2023 Kendall Tauser
 *
 *	This program is free software; you can redistribute it and/or modify
 *	it under the terms of the GNU General Public License as published by
@@ -34,7 +34,7 @@ var (
 		Short: "Run the morfic control plane.",
 		Long: `This is the main binary for running the morfic linux based routing, firewalling, and secured local service control plane.
 For more information about this project and for documentation, visit https://github.com/fire833/morfic or visit https://morfic.io.`,
-		Version: fmt.Sprintf(": %s\nGit commit: %s\nBuild Time: %s\nGo version: %s\nOS: %s\nArchitecture: %s\nLicense: %s\n\nCopyright (C) 2022  Kendall Tauser",
+		Version: fmt.Sprintf(": %s\nGit commit: %s\nBuild Time: %s\nGo version: %s\nOS: %s\nArchitecture: %s\nLicense: %s\n\nCopyright (C) 2023 Kendall Tauser",
 			src.Version, src.Commit, src.BuildTime, src.Go, src.Os, src.Arch, src.License),
 		Example: "morfic",
 		Run:     rootMain,
