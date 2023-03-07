@@ -35,7 +35,7 @@ require (
 	k8s.io/code-generator v0.25.0
 	k8s.io/component-base v0.25.0
 	k8s.io/cri-api v0.25.0
-	k8s.io/klog/v2 v2.70.1
+	k8s.io/klog/v2 v2.90.1
 	k8s.io/kube-openapi v0.0.0-20220803164354-a70c9af30aea
 	sigs.k8s.io/controller-tools v0.9.2
 )
